@@ -80,6 +80,7 @@ body {
   right: 0;
   z-index: 20;
   background: var(--bg-primary);
+  height: 100px; /* Adjust the height as needed */
 }
 
 .navbar .container {
@@ -87,8 +88,20 @@ body {
   align-items: center;
   justify-content: space-between;
   z-index: 20;
-  height: 80px;
+  height: 100%;
   width: 100%;
+}
+
+.navbar #logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.navbar #logo {
+  width: 150px; /* Adjust the width as needed */
+  height: 100%; /* Ensures the logo container takes up full height */
+  display: flex;
+  align-items: center;
 }
 
 .navbar .nav-menu {
@@ -103,22 +116,15 @@ body {
   font-weight: var(--weight-semibold);
 }
 
-.navbar #logo img {
-  max-width: 100%;
-  height: auto;
-}
-
-.navbar #logo {
-  width: 150px; /* Adjust the width as needed */
-  height: 100%; /* Ensures the logo container takes up full height */
-  display: flex;
-  align-items: center;
-}
-
-
 .navbar .btn {
   margin-right: 1.5rem;
 }
+
+.fas.fa-arrow-right {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
+
 
 .fas.fa-arrow-right {
   margin-left: 0.5rem;
