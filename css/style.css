@@ -104,9 +104,17 @@ body {
 }
 
 .navbar #logo img {
-  display: block;
-  width: 40px;
+  max-width: 100%;
+  height: auto;
 }
+
+.navbar #logo {
+  width: 150px; /* Adjust the width as needed */
+  height: 100%; /* Ensures the logo container takes up full height */
+  display: flex;
+  align-items: center;
+}
+
 
 .navbar .btn {
   margin-right: 1.5rem;
