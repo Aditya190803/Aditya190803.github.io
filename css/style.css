@@ -190,10 +190,13 @@ body {
 
 .project {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* Adjusted to 2 columns */
   grid-auto-rows: minmax(250px, auto);
   grid-gap: 0.9rem;
 }
+
+
+
 
 .card .project-bio p {
   font-size: 0.83rem;
@@ -270,7 +273,10 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
+  .project {
+    grid-template-columns: repeat(2, 1fr); /* Adjusted to 2 columns for larger screens */
+  }
 }
 
 @media (max-width: 670px) {
