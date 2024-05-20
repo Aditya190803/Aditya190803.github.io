@@ -1,11 +1,3 @@
-/**
-* Template Name: MyResume
-* Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
-* Updated: Mar 17 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 (function() {
   "use strict";
 
@@ -40,6 +32,79 @@
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
+  }
+
+  /**
+   * Display loading message when form is submitted
+   */
+  const showLoading = () => {
+    const loadingMessage = select('.loading')
+    loadingMessage.style.display = 'block'
+  }
+
+  /**
+   * Display thank you message when form submission is successful
+   */
+  const showThankYouMessage = () => {
+    const loadingMessage = select('.loading')
+    const sentMessage = select('.sent-message')
+    const errorMessage = select('.error-message')
+
+    loadingMessage.style.display = 'none'
+    sentMessage.style.display = 'block'
+    errorMessage.style.display = 'none'
+  }
+
+  /**
+   * Form submission handler
+   */
+  const handleFormSubmit = (event) => {
+    event.preventDefault()
+
+    // Show loading message
+    showLoading()
+
+    // Get form data
+    const formData = new FormData(event.target);
+
+    // Simulate form submission (replace this with your actual form submission logic)
+    fetch(event.target.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json' // Adjust based on your API response type
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Adjust based on your API response type
+    })
+    .then(data => {
+      // After successful submission, clear the form and show thank you message
+      event.target.reset();
+      showThankYouMessage();
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      // Handle submission error (e.g., display an error message)
+      const errorMessage = select('.error-message');
+      errorMessage.style.display = 'block';
+      errorMessage.textContent = 'There was an error submitting the form. Please try again later.';
+
+      // Hide loading message
+      const loadingMessage = select('.loading');
+      loadingMessage.style.display = 'none';
+    });
+  }
+
+  /**
+   * Add form submission event listener
+   */
+  const contactForm = select('.php-email-form')
+  if (contactForm) {
+    on('submit', '.php-email-form', handleFormSubmit)
   }
 
   /**
