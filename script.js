@@ -24,19 +24,31 @@ function getDeviceName() {
   return "Desktop";
 }
 
-// Function to track visitor and save data to Firebase
+// Function to track visitor
 function trackVisitor(ipData) {
-  const statsRef = ref(database, 'visits');
-  const visitData = {
-    ip: ipData.ip,
-    userAgent: navigator.userAgent,
-    device: getDeviceName(),
-    timestamp: new Date().toISOString()
-  };
-  
-  push(statsRef, visitData)
-    .then(() => console.log("Visitor stats saved successfully."))
-    .catch((error) => console.error("Error saving visitor stats:", error));
+  const ip = ipData.ip;
+  const statsRef = ref(database, `visits/${ip}`); // Use IP as the unique key
+
+  get(statsRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      // If IP already exists, update visit count
+      const visitData = snapshot.val();
+      update(statsRef, {
+        visits: visitData.visits + 1,
+        lastVisited: new Date().toISOString()
+      }).then(() => console.log(`Updated visit count for ${ip}`));
+    } else {
+      // New IP, add a new record
+      set(statsRef, {
+        ip: ip,
+        userAgent: navigator.userAgent,
+        device: getDeviceName(),
+        visits: 1,
+        firstVisited: new Date().toISOString(),
+        lastVisited: new Date().toISOString()
+      }).then(() => console.log(`New visitor logged: ${ip}`));
+    }
+  }).catch((error) => console.error("Error checking IP:", error));
 }
 
 // Fetch visitor's IP using ipify API
