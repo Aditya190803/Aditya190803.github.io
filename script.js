@@ -12,47 +12,46 @@ const firebaseConfig = {
   messagingSenderId: "509947205255",
   appId: "1:509947205255:web:0bc5f2337b43d065180a22"
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
 // Function to detect device type
 function getDeviceName() {
   const ua = navigator.userAgent;
-  if (/mobile/i.test(ua)) return "Mobile";
-  return "Desktop";
+  return /mobile/i.test(ua) ? "Mobile" : "Desktop";
 }
 
 // Function to track visitor
-function trackVisitor(ipData) {
-  const ip = ipData.ip;
-  const statsRef = ref(database, `visits/${ip}`); // Use IP as the unique key
+function trackVisitor(ip) {
+  const statsRef = ref(database, `visits/${ip}`); // Use IP as the key
 
   get(statsRef).then((snapshot) => {
     if (snapshot.exists()) {
-      // If IP already exists, update visit count
+      // If IP exists, increment visit count
       const visitData = snapshot.val();
       update(statsRef, {
-        visits: visitData.visits + 1,
+        visits: (visitData.visits || 0) + 1,  // Increment visit count
         lastVisited: new Date().toISOString()
-      }).then(() => console.log(`Updated visit count for ${ip}`));
+      })
+      .then(() => console.log(`Updated visit count for ${ip}`))
+      .catch((error) => console.error("Error updating visit count:", error));
     } else {
-      // New IP, add a new record
+      // If IP is new, create a new entry
       set(statsRef, {
         ip: ip,
         userAgent: navigator.userAgent,
         device: getDeviceName(),
-        visits: 1,
+        visits: 1, // First visit
         firstVisited: new Date().toISOString(),
         lastVisited: new Date().toISOString()
-      }).then(() => console.log(`New visitor logged: ${ip}`));
+      })
+      .then(() => console.log(`Stored new visitor: ${ip}`))
+      .catch((error) => console.error("Error storing visitor:", error));
     }
-  }).catch((error) => console.error("Error checking IP:", error));
+  }).catch((error) => console.error("Error checking existing IP:", error));
 }
 
-// Fetch visitor's IP using ipify API
+// Fetch visitor's IP address using ipify API
 fetch('https://api.ipify.org?format=json')
   .then(response => response.json())
-  .then(data => trackVisitor(data))
+  .then(data => {
+    trackVisitor(data.ip);
+  })
   .catch(error => console.error("Failed to fetch IP address:", error));
