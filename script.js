@@ -13,62 +13,34 @@ const firebaseConfig = {
   appId: "1:509947205255:web:0bc5f2337b43d065180a22"
 };
 
-// 🔹 Initialize Firebase  
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app); 
+const database = getDatabase(app);
 
-console.log("✅ Firebase initialized successfully.");
-
-// Function to detect device type  
+// Function to detect device type
 function getDeviceName() {
   const ua = navigator.userAgent;
-  return /mobile/i.test(ua) ? "Mobile" : "Desktop";
+  if (/mobile/i.test(ua)) return "Mobile";
+  return "Desktop";
 }
 
-// Function to track visitor  
-function trackVisitor(ip) {
-  console.log(`Tracking visitor: ${ip}`);
-
-  // 🔹 FIX: Replace dots (".") with underscores ("_") in IP address  
-  const safeIpKey = ip.replace(/\./g, "_"); // ✅ "115.96.77.133" → "115_96_77_133"
-  const statsRef = ref(database, `visits/${safeIpKey}`); 
-
-  get(statsRef).then((snapshot) => {
-    if (snapshot.exists()) {
-      // 🔹 IP exists, update visit count  
-      const visitData = snapshot.val();
-      console.log(`Existing visitor found: ${ip} - Previous visits: ${visitData.visits}`);
-
-      update(statsRef, {
-        visits: (visitData.visits || 0) + 1,
-        lastVisited: new Date().toISOString()
-      })
-      .then(() => console.log(`Updated visit count for ${ip}`))
-      .catch((error) => console.error("❌ Error updating visit count:", error));
-
-    } else {
-      // 🔹 New visitor, create new entry  
-      console.log(`New visitor detected: ${ip}`);
-
-      set(statsRef, {
-        ip: ip,
-        userAgent: navigator.userAgent,
-        device: getDeviceName(),
-        visits: 1,
-        firstVisited: new Date().toISOString(),
-        lastVisited: new Date().toISOString()
-      })
-      .then(() => console.log(`Stored new visitor: ${ip}`))
-      .catch((error) => console.error("❌ Error storing visitor:", error));
-    }
-  }).catch((error) => console.error("❌ Error checking existing IP:", error));
+// Function to track visitor and save data to Firebase
+function trackVisitor(ipData) {
+  const statsRef = ref(database, 'visits');
+  const visitData = {
+    ip: ipData.ip,
+    userAgent: navigator.userAgent,
+    device: getDeviceName(),
+    timestamp: new Date().toISOString()
+  };
+  
+  push(statsRef, visitData)
+    .then(() => console.log("Visitor stats saved successfully."))
+    .catch((error) => console.error("Error saving visitor stats:", error));
 }
 
-// 🔹 Fetch visitor's IP address using ipify API  
+// Fetch visitor's IP using ipify API
 fetch('https://api.ipify.org?format=json')
   .then(response => response.json())
-  .then(data => {
-    console.log(`✅ IP fetched successfully: ${data.ip}`);
-    trackVisitor(data.ip);
-  })
-  .catch(error => console.error("❌ Failed to fetch IP address:", error));
+  .then(data => trackVisitor(data))
+  .catch(error => console.error("Failed to fetch IP address:", error));
