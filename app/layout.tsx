@@ -8,17 +8,18 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Aditya Mer | ML/DL Engineer & Gen AI Developer",
-  description: "Portfolio of Aditya Mer, ML/DL Engineer and Generative AI Developer from Mumbai, India",
-    generator: 'v0.dev'
+  description: "Portfolio of Aditya Mer, ML/DL Engineer and Generative AI Developer from Mumbai, India"
 }
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>) {
-  return (
+}>) {  return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
