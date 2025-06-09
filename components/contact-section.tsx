@@ -28,35 +28,26 @@ export default function ContactSection() {
     setIsSubmitting(true)
 
     try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
-      
-      if (!accessKey) {
-        throw new Error("Web3Forms access key not configured")
-      }
-
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
         },
         body: JSON.stringify({
-          access_key: accessKey,
+          access_key: "3a939bbc-cc9e-4156-a86b-733a02dda263",
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          from_name: formData.name,
-          replyto: formData.email,
         }),
       })
 
       const data = await response.json()
 
-      if (response.ok && data.success) {
+      if (data.success) {
         toast({
-          title: "🎉 Message Sent Successfully!",
-          description: "Thank you for reaching out! I'll get back to you within 24 hours.",
+          title: "Message Sent Successfully!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
         })
         setFormData({
           name: "",
@@ -65,7 +56,6 @@ export default function ContactSection() {
           message: "",
         })
       } else {
-        console.error("Web3Forms Error:", data)
         toast({
           title: "Error",
           description: data.message || "Something went wrong. Please try again.",
@@ -73,10 +63,9 @@ export default function ContactSection() {
         })
       }
     } catch (error) {
-      console.error("Contact form error:", error)
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -152,9 +141,7 @@ export default function ContactSection() {
                     required
                     className="bg-background/50"
                   />
-                </div>
-
-                <div className="space-y-2">
+                </div>                <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium">
                     Message *
                   </label>
@@ -168,9 +155,11 @@ export default function ContactSection() {
                     required
                     className="bg-background/50 resize-none"
                   />
-                </div>
-
-                <Button type="submit" className="w-full h-12 text-base" disabled={isSubmitting}>
+                </div>                <Button 
+                  type="submit" 
+                  className="w-full h-12 text-base" 
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
