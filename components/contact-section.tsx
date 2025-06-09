@@ -23,29 +23,40 @@ export default function ContactSection() {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     try {
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+      
+      if (!accessKey) {
+        throw new Error("Web3Forms access key not configured")
+      }
+
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
-          access_key: "6337b9bc-57bb-435a-8291-671758b64aac",
-          ...formData,
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          from_name: formData.name,
+          replyto: formData.email,
         }),
       })
 
       const data = await response.json()
 
-      if (data.success) {
+      if (response.ok && data.success) {
         toast({
-          title: "Message Sent Successfully!",
-          description: "Thank you for reaching out. I'll get back to you soon.",
+          title: "🎉 Message Sent Successfully!",
+          description: "Thank you for reaching out! I'll get back to you within 24 hours.",
         })
         setFormData({
           name: "",
@@ -54,16 +65,18 @@ export default function ContactSection() {
           message: "",
         })
       } else {
+        console.error("Web3Forms Error:", data)
         toast({
           title: "Error",
-          description: "Something went wrong. Please try again.",
+          description: data.message || "Something went wrong. Please try again.",
           variant: "destructive",
         })
       }
     } catch (error) {
+      console.error("Contact form error:", error)
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
         variant: "destructive",
       })
     } finally {
