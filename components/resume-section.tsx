@@ -24,40 +24,62 @@ export default function ResumeSection() {
     {
       position: "Web Developer Intern",
       company: "IASCC",
-      period: "June 2025 - Present",
-      description:
-        "Focused on frontend development, UI enhancements, and website optimization. Implemented responsive designs and improved user experience across multiple web applications.",
+      period: "June 2025 – Present",
+      location: "Remote",
+      points: [
+        "Designed and developed IASCC's main website from scratch",
+        "Built custom CMS for blogs, newsletters, and research publications",
+        "Focused on performance optimization and UI/UX improvements"
+      ],
       current: true,
     },
     {
-      position: "Researcher",
+      position: "Research Intern",
       company: "Society for Data Science",
       period: "May 2023 – May 2025",
-      description:
-        "Specialized in detecting and analyzing misinformation in digital media using advanced ML algorithms. Developed robust detection models for fake news identification across multiple platforms.",
+      location: "Mumbai, India",
+      points: [
+        "Researched misinformation spread using advanced ML techniques",
+        "Analyzed 21,000+ news articles for fake news patterns",
+        "Developed ColBERT and SVM models for detection",
+        "Contributed to IEEE conference paper publication"
+      ],
     },
     {
-      position: "Developer",
-      company: "Yanisa",
-      period: "September 2023 - December 2023",
-      description:
-        "Contributed to full-stack development projects, working with modern web technologies. Developed scalable applications and implemented efficient database solutions for client requirements.",
+      position: "Software Development Intern",
+      company: "YANISA EXECUTION Pvt Ltd",
+      period: "Sep 2023 – Dec 2023",
+      location: "Mumbai, India",
+      points: [
+        "Built scalable web applications",
+        "Developed no-code CRM for client management",
+        "Collaborated on feature delivery and performance optimization"
+      ],
     },
     {
       position: "Data Science & ML Intern",
       company: "Ybi Foundation",
       period: "July 2023",
-      description:
-        "Developed comprehensive ML models using Python, TensorFlow, and PyTorch. Worked on predictive analytics projects and implemented data preprocessing pipelines for large-scale datasets.",
+      location: "Remote",
+      points: [
+        "Developed ML models using Python, TensorFlow, and PyTorch",
+        "Implemented data preprocessing pipelines for large datasets",
+        "Applied regression and classification techniques"
+      ],
     },
     {
-      position: "Intern",
-      company: "Claidroid Technologies",
+      position: "Azure, Java, and Web Development Intern",
+      company: "Claidroid Technologies Pvt Ltd",
       period: "Dec 2022 – Jan 2023",
-      description:
-        "Gained hands-on experience with Azure cloud services, Java development, and modern web development practices. Contributed to enterprise-level applications and cloud infrastructure projects.",
+      location: "Mumbai, India",
+      points: [
+        "Gained experience with Azure cloud services and Java",
+        "Built library management app using Azure App Services",
+        "Applied enterprise-grade software engineering principles"
+      ],
     },
   ]
+
 
   return (
     <section id="resume" className="py-20 relative overflow-hidden">
@@ -125,8 +147,7 @@ export default function ResumeSection() {
                     {index !== experience.length - 1 && (
                       <div className="absolute left-2 top-4 w-0.5 h-full bg-border" />
                     )}
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div className="space-y-3">                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         <h3 className="text-lg font-semibold">
                           {item.position} @ {item.company}
                         </h3>
@@ -140,7 +161,17 @@ export default function ResumeSection() {
                           )}
                         </div>
                       </div>
-                      <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                      {item.location && (
+                        <p className="text-sm text-muted-foreground">{item.location}</p>
+                      )}
+                      <ul className="space-y-1 text-muted-foreground">
+                        {item.points.map((point, pointIndex) => (
+                          <li key={pointIndex} className="flex items-start gap-2">
+                            <span className="text-primary mt-1.5 text-xs">•</span>
+                            <span className="leading-relaxed">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 ))}

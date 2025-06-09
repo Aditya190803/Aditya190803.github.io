@@ -3,25 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react"
 
-export default function HeroSection() {
-  const handleResumeClick = () => {
-    // Try to open PDF in new tab, fallback to download
-    const link = document.createElement("a")
-    link.href = "/resume.pdf"
-    link.target = "_blank"
-    link.rel = "noopener noreferrer"
-
-    // Fallback: if PDF can't be opened, trigger download
-    const handleError = () => {
-      link.download = "Aditya_Mer_Resume.pdf"
-      link.click()
-    }
-
-    try {
-      window.open("/resume.pdf", "_blank", "noopener,noreferrer")
-    } catch (error) {
-      handleError()
-    }
+export default function HeroSection() {  const handleResumeView = () => {
+    // Open resume in new tab for viewing
+    window.open("/resume.pdf", "_blank", "noopener,noreferrer")
+    console.log("Opening resume in new tab")
   }
 
   return (
@@ -80,16 +65,13 @@ export default function HeroSection() {
                 Open to freelancing opportunities
               </span>
             </div>
-          </div>
-
-          {/* CTA Buttons */}
+          </div>          {/* CTA Buttons */}
           <div className="flex flex-wrap justify-center gap-4 pt-8 animate-in slide-in-from-bottom-4 duration-1000 delay-800">
-            <Button size="lg" className="group relative overflow-hidden" onClick={handleResumeClick}>
+            <Button size="lg" className="group relative overflow-hidden" onClick={handleResumeView}>
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 transition-transform group-hover:scale-105" />
               <span className="relative flex items-center gap-2">
                 <ExternalLink className="h-4 w-4" />
                 View Resume
-                <Download className="h-4 w-4 opacity-70" />
               </span>
             </Button>
 
