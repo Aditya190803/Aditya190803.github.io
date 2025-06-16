@@ -5,13 +5,31 @@ import { Github, ExternalLink, Star, Download, Package } from "lucide-react"
 
 export default function ProjectsSection() {  const projects = [
     {
+      name: "EchoMail",
+      description:
+        "A powerful email marketing tool with CSV upload, auto-personalization, and Gmail API integration for seamless bulk email campaigns.",
+      technologies: ["Email Marketing", "Gmail API", "CSV Processing", "React", "Bulk Operations"],
+      github: "https://github.com/aditya190803/EchoMail",
+      demo: "https://echomail.adityamer.live",
+      keyFeatures: [
+        "Upload CSVs with unlimited custom fields",
+        "Auto-personalize messages with smart placeholders",
+        "Craft beautiful emails with a rich text editor",
+        "Send directly via Gmail API (no deliverability issues!)",
+        "Bulk send with real-time progress tracking",
+        "Preview every personalized message before you hit 'Send'",
+      ],
+      featured: true,
+    },
+    {
       name: "Fast Write",
       description:
         "AI-powered Python module for documentation generation with intelligent code analysis and automated documentation creation.",
       technologies: ["Python", "AI", "PyPI", "Documentation"],
       stats: "13k+ downloads on PyPI",
       github: "https://github.com/Aditya190803/fastwrite",
-      pypi: "https://pypi.org/project/fastwrite/",      keyFeatures: [
+      pypi: "https://pypi.org/project/fastwrite/",
+      keyFeatures: [
         "Repository, function & inline documentation generation with context-aware understanding",
         "Multiple LLM support (OpenAI, Groq, Gemini, OpenRouter, Ollama)",
         "BLEU score comparison for documentation quality measurement"
@@ -59,8 +77,8 @@ export default function ProjectsSection() {  const projects = [
         "AI-powered content verification",
         "Comprehensive reporting system"
       ],
-      featured: true,
-    },    {
+    },
+    {
       name: "AI Research Agent",
       description: "Autonomous literature review assistant powered by CrewAI for comprehensive research automation.",
       technologies: ["CrewAI", "Python", "Research", "Automation"],
@@ -87,6 +105,20 @@ export default function ProjectsSection() {  const projects = [
         "Real-time document analysis"
       ],
     },    {
+      name: "Handwritten Digit Recognition",
+      description:
+        "A simple Streamlit application for recognizing handwritten digits using a pre-trained TensorFlow model. Users can draw a digit on a canvas, and the app will predict the digit using the loaded model.",
+      technologies: ["TensorFlow", "Streamlit", "Python", "Machine Learning", "Computer Vision"],
+      github: "https://github.com/Aditya190803/Handwritten-Digit-Recognition",
+      demo: "http://adityamer.live/Handwritten-Digit-Recognition/",
+      keyFeatures: [
+        "Draw a Digit: Use the canvas to draw a digit between 0 and 9",
+        "Model Prediction: After drawing, the app predicts the digit and displays the result",
+        "Customizable Canvas: Adjust stroke width, color, and add a background image if desired",
+        "Processed Image Display: View the processed and resized version of your drawn digit"
+      ],
+    },
+    {
       name: "Chat with Website",
       description:
         "RAG-based website chatbot leveraging ChatGroq for intelligent web content interaction and analysis.",
