@@ -132,18 +132,7 @@ export default function PublicationsSection() {
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
-
-        {/* Future Publications Note */}
-        <div className="mt-12 text-center">
-          <Card className="border-dashed border-2 bg-muted/20 backdrop-blur-sm">
-            <CardContent className="py-8">
-              <BookOpen className="h-8 w-8 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">More publications coming soon as research continues...</p>
-            </CardContent>
-          </Card>
-        </div>
+          ))}        </div>
       </div>
     </section>
   )
