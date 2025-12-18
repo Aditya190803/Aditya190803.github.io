@@ -1,0 +1,284 @@
+@import "tailwindcss";
+
+:root {
+  /* FUNKY PALETTE */
+  --black: #0a0a0a;
+  --white: #fafafa;
+  --cream: #f5f0e8;
+  --accent-1: #ff5c35; /* Coral Red */
+  --accent-2: #00c896; /* Mint Green */
+  --accent-3: #ffd23f; /* Golden Yellow */
+  --accent-4: #7c3aed; /* Electric Purple */
+  --danger: #dc2626; /* Error Red */
+  
+  --background: var(--cream);
+  --foreground: var(--black);
+  --card: var(--white);
+  --primary: var(--accent-1);
+  --secondary: var(--accent-2);
+  --border: var(--black);
+  --radius: 0px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-black: var(--black);
+  --color-white: var(--white);
+  --color-cream: var(--cream);
+  --color-coral: var(--accent-1);
+  --color-mint: var(--accent-2);
+  --color-yellow: var(--accent-3);
+  --color-purple: var(--accent-4);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* SELECTION */
+::selection {
+  background: var(--accent-1);
+  color: var(--white);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--black);
+  border: 3px solid var(--cream);
+}
+
+@layer utilities {
+  /* Mobile-first section spacing */
+  .section-padding {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+  }
+
+  /* Compact sticker & pill on small screens */
+  .sticker {
+    background: var(--white);
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    transform: rotate(-1deg);
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  @media (min-width: 768px) {
+    .sticker {
+      padding: 0.75rem 1.5rem;
+      transform: rotate(-1deg);
+    }
+  }
+
+  /* PILL STYLE */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  @media (min-width: 768px) {
+    .pill {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* BORDER UTILITIES */
+  .border-3 {
+    border-width: 3px;
+  }
+  .border-t-3 {
+    border-top-width: 3px;
+  }
+  .border-b-3 {
+    border-bottom-width: 3px;
+  }
+  .border-l-3 {
+    border-left-width: 3px;
+  }
+  .border-r-3 {
+    border-right-width: 3px;
+  }
+  .border-y-3 {
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+  }
+  .border-x-3 {
+    border-left-width: 3px;
+    border-right-width: 3px;
+  }
+
+  /* CONSISTENT SHADOW */
+  .shadow-brutal {
+    box-shadow: 4px 4px 0 var(--black);
+  }
+  .shadow-brutal-lg {
+    box-shadow: 8px 8px 0 var(--black);
+  }
+  .hover\:shadow-brutal-lg:hover {
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  /* STICKER STYLE */
+  .sticker {
+    background: var(--white);
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    transform: rotate(-1deg);
+    transition: all 0.2s ease;
+  }
+  .sticker:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 6px 6px 0 var(--black);
+  }
+
+  /* PILL STYLE */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* MARQUEE */
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
+  /* BLOB */
+  .blob {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: blob 8s ease-in-out infinite;
+  }
+  @keyframes blob {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  }
+
+  /* UNDERLINE EFFECT */
+  .funky-underline {
+    background-image: linear-gradient(var(--accent-3), var(--accent-3));
+    background-size: 100% 30%;
+    background-position: 0 90%;
+    background-repeat: no-repeat;
+  }
+
+  /* ROTATE ON HOVER */
+  .hover-wiggle:hover {
+    animation: wiggle 0.3s ease;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+  }
+
+  /* STAMP STYLE */
+  .stamp {
+    border: 4px dashed var(--black);
+    padding: 1rem 1.5rem;
+    transform: rotate(3deg);
+  }
+
+  /* CUTOUT STYLE */
+  .cutout {
+    background: var(--black);
+    color: var(--white);
+    clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+    padding: 0.5rem 2rem;
+  }
+
+  /* TEXT STROKE EFFECTS */
+  .text-stroke {
+    -webkit-text-stroke: 3px var(--black);
+    color: transparent;
+  }
+  .text-stroke-thin {
+    -webkit-text-stroke: 2px var(--black);
+    color: transparent;
+  }
+  .text-stroke-white {
+    -webkit-text-stroke: 3px var(--white);
+    color: transparent;
+  }
+
+  /* FOCUS STYLES */
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus {
+    outline: 2px solid var(--accent-1);
+    outline-offset: 2px;
+  }
+
+  /* CONSISTENT CARD HOVER */
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  .card-hover:hover {
+    box-shadow: 8px 8px 0 var(--black);
+    transform: translateY(-2px);
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-4));
+  }
+
+  /* GRADIENT TEXT */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
