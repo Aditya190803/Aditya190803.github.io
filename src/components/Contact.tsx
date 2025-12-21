@@ -121,7 +121,8 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="group w-full px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg flex items-center justify-center gap-3 hover:bg-coral transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group w-full px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg flex items-center justify-center gap-3 hover:bg-coral transition-all disabled:opacity-50 disabled:cursor-not-allowed border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
+                  aria-label={status === "loading" ? "Sending message" : "Send message"}
                 >
                   {status === "loading" ? (
                     <>
@@ -176,7 +177,7 @@ export default function Contact() {
                   href={profile.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black hover:bg-black hover:text-white transition-all"
+                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
                 >
                   <Github size={24} />
                   <div className="flex-1">
@@ -190,7 +191,7 @@ export default function Contact() {
                   href={profile.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black hover:bg-mint transition-all"
+                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-mint hover:text-black transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
                 >
                   <Linkedin size={24} />
                   <div className="flex-1">

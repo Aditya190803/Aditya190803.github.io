@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail, FileText } from "lucide-react";
 import { profile } from "@/lib/data";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -74,18 +75,18 @@ export default function Hero() {
           >
             <a
               href="#projects"
-              className="group px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-coral transition-colors"
+              className="group px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-coral transition-all border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
             >
               See my work
               <ArrowDown size={20} className="group-hover:translate-y-1 transition-transform" />
             </a>
-            <a
-              href={profile.resumeUrl}
-              className="px-6 py-3 md:px-8 md:py-4 border-3 border-black font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-yellow transition-colors"
+            <Link
+              href="/resume"
+              className="px-6 py-3 md:px-8 md:py-4 bg-white border-3 border-black font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-yellow transition-all shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
             >
-              <Download size={20} />
-              Resume
-            </a>
+              <FileText size={20} />
+              Interactive Resume
+            </Link>
           </motion.div>
 
           {/* Social Links - Horizontal strip */}
@@ -101,7 +102,8 @@ export default function Hero() {
                 href={profile.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all hover-wiggle"
+                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+                aria-label="GitHub Profile"
               >
                 <Github size={22} />
               </a>
@@ -109,14 +111,15 @@ export default function Hero() {
                 href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all hover-wiggle"
+                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+                aria-label="LinkedIn Profile"
               >
                 <Linkedin size={22} />
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="w-12 h-12 border-3 border-black flex items-center justify-center hover:bg-mint"
-                aria-label="Email"
+                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-mint transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+                aria-label="Email Me"
               >
                 <Mail size={22} />
               </a>

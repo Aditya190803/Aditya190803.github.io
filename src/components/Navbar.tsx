@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
+  { name: "Certifications", href: "#certifications" },
   { name: "Research", href: "#research" },
   { name: "Experience", href: "#experience" }
 ];
@@ -36,7 +37,7 @@ export default function Navbar() {
         <div className="container mx-auto px-6">
           <div className="flex items-center h-16 md:h-20">
             <div className="flex items-center flex-1 md:w-1/3">
-              <a href="/" className="flex items-center gap-3">
+              <a href="/" className="flex items-center gap-3" aria-label="Home">
                 <Image
                   src="/logo.png"
                   alt="Aditya Mer logo"
@@ -82,6 +83,7 @@ export default function Navbar() {
               <button
                 className="md:hidden w-10 h-10 md:w-12 md:h-12 bg-black text-white flex items-center justify-center"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
