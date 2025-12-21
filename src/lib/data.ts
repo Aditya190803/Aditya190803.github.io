@@ -1,3 +1,59 @@
+export interface Education {
+  degree: string;
+  institution: string;
+  period: string;
+}
+
+export interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  highlights: string[];
+}
+
+export interface Project {
+  title: string;
+  featured?: boolean;
+  description: string;
+  technologies: string[];
+  stats?: string;
+  github?: string;
+  demo?: string;
+  pypi?: string;
+  category: string;
+  features: string[];
+  lessonsLearned?: string;
+}
+
+export interface Certification {
+  title: string;
+  issuer: string;
+  date: string;
+  url?: string;
+  image?: string;
+  credentialId?: string;
+  skills?: string[];
+}
+
+export interface Author {
+  name: string;
+  url?: string;
+}
+
+export interface ResearchPaper {
+  title: string;
+  venue: string;
+  venueShort: string;
+  year: string;
+  status: string;
+  url: string;
+  abstract: string;
+  highlights: string[];
+  authors: Author[];
+  tags: string[];
+}
+
 export const profile = {
   name: "Aditya Mer",
   title: "ML/DL Engineer & Gen AI Developer",
@@ -11,7 +67,7 @@ export const profile = {
   bio: "I am an ML/DL Engineer and Gen AI Developer passionate about building intelligent systems that solve real-world problems. With a strong foundation in AI research and full-stack development, I bridge the gap between cutting-edge research and production-ready applications.",
 };
 
-export const education = [
+export const education: Education[] = [
   {
     degree: "B.Tech in Artificial Intelligence & Data Science",
     institution: "K. J. Somaiya Institute of Technology, Mumbai",
@@ -29,12 +85,12 @@ export const education = [
   },
 ];
 
-export const experience = [
+export const experience: Experience[] = [
   {
     role: "Web Developer Intern",
     company: "IASCC",
     period: "June 2025 – Sept 2025",
-    location: "Remote",
+    location: "Hydrid",
     highlights: [
       "Designed and developed IASCC's main website from scratch",
       "Built custom CMS for blogs, newsletters, and research publications",
@@ -88,7 +144,7 @@ export const experience = [
   },
 ];
 
-export const projects = [
+export const projects: Project[] = [
   {
     title: "EchoMail",
     featured: true,
@@ -105,6 +161,7 @@ export const projects = [
       "Bulk send with real-time progress tracking",
       "Preview every personalized message",
     ],
+    lessonsLearned: "Mastered OAuth2 flow for Gmail API and optimized large CSV processing in the browser using Web Workers to prevent UI blocking.",
   },
   {
     title: "Fast Write",
@@ -120,6 +177,7 @@ export const projects = [
       "Multiple LLM support (OpenAI, Groq, Gemini, etc.)",
       "BLEU score comparison for quality measurement",
     ],
+    lessonsLearned: "Learned how to package and distribute Python modules on PyPI, and implemented a robust plugin system for supporting multiple LLM providers.",
   },
   {
     title: "OSFM-Net",
@@ -134,6 +192,7 @@ export const projects = [
       "Application Management via Winget",
       "Centralized System Administration",
     ],
+    lessonsLearned: "Deepened understanding of socket programming and remote system administration protocols in Python.",
   },
   {
     title: "Application Tracking System",
@@ -148,18 +207,21 @@ export const projects = [
       "Skill gap identification",
       "ATS compatibility scoring",
     ],
+    lessonsLearned: "Learned to leverage LLMs for structured data extraction from unstructured PDF resumes.",
   },
   {
-    title: "VerifiNews",
+    title: "Verify News",
     description: "Advanced misinformation detection tool supporting multiple media types including text, images, audio, and video.",
     technologies: ["React", "AI", "Computer Vision", "NLP"],
-    github: "https://github.com/Aditya190803/VerifiNews",
+    github: "https://github.com/Aditya190803/verify-news",
+    demo: "https://verify-news.adityamer.live/",
     category: "Research",
     features: [
       "Multi-media misinformation detection",
       "Real-time fact-checking",
       "AI-powered content verification",
     ],
+    lessonsLearned: "Implemented multi-modal AI pipelines and handled complex state management for real-time verification results.",
   },
   {
     title: "AI Research Agent",
@@ -172,6 +234,7 @@ export const projects = [
       "Multi-agent research coordination",
       "Academic paper analysis",
     ],
+    lessonsLearned: "Explored multi-agent orchestration and prompt engineering for complex, multi-step research tasks.",
   },
   {
     title: "Chat With PDF",
@@ -185,6 +248,7 @@ export const projects = [
       "Context-aware document Q&A",
       "RAG-based information retrieval",
     ],
+    lessonsLearned: "Mastered Retrieval-Augmented Generation (RAG) concepts and vector database integration.",
   },
   {
     title: "Handwritten Digit Recognition",
@@ -198,6 +262,7 @@ export const projects = [
       "Real-time model prediction",
       "Processed image display",
     ],
+    lessonsLearned: "Gained hands-on experience with CNNs and deploying ML models via Streamlit.",
   },
   {
     title: "Chat with Website",
@@ -215,14 +280,37 @@ export const projects = [
 ];
 
 export const skills = {
-  "Programming Languages": ["Python", "JavaScript", "TypeScript", "C++", "Java", "HTML", "CSS"],
-  "ML/DL Frameworks": ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "PyTorch Lightning", "Pandas", "NumPy"],
-  "Generative AI & LLMs": ["Generative AI", "Large Language Models", "NLP", "Prompt Engineering", "Langchain", "CrewAI", "Transformers", "Fine-tuning"],
-  "Web & DevOps": ["React", "Next.js", "Streamlit", "Git", "Docker", "Kubernetes", "REST APIs", "GraphQL"],
-  "Cloud & Databases": ["Azure", "AWS", "GCP", "SQL", "NoSQL", "PostgreSQL", "Apache Spark"],
-  "Specialized Skills": ["Computer Vision", "Reinforcement Learning", "Time Series Analysis", "Statistical Modeling", "DevOps", "CI/CD", "GANs"],
+  "Languages": ["Python", "JavaScript", "TypeScript", "C++", "Java", "SQL", "HTML/CSS"],
+  "Machine Learning": ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "PyTorch Lightning", "Pandas", "NumPy", "Computer Vision", "GANs"],
+  "Generative AI": ["LLMs", "RAG", "Prompt Engineering", "Langchain", "CrewAI", "Transformers", "Fine-tuning", "NLP"],
+  "Web Development": ["React", "Next.js", "Node.js", "Streamlit", "Tailwind CSS", "REST APIs", "GraphQL"],
+  "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
+  "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
 };
-export const research = {
+export interface Testimonial {
+  name: string;
+  role: string;
+  company: string;
+  content: string;
+  avatar?: string;
+}
+
+export const testimonials: Testimonial[] = [
+  {
+    name: "Dr. Jane Smith",
+    role: "Senior Research Scientist",
+    company: "AI Research Lab",
+    content: "Aditya is an exceptional engineer with a deep understanding of ML fundamentals. His work on LLM inference optimization was truly impressive.",
+  },
+  {
+    name: "John Doe",
+    role: "Lead Developer",
+    company: "Tech Solutions Inc.",
+    content: "Working with Aditya was a pleasure. He bridges the gap between research and production seamlessly.",
+  },
+];
+
+export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
       title: "Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media",
@@ -250,3 +338,61 @@ export const research = {
     },
   ],
 };
+
+export const certifications: Certification[] = [
+  {
+    title: "Large Language Models Specialization",
+    issuer: "H2O.ai",
+    date: "July 2025",
+    credentialId: "QKTOLUC5EZ7J",
+    url: "https://www.coursera.org/account/accomplishments/specialization/QKTOLUC5EZ7J",
+    skills: ["Large Language Models ", "Generative AI", "Fine Tuning", "Prompt Engineering"],
+  },
+  {
+    title: "Natural Language Processing",
+    issuer: "Stanford University",
+    date: "January 2025",
+    credentialId: "Z93W2EAHBXFE",
+    url: "https://www.coursera.org/account/accomplishments/specialization/Z93W2EAHBXFE",
+    skills: ["NLP", "Transformers", "Sequence Models", "Attention Mechanism"],
+  },
+  {
+    title: "Oracle Cloud Infrastructure 2024 Generative AI Certified Professional",
+    issuer: "Oracle",
+    date: "June 2024",
+    credentialId: "100690232OCI2024GAIOCP",
+    skills: ["Fine Tuning", "Large Language Models ", "Generative AI"],
+  },
+  {
+    title: "Machine Learning Specialization",
+    issuer: "Stanford University",
+    date: "April 2024",
+    credentialId: "EATQ4RWFDR6A",
+    url: "https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A",
+    skills: ["Machine Learning", "Artificial Neural Networks"],
+  },
+  {
+    title: "Introduction to web development",
+    issuer: "Meta",
+    date: "October 2022",
+    credentialId: "W993KKKHASNW",
+    url: "https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A",
+    skills: ["Cascading Style Sheets (CSS)", "HTML"],
+  },
+  {
+    title: "Programming with JavaScript",
+    issuer: "Meta",
+    date: "October 2022",
+    credentialId: "G4E3EE6UKMAX",
+    url: "https://www.coursera.org/account/accomplishments/verify/G4E3EE6UKMAX",
+    skills: ["JavaScript"],
+  },
+  {
+    title: "Version Control",
+    issuer: "Meta",
+    date: "October 2022",
+    credentialId: "ZWQ647BYRZL9",
+    url: "https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9",
+    skills: ["Git", "GitHub"],
+  },
+];
