@@ -15,9 +15,9 @@ export default function Experience() {
   return (
     <>
       {/* Experience Section with Toggle */}
-      <section id="experience" className="section-padding bg-white relative overflow-hidden">
+      <section id="experience" className="section-padding bg-cream relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-cream/50 to-transparent" />
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-white/50 to-transparent" />
         
         <div className="container mx-auto px-6 relative z-10">
           {/* Header with Toggle */}
@@ -119,9 +119,9 @@ export default function Experience() {
 
 export function Research() {
   return (
-    <section id="research" className="section-padding bg-cream relative overflow-hidden">
+    <section id="research" className="section-padding bg-white relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-white/50 to-transparent" />
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-cream/50 to-transparent" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}

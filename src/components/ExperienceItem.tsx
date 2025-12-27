@@ -25,7 +25,7 @@ export default function ExperienceItem({ item, idx }: ExperienceItemProps) {
 
       {/* Content Card */}
       <div className={`ml-16 md:ml-0 ${idx % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:col-start-2 md:pl-12'}`}>
-        <div className="group p-6 bg-cream border-3 border-black hover:bg-black hover:text-white transition-all duration-300">
+        <div className="group p-6 bg-white border-3 border-black hover:bg-black hover:text-white transition-all duration-300">
           {/* Period Badge */}
           <div className={`inline-flex items-center gap-2 px-3 py-1 bg-coral text-white text-xs font-bold mb-4 ${idx % 2 === 0 ? 'md:ml-auto' : ''}`}>
             <Calendar size={12} />

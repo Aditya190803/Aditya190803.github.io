@@ -40,7 +40,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding bg-cream relative overflow-hidden">
+    <section id="contact" className="section-padding bg-white relative overflow-hidden">
       {/* Subtle Background */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div className="absolute inset-0" style={{

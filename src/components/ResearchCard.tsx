@@ -18,7 +18,7 @@ export default function ResearchCard({ paper, idx }: ResearchCardProps) {
       transition={{ delay: idx * 0.1 }}
       className="group"
     >
-      <div className="p-8 bg-white border-3 border-black shadow-brutal hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+      <div className="p-8 bg-cream border-3 border-black shadow-brutal hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
         {/* Paper Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
           <div className="flex-1">

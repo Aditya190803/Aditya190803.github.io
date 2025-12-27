@@ -6,7 +6,7 @@ import { certifications } from "@/lib/data";
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="py-20 bg-white relative overflow-hidden">
+    <section id="certifications" className="py-20 bg-cream relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -29,7 +29,7 @@ export default function Certifications() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group p-6 bg-cream border-3 border-black hover:bg-black hover:text-white transition-all duration-300 relative overflow-hidden"
+                className="group p-6 bg-white border-3 border-black hover:bg-black hover:text-white transition-all duration-300 relative overflow-hidden"
               >
                 <div className="relative z-10">
                   <div className="w-12 h-12 bg-purple/10 group-hover:bg-purple/20 flex items-center justify-center mb-6 transition-colors">

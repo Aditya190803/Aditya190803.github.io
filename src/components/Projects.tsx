@@ -121,7 +121,7 @@ export default function Projects() {
                 >
                   <div className={cn(
                     "flex flex-col gap-6 p-6 md:p-8 border-3 border-black transition-all duration-300 shadow-[4px_4px_0_0_#000]",
-                    hoveredIdx === idx ? "bg-black text-white shadow-none translate-x-[4px] translate-y-[4px]" : "bg-white"
+                    hoveredIdx === idx ? "bg-black text-white shadow-none translate-x-[4px] translate-y-[4px]" : "bg-cream"
                   )}>
                     {/* Category Tag - At the top */}
                     <div className={cn(
