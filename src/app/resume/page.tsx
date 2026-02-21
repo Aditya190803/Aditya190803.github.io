@@ -63,12 +63,12 @@ export default function ResumePage() {
           <p className="text-xl md:text-2xl font-bold text-coral mb-6">
             {profile.title}
           </p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-sm md:text-base">
             <div className="flex items-center gap-2 group">
               <Mail size={16} className="shrink-0" />
               <a href={`mailto:${profile.email}`} className="hover:underline font-medium">{profile.email}</a>
-              <button 
+              <button
                 onClick={copyEmail}
                 className="ml-2 p-1 hover:bg-cream border border-transparent hover:border-black transition-all print:hidden"
                 title="Copy Email"
@@ -203,10 +203,24 @@ export default function ResumePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.filter(p => p.featured).map((project, i) => (
-              <div key={i} className="p-4 border-2 border-black border-dashed">
-                <h3 className="text-lg font-black mb-1">{project.title}</h3>
-                <p className="text-sm text-black/70 mb-3 line-clamp-2">{project.description}</p>
-                <div className="flex flex-wrap gap-1">
+              <div key={i} className="p-4 border-2 border-black border-dashed flex flex-col">
+                <div className="flex justify-between items-start mb-1 gap-2">
+                  <h3 className="text-lg font-black leading-tight">{project.title}</h3>
+                  <div className="flex gap-2 shrink-0 print:hidden">
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" title="GitHub">
+                        <Github size={16} />
+                      </a>
+                    )}
+                    {(project.demo || project.pypi) && (
+                      <a href={project.demo || project.pypi} target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" title="Live Link">
+                        <Globe size={16} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm text-black/70 mb-3 line-clamp-2 md:line-clamp-3 lg:line-clamp-2 flex-grow">{project.description}</p>
+                <div className="flex flex-wrap gap-1 mt-auto">
                   {project.technologies.slice(0, 4).map(tech => (
                     <span key={tech} className="text-[10px] font-bold px-1.5 py-0.5 bg-black/5">
                       {tech}
