@@ -151,7 +151,7 @@ export const projects: Project[] = [
     description: "Streamlit app functioning as an ATS resume scanner, leveraging Google's Gemini AI to evaluate resumes against job descriptions.",
     technologies: ["Gemini AI", "Streamlit", "Python", "NLP"],
     github: "https://github.com/Aditya190803/ATS-System",
-    demo: "http://adityamer.live/Application-Tracking-System/",
+    demo: "http://ats.adityamer.live/",
     category: "GenAI",
     features: [
       "AI-powered resume scanning",
