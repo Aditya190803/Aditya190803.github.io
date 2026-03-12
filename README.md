@@ -2,7 +2,7 @@
 
 A fast, modern portfolio built with Next.js 16, React 19, Tailwind CSS v4, and Framer Motion. It showcases projects, experience, education, and research with a crisp, “funky” theme.
 
-- Live: https://adityamer.live
+- Live: https://adityamer.dev
 - Repo: https://github.com/Aditya190803/Aditya190803.github.io
 
 ## Features
