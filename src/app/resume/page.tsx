@@ -78,7 +78,7 @@ export default function ResumePage() {
             </div>
             <div className="flex items-center gap-2">
               <Globe size={16} className="shrink-0" />
-              <a href={profile.portfolio} target="_blank" rel="noopener noreferrer" className="hover:underline font-medium">adityamer.live</a>
+              <a href={profile.portfolio} target="_blank" rel="noopener noreferrer" className="hover:underline font-medium">adityamer.dev</a>
             </div>
             <div className="flex items-center gap-2">
               <Linkedin size={16} className="shrink-0" />
@@ -234,7 +234,7 @@ export default function ResumePage() {
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t-2 border-black border-dashed text-center text-xs font-bold text-black/30 uppercase tracking-widest">
-          Generated from adityamer.live • Last Updated Dec 2025
+          Generated from adityamer.dev • Last Updated Dec 2025
         </footer>
       </motion.div>
 

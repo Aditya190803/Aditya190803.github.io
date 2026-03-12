@@ -59,7 +59,7 @@ export const profile = {
   title: "ML/DL Engineer & Gen AI Developer",
   location: "Mumbai, India",
   email: "adityamer.work@gmail.com",
-  portfolio: "https://adityamer.live",
+  portfolio: "https://adityamer.dev",
   resumeUrl: "/resume.pdf",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
@@ -151,7 +151,7 @@ export const projects: Project[] = [
     description: "Streamlit app functioning as an ATS resume scanner, leveraging Google's Gemini AI to evaluate resumes against job descriptions.",
     technologies: ["Gemini AI", "Streamlit", "Python", "NLP"],
     github: "https://github.com/Aditya190803/ATS-System",
-    demo: "http://ats.adityamer.live/",
+    demo: "https://ats.adityamer.dev/",
     category: "GenAI",
     features: [
       "AI-powered resume scanning",
@@ -183,7 +183,7 @@ export const projects: Project[] = [
     description: "Modern email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
     technologies: ["Next.js", "TypeScript", "Gmail API", "React"],
     github: "https://github.com/Aditya190803/EchoMail",
-    demo: "https://echomail.adityamer.live",
+    demo: "https://echomail.adityamer.dev",
     category: "Web",
     features: [
       "Upload CSVs with unlimited custom fields",
@@ -201,7 +201,7 @@ export const projects: Project[] = [
     description: "AI static website generator for quickly creating mini apps/sites from prompts and templates.",
     technologies: ["AI", "Web Development", "GenAI", "Templates"],
     github: "https://github.com/Aditya190803/mini-app-factory",
-    demo: "http://mini-app-factory.adityamer.live",
+    demo: "https://mini-app-factory.adityamer.dev",
     category: "Web",
     features: [
       "Prompt-to-website generation",
@@ -216,7 +216,7 @@ export const projects: Project[] = [
     description: "Modern news verification platform built with React, TypeScript, LangSearch and Gemini AI to detect misinformation across text, images, audio, and video.",
     technologies: ["React", "TypeScript", "LangSearch", "Gemini AI"],
     github: "https://github.com/Aditya190803/Verify-News",
-    demo: "https://verify-news.adityamer.live",
+    demo: "https://verify-news.adityamer.dev",
     category: "Research",
     features: [
       "Multi-media misinformation detection",
@@ -231,7 +231,7 @@ export const projects: Project[] = [
     description: "Developed an autonomous AI agent using CrewAI to perform automated literature reviews, synthesize findings, and generate research summaries.",
     technologies: ["CrewAI", "Python", "Autonomous Agents", "LLMs"],
     github: "https://github.com/Aditya190803/AI-Research-Agent",
-    demo: "https://ai-research-agent.adityamer.live",
+    demo: "https://ai-research-agent.adityamer.dev",
     category: "Research",
     features: [
       "Automated literature reviews",
@@ -261,7 +261,7 @@ export const projects: Project[] = [
     description: "Intelligent PDF interaction system combining Gemini AI and Langchain for natural document conversations.",
     technologies: ["Gemini", "Langchain", "Streamlit", "RAG"],
     github: "https://github.com/Aditya190803/Chat-with-PDF",
-    demo: "https://adityamer.live/Chat-with-PDF/",
+    demo: "https://adityamer.dev/Chat-with-PDF/",
     category: "GenAI",
     features: [
       "Natural language PDF interaction",
@@ -275,7 +275,7 @@ export const projects: Project[] = [
     description: "A simple Streamlit application for recognizing handwritten digits using a pre-trained TensorFlow model.",
     technologies: ["TensorFlow", "Streamlit", "Python", "Computer Vision"],
     github: "https://github.com/Aditya190803/Handwritten-Digit-Recognition",
-    demo: "http://adityamer.live/Handwritten-Digit-Recognition/",
+    demo: "https://adityamer.dev/Handwritten-Digit-Recognition/",
     category: "ML",
     features: [
       "Draw a Digit on canvas",
@@ -289,7 +289,7 @@ export const projects: Project[] = [
     description: "RAG-based website chatbot leveraging ChatGroq for intelligent web content interaction and analysis.",
     technologies: ["RAG", "ChatGroq", "Streamlit", "Web Scraping"],
     github: "https://github.com/aditya190803/Chat-with-Website",
-    demo: "https://adityamer.live/Chat-with-Website",
+    demo: "https://adityamer.dev/Chat-with-Website",
     category: "GenAI",
     features: [
       "Real-time website content scraping",

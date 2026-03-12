@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
     description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems from research to production.",
-    url: "https://adityamer.live",
+    url: "https://adityamer.dev",
     siteName: "Aditya Mer Portfolio",
     locale: "en_US",
     type: "website",
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
     images: ["/logo.png"],
   },
   alternates: {
-    canonical: "https://adityamer.live",
+    canonical: "https://adityamer.dev",
   },
-  metadataBase: new URL("https://adityamer.live"),
+  metadataBase: new URL("https://adityamer.dev"),
 };
 
 export function generateViewport() {
