@@ -60,7 +60,7 @@ export const profile = {
   location: "Mumbai, India",
   email: "adityamer.work@gmail.com",
   portfolio: "https://adityamer.dev",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/Aditya_Mer_Resume.pdf",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
   tagline: "Building scalable ML & GenAI systems from research to production",
@@ -355,6 +355,28 @@ export const research: { papers: ResearchPaper[] } = {
         { name: "Shivam Singh", url: "https://www.linkedin.com/in/shivamsingh21022003/" },
       ],
       tags: ["Misinformation Detection", "Dataset", "NLP", "Machine Learning"],
+    },
+    {
+      title: "FastWrite: Automation in Code Documentation",
+      venue: "Automation in Code Documentation, Taylor & Francis (CRC Press), 2025",
+      venueShort: "Taylor & Francis",
+      year: "2025",
+      status: "Published",
+      url: "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003774679-63/fastwrite-automation-code-documentation-rishikesh-giridhar-sravan-kotta-aditya-mer-oam-bhanushali-sejal-shah",
+      abstract:
+        "A book chapter on FastWrite, an AI-powered Python module for automated code documentation generation with intelligent code analysis and multiple LLM support.",
+      highlights: [
+        "AI-powered automated code documentation",
+        "Intelligent code analysis across multiple LLM providers",
+        "Published as a book chapter in Taylor & Francis (CRC Press)",
+      ],
+      authors: [
+        { name: "Rishikesh Giridhar", url: "https://www.linkedin.com/in/rishikesh-giridhar/" },
+        { name: "Sravan Kotta", url: "https://www.linkedin.com/in/sravan-kotta/" },
+        { name: "Aditya Mer", url: profile.linkedin },
+        { name: "Oam Bhanushali", url: "https://www.linkedin.com/in/oambhanushali/" },
+      ],
+      tags: ["Code Documentation", "Automation", "GenAI", "LLMs", "Software Engineering"],
     },
   ],
 };
