@@ -1,91 +1,71 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import BackToTop from "@/components/BackToTop";
-import PageTransition from "@/components/PageTransition";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Navbar } from "@/components/layout/Navbar";
+import { PageTransition } from "@/components/providers/PageTransition";
+import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { RouteLabel } from "@/components/ui/RouteLabel";
 
 export const metadata: Metadata = {
-  title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-  description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems, Generative AI, and Deep Learning solutions.",
+  title: "Aditya Mer | ML Engineer & GenAI Developer",
+  description:
+    "ML Engineer and GenAI Developer building scalable AI systems from research to production. Interactive lab demos, research publications, and project case studies.",
   keywords: [
-    "ML Engineer", 
-    "GenAI Developer", 
-    "AI Research", 
-    "Deep Learning", 
-    "Portfolio", 
-    "Aditya Mer", 
-    "Machine Learning", 
-    "Generative AI",
-    "Large Language Models",
-    "LLM",
-    "Computer Vision",
-    "NLP"
+    "ML Engineer", "GenAI Developer", "AI Research", "Deep Learning",
+    "Aditya Mer", "Machine Learning", "Generative AI", "LLM",
   ],
   authors: [{ name: "Aditya Mer" }],
   creator: "Aditya Mer",
   publisher: "Aditya Mer",
   robots: "index, follow",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+  icons: { icon: "/logo.png", apple: "/logo.png" },
   openGraph: {
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems from research to production.",
+    title: "Aditya Mer | ML Engineer & GenAI Developer",
+    description:
+      "ML Engineer and GenAI Developer — interactive lab demos, research publications, and project case studies.",
     url: "https://adityamer.dev",
-    siteName: "Aditya Mer Portfolio",
+    siteName: "Aditya Mer",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Aditya Mer Portfolio Logo",
-      },
-    ],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Aditya Mer" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems.",
+    title: "Aditya Mer | ML Engineer & GenAI Developer",
+    description:
+      "ML Engineer and GenAI Developer — interactive lab demos, research publications, and project case studies.",
     creator: "@aditya190803",
-    images: ["/logo.png"],
+    images: ["/og.png"],
   },
-  alternates: {
-    canonical: "https://adityamer.dev",
-  },
+  alternates: { canonical: "https://adityamer.dev" },
   metadataBase: new URL("https://adityamer.dev"),
 };
 
-export function generateViewport() {
-  return { width: 'device-width', initialScale: 1 };
+export function generateViewport(): Viewport {
+  return { width: "device-width", initialScale: 1 };
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased">
+        <BackgroundEffects />
+        <ScrollProgress />
+        <RouteLabel />
+        <Navbar />
         <PageTransition>
           {children}
         </PageTransition>
-        <BackToTop />
       </body>
     </html>
   );
