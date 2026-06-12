@@ -2,9 +2,27 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { PageTransition } from "@/components/providers/PageTransition";
-import { BackgroundEffects } from "@/components/ui/BackgroundEffects";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { RouteLabel } from "@/components/ui/RouteLabel";
+import { ScrollProgressBar } from "@/components/ui/ScrollProgress";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  axes: ["opsz"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Aditya Mer | ML Engineer & GenAI Developer",
@@ -49,23 +67,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      style={{ colorScheme: "light" }}
+      className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="antialiased">
-        <BackgroundEffects />
-        <ScrollProgress />
-        <RouteLabel />
+        <ScrollProgressBar />
         <Navbar />
-        <PageTransition>
-          {children}
-        </PageTransition>
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );

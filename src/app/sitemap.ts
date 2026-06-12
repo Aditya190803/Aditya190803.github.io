@@ -8,18 +8,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const routes = [
     { url: baseUrl, priority: 1 },
-    { url: `${baseUrl}/about`, priority: 0.9 },
-    { url: `${baseUrl}/skills`, priority: 0.8 },
-    { url: `${baseUrl}/work`, priority: 0.9 },
+    { url: `${baseUrl}/projects`, priority: 0.9 },
     { url: `${baseUrl}/experience`, priority: 0.8 },
     { url: `${baseUrl}/research`, priority: 0.8 },
-    { url: `${baseUrl}/lab`, priority: 0.9 },
+    { url: `${baseUrl}/skills`, priority: 0.8 },
     { url: `${baseUrl}/contact`, priority: 0.7 },
     { url: `${baseUrl}/resume`, priority: 0.6 },
   ];
 
   const projectRoutes = projects.map((p) => ({
-    url: `${baseUrl}/work/${p.title.toLowerCase().replace(/\s+/g, '-')}`,
+    url: `${baseUrl}/projects/${p.title.toLowerCase().replace(/\s+/g, '-')}`,
     priority: 0.7,
   }));
 
