@@ -66,35 +66,9 @@ function HeroSection() {
   const heroY = useTransform(scrollYProgress, [0, 0.8], [0, -80]);
 
   return (
-    <section ref={sectionRef} className="min-h-dvh flex flex-col relative z-10 overflow-hidden">
-      {/* Massive faint background watermark */}
+    <section ref={sectionRef} className="min-h-dvh relative z-10 overflow-hidden">
       <motion.div
-        className="absolute -bottom-8 -right-8 md:right-0 select-none pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.6, ease: easeOut }}
-      >
-        <span
-          className="font-[family-name:var(--font-mono)] font-bold text-[var(--fg)]/[0.025] leading-none block"
-          style={{ fontSize: 'clamp(12rem, 35vw, 28rem)' }}
-        >
-          AM
-        </span>
-      </motion.div>
-
-      {/* Top-right index */}
-      <motion.div
-        className="absolute top-6 right-6 md:right-12 text-[10px] font-medium text-[var(--fg-muted)]/25 uppercase tracking-widest hidden md:block"
-        style={{ fontFamily: 'var(--font-mono)' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.4, ease: easeOut }}
-      >
-        01 — Home
-      </motion.div>
-
-      <motion.div
-        className="flex-1 flex flex-col justify-end section-container pt-24 pb-16 md:pb-20"
+        className="section-container pt-[22vh] md:pt-[18vh] pb-20"
         style={{ opacity: heroOpacity, y: heroY }}
       >
         {/* Role tag */}
@@ -110,15 +84,15 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Name */}
+        {/* Name — massive staggered reveal */}
         <motion.h1
           className="font-[family-name:var(--font-display)] font-bold leading-[0.85] tracking-tight text-[var(--fg)]"
-          style={{ fontSize: 'clamp(4.5rem, 12vw, 11rem)' }}
+          style={{ fontSize: 'clamp(4rem, 10vw, 9rem)' }}
           initial="initial"
           animate="animate"
           variants={{
             initial: {},
-            animate: { transition: { staggerChildren: 0.12, delayChildren: 0.45 } },
+            animate: { transition: { staggerChildren: 0.14, delayChildren: 0.45 } },
           }}
         >
           {['Aditya', 'Mer'].map((word, i) => (
@@ -137,79 +111,56 @@ function HeroSection() {
 
         {/* Divider */}
         <motion.div
-          className="w-full h-px bg-[var(--border)] mt-10 md:mt-12"
+          className="w-full max-w-xl h-px bg-[var(--border)] mt-8 md:mt-10"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: easeOut, delay: 0.8 }}
           style={{ transformOrigin: 'left' }}
         />
 
-        {/* Bottom row: descriptor + actions */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-8 md:mt-10">
-          {/* Left: short descriptor */}
-          <motion.div
-            className="max-w-md"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: easeOut, delay: 0.9 }}
+        {/* Descriptor */}
+        <motion.p
+          className="text-sm md:text-base text-[var(--fg-muted)] leading-relaxed mt-6 md:mt-8 max-w-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: easeOut, delay: 0.9 }}
+        >
+          {profile.tagline}
+        </motion.p>
+
+        {/* CTA + socials — inline row */}
+        <motion.div
+          className="flex flex-wrap items-center gap-6 mt-8 md:mt-10"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: easeOut, delay: 1.05 }}
+        >
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-3 text-sm font-medium border border-[var(--fg)] px-7 py-3 hover:bg-[var(--fg)] hover:text-[var(--bg)] transition-all duration-400"
+            style={{ fontFamily: 'var(--font-mono)' }}
           >
-            <p className="text-sm md:text-base text-[var(--fg-muted)] leading-relaxed">
-              {profile.tagline}
-            </p>
-          </motion.div>
+            View Projects
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
 
-          {/* Right: CTAs + socials */}
-          <motion.div
-            className="flex flex-col items-start md:items-end gap-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: easeOut, delay: 1 }}
-          >
-            <Link
-              href="/projects"
-              className="group inline-flex items-center gap-3 text-sm font-medium border border-[var(--fg)] px-7 py-3 hover:bg-[var(--fg)] hover:text-[var(--bg)] transition-all duration-400"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              View Projects
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
+          <span className="w-6 h-[1px] bg-[var(--border)] hidden md:block" />
 
-            <div className="flex items-center gap-5">
-              <a href={`mailto:${profile.email}`} className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="Email">
-                <Mail size={16} strokeWidth={1.5} />
-              </a>
-              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="GitHub">
-                <Github size={16} strokeWidth={1.5} />
-              </a>
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="LinkedIn">
-                <Linkedin size={16} strokeWidth={1.5} />
-              </a>
-              <a href={profile.resumeUrl} className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="Resume">
-                <FileText size={16} strokeWidth={1.5} />
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* Scroll indicator — positioned bottom-left */}
-      <motion.div
-        className="absolute bottom-8 left-6 md:left-12 flex flex-col items-center gap-3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.6, ease: easeOut }}
-      >
-        <div className="h-10 w-[1px] bg-[var(--fg-muted)]/15 relative overflow-hidden">
-          <motion.div
-            className="absolute top-0 left-0 w-full bg-[var(--fg-muted)]/40"
-            animate={{ y: ['-100%', '100%'] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ height: '40%' }}
-          />
-        </div>
-        <span className="text-[9px] font-medium uppercase tracking-widest text-[var(--fg-muted)]/30" style={{ fontFamily: 'var(--font-mono)' }}>
-          Scroll
-        </span>
+          <div className="flex items-center gap-4">
+            <a href={`mailto:${profile.email}`} className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="Email">
+              <Mail size={16} strokeWidth={1.5} />
+            </a>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="GitHub">
+              <Github size={16} strokeWidth={1.5} />
+            </a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="LinkedIn">
+              <Linkedin size={16} strokeWidth={1.5} />
+            </a>
+            <a href={profile.resumeUrl} className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300" aria-label="Resume">
+              <FileText size={16} strokeWidth={1.5} />
+            </a>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
