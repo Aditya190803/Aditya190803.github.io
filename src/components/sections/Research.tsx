@@ -1,37 +1,14 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView, animate } from 'framer-motion';
+import { useRef, useState } from 'react';
+import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { research } from '@/lib/data';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
-
-/* ── Animated Counter ──────────────────────────────────── */
-function Counter({ target }: { target: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [val, setVal] = useState(0);
-
-  useState(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setVal(target);
-    }
-  });
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useState(() => {
-    if (!isInView) return;
-    const controls = animate(0, target, {
-      duration: 1.2,
-      ease: 'easeOut',
-      onUpdate: (v) => setVal(Math.round(v)),
-    });
-    return () => controls.stop();
-  });
-
-  return <span ref={ref}>{val}</span>;
-}
+import { PageHero } from '@/components/layout/PageHero';
+import { ScrollProgressRail } from '@/components/ui/ScrollReveal';
+import { EASE_OUT, fadeUp } from '@/lib/motion';
+import { useSectionScroll } from '@/lib/useSectionScroll';
 
 function PaperCard({ paper, index }: { paper: (typeof research.papers)[0]; index: number }) {
   const [expanded, setExpanded] = useState(false);
@@ -39,32 +16,46 @@ function PaperCard({ paper, index }: { paper: (typeof research.papers)[0]; index
   return (
     <motion.div
       className="group border-t border-[var(--border)] py-8 md:py-10"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, ease: easeOut, delay: index * 0.05 }}
+      {...fadeUp}
+      transition={{ ...fadeUp.transition, delay: index * 0.08 }}
     >
       <div className="md:grid md:grid-cols-[80px_1fr] md:gap-12">
-        {/* Year */}
-        <div className="text-xs font-medium text-[var(--fg-muted)] mb-3 md:mb-0 pt-1 uppercase tracking-wider" style={{ fontFamily: 'var(--font-mono)' }}>
+        <span
+          className="text-xs font-medium text-[var(--accent)] mb-3 md:mb-0 pt-1 uppercase tracking-wider block"
+          style={{ fontFamily: 'var(--font-mono)' }}
+        >
           {paper.year}
-        </div>
+        </span>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-6">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-2">
-                <span className="text-[10px] font-medium text-[var(--fg-muted)] uppercase tracking-widest" style={{ fontFamily: 'var(--font-mono)' }}>
+                <span
+                  className="text-[10px] font-medium text-[var(--fg-muted)] uppercase tracking-widest"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
                   {paper.venueShort}
                 </span>
-                <span className="text-[10px] px-2 py-0.5 border border-[var(--border)] text-[var(--fg-muted)] uppercase tracking-wider" style={{ fontFamily: 'var(--font-mono)' }}>
-                  {paper.status}
+                <span
+                  className="text-[10px] text-[var(--accent-green)] uppercase tracking-wider"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  ● {paper.status}
                 </span>
               </div>
-              <h3 className="font-[family-name:var(--font-display)] text-xl md:text-2xl font-bold tracking-tight leading-snug">
-                {paper.title}
-              </h3>
+              <Link
+                href={`/research/${paper.slug}`}
+                className="group/title inline-flex items-start gap-2 hover:text-[var(--accent)] transition-colors duration-300"
+              >
+                <h3 className="font-[family-name:var(--font-display)] text-xl md:text-2xl font-bold tracking-tight leading-snug">
+                  {paper.title}
+                </h3>
+                <ArrowUpRight
+                  size={18}
+                  className="shrink-0 mt-1 text-[var(--fg-muted)]/30 group-hover/title:text-[var(--accent)] transition-colors duration-300"
+                />
+              </Link>
               <div className="flex flex-wrap gap-2 mt-3">
                 {paper.authors.map((a) => (
                   <a
@@ -83,42 +74,51 @@ function PaperCard({ paper, index }: { paper: (typeof research.papers)[0]; index
 
             <button
               onClick={() => setExpanded(!expanded)}
-              className="shrink-0 text-xs font-medium hover:opacity-50 transition-opacity duration-300 border border-[var(--border)] px-3 py-1.5 uppercase tracking-wider mt-1"
+              className="shrink-0 text-xs font-medium text-[var(--accent)] hover:opacity-60 transition-opacity duration-300 uppercase tracking-wider mt-1"
               style={{ fontFamily: 'var(--font-mono)' }}
               aria-expanded={expanded}
             >
-              {expanded ? 'Close' : 'Abstract'}
+              {expanded ? 'Close —' : 'Abstract +'}
             </button>
           </div>
 
-          {/* Expandable abstract */}
           <motion.div
             className="overflow-hidden"
             initial={false}
             animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
-            transition={{ duration: 0.4, ease: easeOut }}
+            transition={{ duration: 0.4, ease: EASE_OUT }}
           >
             <div>
-              <p className="text-sm text-[var(--fg-muted)] leading-relaxed mt-6 max-w-2xl">{paper.abstract}</p>
-              <div className="flex flex-wrap gap-2 mt-4">
-                {paper.tags.map(tag => (
+              <p className="text-sm text-[var(--fg-muted)] leading-relaxed mt-6 max-w-2xl">
+                {paper.abstract}
+              </p>
+              <div className="flex flex-wrap gap-x-5 gap-y-2 mt-4">
+                {paper.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] font-medium px-2 py-1 border border-[var(--accent-green)]/20 text-[var(--accent-green)] uppercase tracking-wider"
+                    className="text-[10px] font-medium text-[var(--fg-muted)] uppercase tracking-wider"
                     style={{ fontFamily: 'var(--font-mono)' }}
                   >
-                    {tag}
+                    #{tag.replace(/\s+/g, '')}
                   </span>
                 ))}
               </div>
-              <a
-                href={paper.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] mt-5 hover:opacity-70 transition-opacity"
-              >
-                Read paper →
-              </a>
+              <div className="flex flex-wrap items-center gap-6 mt-5">
+                <Link
+                  href={`/research/${paper.slug}`}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:opacity-70 transition-opacity"
+                >
+                  View details →
+                </Link>
+                <a
+                  href={paper.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors"
+                >
+                  External link →
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -128,45 +128,47 @@ function PaperCard({ paper, index }: { paper: (typeof research.papers)[0]; index
 }
 
 export function Research() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { heroY, contentY } = useSectionScroll(sectionRef);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+  const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
-    <section id="research" className="relative bg-[var(--bg)]">
-      <div className="section-container pb-24 md:pb-40 pt-24 md:pt-32">
-        <SectionHeader
-          number="04"
-          label="Research"
-          title="Published Work"
-          subtitle="Peer-reviewed publications in misinformation detection, AI-powered code documentation, and multi-modal verification."
-        />
+    <section id="research" ref={sectionRef} className="relative bg-[var(--bg)]/40">
+      <div className="section-container pb-24 md:pb-40 page-hero-space">
+        <div className="md:grid md:grid-cols-[80px_1fr] md:gap-14">
+          <ScrollProgressRail
+            progress={progressScale}
+            label={`${String(research.papers.length).padStart(2, '0')} papers`}
+          />
 
-        {/* ── Papers list ────────────────────────────────── */}
-        <div className="border-b border-[var(--border)]">
-          {research.papers.map((paper, i) => (
-            <PaperCard key={i} paper={paper} index={i} />
-          ))}
+          <div>
+            <motion.div style={{ y: heroY }}>
+              <PageHero
+                number="04"
+                label="Research"
+                title={
+                  <>
+                    Published
+                    <br />
+                    <span className="text-[var(--accent)]">work.</span>
+                  </>
+                }
+                subtitle="Peer-reviewed publications in misinformation detection, AI-powered code documentation, and multi-modal verification."
+                className="mb-14 md:mb-20"
+              />
+            </motion.div>
+
+            <motion.div className="border-b border-[var(--border)]" style={{ y: contentY }}>
+              {research.papers.map((paper, i) => (
+                <PaperCard key={paper.slug} paper={paper} index={i} />
+              ))}
+            </motion.div>
+          </div>
         </div>
-
-        {/* ── Stats ──────────────────────────────────────── */}
-        <motion.div
-          className="mt-12 md:mt-16 flex gap-12 md:gap-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: easeOut }}
-        >
-          {[
-            { value: research.papers.filter(p => p.status === 'Published').length, label: 'Published' },
-            { value: research.papers.reduce((acc, p) => acc + p.authors.length, 0), label: 'Co-authors' },
-          ].map(stat => (
-            <div key={stat.label}>
-              <span className="text-3xl md:text-4xl font-bold block leading-none" style={{ fontFamily: 'var(--font-mono)' }}>
-                <Counter target={stat.value} />
-              </span>
-              <span className="text-xs text-[var(--fg-muted)] mt-2 block uppercase tracking-widest" style={{ fontFamily: 'var(--font-mono)' }}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

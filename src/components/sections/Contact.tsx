@@ -1,21 +1,44 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, FileText, ArrowUpRight } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { motion, useTransform } from 'framer-motion';
+import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react';
 import { profile } from '@/lib/data';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
+import { PageHero } from '@/components/layout/PageHero';
+import { EASE_OUT, fadeUp } from '@/lib/motion';
+import { useSectionScroll } from '@/lib/useSectionScroll';
 
 const socialLinks = [
   { name: 'GitHub', href: profile.github, icon: Github },
   { name: 'LinkedIn', href: profile.linkedin, icon: Linkedin },
-  { name: 'Email', href: `mailto:${profile.email}`, icon: Mail },
   { name: 'Resume', href: profile.resumeUrl, icon: FileText },
 ];
 
-/* ── Web3 Forms Contact Form ───────────────────────────── */
+function ClipboardCopy({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button
+      onClick={copy}
+      className="group inline-flex items-center gap-4 text-xl md:text-2xl font-medium text-[var(--fg)] hover:text-[var(--accent)] transition-colors duration-300"
+      style={{ fontFamily: 'var(--font-mono)' }}
+      aria-label={copied ? 'Copied!' : 'Copy email'}
+    >
+      <span className="relative">
+        {text}
+        <span className="absolute left-0 -bottom-0.5 h-[1px] w-0 bg-[var(--accent)] transition-all duration-300 group-hover:w-full" />
+      </span>
+      <span className="text-xs font-medium border border-[var(--border)] px-2.5 py-1 opacity-40 group-hover:opacity-100 group-hover:border-[var(--accent)] transition-all duration-300 uppercase tracking-wider">
+        {copied ? '✓ Copied' : 'Copy'}
+      </span>
+    </button>
+  );
+}
+
 function ContactForm() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -25,7 +48,7 @@ function ContactForm() {
     setFormState('submitting');
 
     const data = new FormData();
-    data.append('access_key', 'YOUR_ACCESS_KEY'); // Replace with your key from web3forms.com
+    data.append('access_key', 'YOUR_ACCESS_KEY');
     data.append('name', formData.name);
     data.append('email', formData.email);
     data.append('message', formData.message);
@@ -34,10 +57,7 @@ function ContactForm() {
     data.append('replyto', formData.email);
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: data,
-      });
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
       const result = await res.json();
       if (result.success) {
         setFormState('success');
@@ -56,7 +76,7 @@ function ContactForm() {
         className="p-8 md:p-10 border border-[var(--accent-green)]/30 bg-[var(--bg-card)] text-center"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: easeOut }}
+        transition={{ duration: 0.5, ease: EASE_OUT }}
       >
         <p className="text-sm font-medium text-[var(--accent-green)] mb-2" style={{ fontFamily: 'var(--font-mono)' }}>
           Message sent
@@ -139,71 +159,41 @@ function ContactForm() {
   );
 }
 
-/* ── Clipboard Copy ────────────────────────────────────── */
-function ClipboardCopy({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  return (
-    <button
-      onClick={copy}
-      className="group inline-flex items-center gap-4 text-xl md:text-2xl font-medium text-[var(--fg)] hover:text-[var(--accent)] transition-colors duration-300"
-      style={{ fontFamily: 'var(--font-mono)' }}
-      aria-label={copied ? 'Copied!' : 'Copy email'}
-    >
-      <span className="relative">
-        {text}
-        <span className="absolute left-0 -bottom-0.5 h-[1px] w-0 bg-[var(--accent)] transition-all duration-300 group-hover:w-full" />
-      </span>
-      <span className="text-xs font-medium border border-[var(--border)] px-2.5 py-1 opacity-40 group-hover:opacity-100 group-hover:border-[var(--accent)] transition-all duration-300 uppercase tracking-wider">
-        {copied ? '✓ Copied' : 'Copy'}
-      </span>
-    </button>
-  );
-}
-
 export function Contact() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress, contentY, heroY } = useSectionScroll(sectionRef);
+  const headingY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
   return (
-    <section id="contact" className="relative bg-[var(--bg)]">
-      <div className="section-container pb-32 md:pb-48 pt-24 md:pt-32">
-        <SectionHeader number="05" label="Contact" />
+    <section id="contact" ref={sectionRef} className="relative bg-[var(--bg)]/40">
+      <div className="section-container pb-32 md:pb-48 page-hero-space">
+        <motion.div style={{ y: heroY }}>
+          <motion.div style={{ y: headingY }}>
+            <PageHero
+              number="06"
+              label="Contact"
+              title={
+                <>
+                  Let&apos;s build
+                  <br />
+                  <span className="text-[var(--accent)]">something interesting.</span>
+                </>
+              }
+              className="mb-16 md:mb-20"
+            />
+          </motion.div>
+        </motion.div>
 
-        {/* Heading */}
-        <motion.h1
-          className="font-[family-name:var(--font-display)] text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[0.9] tracking-tight max-w-4xl mb-16 md:mb-20"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, ease: easeOut }}
+        <motion.div
+          className="grid md:grid-cols-[1fr_360px] gap-16 md:gap-20"
+          style={{ y: contentY }}
         >
-          Let&apos;s build
-          <br />
-          <span className="block mt-2 md:mt-3">something interesting.</span>
-        </motion.h1>
-
-        {/* Two column: form + links */}
-        <div className="grid md:grid-cols-[1fr_360px] gap-16 md:gap-20">
-          {/* Left: Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease: easeOut }}
-          >
+          <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.1 }}>
             <ContactForm />
           </motion.div>
 
-          {/* Right: email + socials with icons */}
           <div className="space-y-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, ease: easeOut }}
-            >
+            <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.15 }}>
               <p className="text-xs text-[var(--fg-muted)] mb-3 uppercase tracking-widest" style={{ fontFamily: 'var(--font-mono)' }}>
                 Or email me directly
               </p>
@@ -214,39 +204,39 @@ export function Contact() {
               className="border border-[var(--border)] divide-y divide-[var(--border)]"
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.06 } },
-              }}
+              viewport={fadeUp.viewport}
+              transition={{ staggerChildren: 0.08, delayChildren: 0.2 }}
             >
               {socialLinks.map((link) => {
                 const Icon = link.icon;
                 return (
-                  <motion.a
+                  <motion.div
                     key={link.name}
-                    href={link.href}
-                    target={link.href.startsWith('mailto') || link.href.startsWith('/') ? undefined : '_blank'}
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-4 px-5 py-4 bg-[var(--bg-card)] hover:bg-[var(--bg)] transition-colors duration-300"
                     variants={{
-                      hidden: { opacity: 0, y: 12 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } },
+                      hidden: { opacity: 0, y: 16 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } },
                     }}
                   >
-                    <span className="text-[var(--fg-muted)] group-hover:text-[var(--accent)] transition-colors duration-300">
-                      <Icon size={16} strokeWidth={1.5} />
-                    </span>
-                    <span className="text-sm text-[var(--fg-muted)] group-hover:text-[var(--fg)] transition-colors flex-1" style={{ fontFamily: 'var(--font-mono)' }}>
-                      {link.name}
-                    </span>
-                    <ArrowUpRight size={14} className="text-[var(--fg-muted)]/20 group-hover:text-[var(--accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
-                  </motion.a>
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith('mailto') || link.href.startsWith('/') ? undefined : '_blank'}
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4 px-5 py-4 bg-[var(--bg-card)] hover:bg-[var(--bg)] transition-colors duration-300"
+                    >
+                      <span className="text-[var(--fg-muted)] group-hover:text-[var(--accent)] transition-colors duration-300">
+                        <Icon size={16} strokeWidth={1.5} />
+                      </span>
+                      <span className="text-sm text-[var(--fg-muted)] group-hover:text-[var(--fg)] transition-colors flex-1" style={{ fontFamily: 'var(--font-mono)' }}>
+                        {link.name}
+                      </span>
+                      <ArrowUpRight size={14} className="text-[var(--fg-muted)]/20 group-hover:text-[var(--accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                    </a>
+                  </motion.div>
                 );
               })}
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
