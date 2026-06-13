@@ -18,8 +18,13 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === '/';
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  // Close the mobile menu whenever the route changes.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMobileOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -38,7 +43,7 @@ export function Navbar() {
       <nav
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          scrolled
+          (scrolled || !isHome)
             ? 'bg-[var(--bg-card)] border-b border-[var(--border)]'
             : 'bg-transparent',
         )}
