@@ -3,28 +3,13 @@
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { projects } from '@/lib/data';
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-  transition: { duration: 0.6, ease: easeOut },
-};
-
-const staggerContainer = {
-  initial: {},
-  whileInView: {},
-  viewport: { once: true, margin: '-80px' },
-};
-
-const staggerChild = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: easeOut },
-};
+import { PageShell } from '@/components/layout/PageShell';
+import { DetailHero } from '@/components/layout/DetailHero';
+import { DetailSection, RevealItem } from '@/components/layout/DetailSection';
+import { Reveal, RevealStagger } from '@/components/ui/ScrollReveal';
+import { fadeUp } from '@/lib/motion';
 
 export default function WorkDetailClient() {
   const params = useParams();
@@ -36,7 +21,7 @@ export default function WorkDetailClient() {
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-[var(--bg)] pt-24 flex items-center justify-center">
+      <PageShell className="flex items-center justify-center">
         <div className="section-container text-center">
           <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold mb-4">Project not found</h1>
           <Link
@@ -47,7 +32,7 @@ export default function WorkDetailClient() {
             ← Back home
           </Link>
         </div>
-      </main>
+      </PageShell>
     );
   }
 
@@ -59,266 +44,186 @@ export default function WorkDetailClient() {
     step: String(i + 1).padStart(2, '0'),
     text: f,
   }));
-  const result = project.lessonsLearned
-    ? `Key outcome: ${project.lessonsLearned}`
+  const result = project.stats
+    ? `Shipped and validated in production — ${project.stats}.`
     : 'Successfully deployed and used in production with positive user feedback.';
 
   return (
-    <main className="min-h-screen bg-[var(--bg)]">
-      {/* Hero */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-24">
+    <PageShell>
+      <DetailHero
+        backHref="/projects"
+        backLabel="Back to projects"
+        eyebrow={
+          <span className="text-xs font-medium text-[var(--fg-muted)]" style={{ fontFamily: 'var(--font-mono)' }}>
+            {project.category}
+          </span>
+        }
+        title={project.title}
+        description={project.description}
+        meta={
+          <div className="flex flex-wrap items-center gap-6 text-sm border-t border-b border-[var(--border)] py-4">
+            <div>
+              <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
+                Category
+              </span>
+              <span className="text-[var(--fg)]/70">{project.category}</span>
+            </div>
+            <div>
+              <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
+                Stack
+              </span>
+              <span className="text-[var(--fg)]/70">{project.technologies.slice(0, 3).join(' · ')}</span>
+            </div>
+            {project.stats && (
+              <div>
+                <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
+                  Impact
+                </span>
+                <span className="text-[var(--fg)]/70">{project.stats}</span>
+              </div>
+            )}
+          </div>
+        }
+      />
+
+      <DetailSection number="01" label="Problem">
+        <Reveal>
+          <p className="text-xl md:text-2xl leading-relaxed text-[var(--fg)]/70 font-light">{problem}</p>
+        </Reveal>
+      </DetailSection>
+
+      <DetailSection number="02" label="Approach" stagger>
+        {approach.map((item) => (
+          <RevealItem key={item.step}>
+            <div className="flex items-start gap-6">
+              <span
+                className="text-xs font-medium text-[var(--fg-muted)]/30 shrink-0 w-8 text-right pt-1"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {item.step}
+              </span>
+              <p className="text-base md:text-lg text-[var(--fg)]/70 leading-relaxed">{item.text}</p>
+            </div>
+          </RevealItem>
+        ))}
+      </DetailSection>
+
+      <DetailSection number="03" label="Result">
+        <Reveal>
+          <p className="text-xl md:text-2xl leading-relaxed text-[var(--fg)]/70 font-light mb-8">{result}</p>
+        </Reveal>
+        {project.lessonsLearned && (
+          <Reveal delay={0.1}>
+            <div className="p-6 border border-[var(--border)] bg-[var(--bg-card)]">
+              <h3 className="text-xs font-medium uppercase tracking-widest text-[var(--fg-muted)] mb-3">
+                Key Takeaway
+              </h3>
+              <p className="text-sm text-[var(--fg)]/60 leading-relaxed italic">
+                &ldquo;{project.lessonsLearned}&rdquo;
+              </p>
+            </div>
+          </Reveal>
+        )}
+      </DetailSection>
+
+      <DetailSection number="04" label="Stack">
+        <RevealStagger className="flex flex-wrap gap-x-8 gap-y-3">
+          {project.technologies.map((tech) => (
+            <RevealItem key={tech}>
+              <span
+                className="text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-200"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {tech}
+              </span>
+            </RevealItem>
+          ))}
+        </RevealStagger>
+      </DetailSection>
+
+      <section className="py-16 border-t border-[var(--border)]">
         <div className="section-container">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: easeOut }}
-          >
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300 mb-8"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              ← Back to projects
-            </Link>
-          </motion.div>
-
-          <motion.div
-            className="aspect-[16/9] bg-[var(--bg-card)] border border-[var(--border)] mb-12 md:mb-16 flex items-center justify-center relative overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: easeOut, delay: 0.1 }}
-          >
-            <div className="absolute inset-0 bg-[var(--fg)]/[0.02]" />
-            <span className="text-sm text-[var(--fg-muted)] relative z-10" style={{ fontFamily: 'var(--font-mono)' }}>
-              {project.title}
-            </span>
-          </motion.div>
-
-          <div className="max-w-3xl">
-            <motion.span
-              className="text-xs font-medium text-[var(--fg-muted)] mb-4 block"
-              style={{ fontFamily: 'var(--font-mono)' }}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: easeOut, delay: 0.2 }}
-            >
-              {project.category}
-            </motion.span>
-
-            <motion.h1
-              className="font-[family-name:var(--font-display)] text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-6"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: easeOut, delay: 0.25 }}
-            >
-              {project.title}
-            </motion.h1>
-
-            <motion.p
-              className="text-lg md:text-xl leading-relaxed text-[var(--fg-muted)] mb-8"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeOut, delay: 0.35 }}
-            >
-              {project.description}
-            </motion.p>
-
-            {/* Meta bar */}
-            <motion.div
-              className="flex flex-wrap items-center gap-6 text-sm border-t border-b border-[var(--border)] py-4"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeOut, delay: 0.4 }}
-            >
-              <div>
-                <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
-                  Category
-                </span>
-                <span className="text-[var(--fg)]/70">{project.category}</span>
-              </div>
-              <div>
-                <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
-                  Stack
-                </span>
-                <span className="text-[var(--fg)]/70">{project.technologies.slice(0, 3).join(' · ')}</span>
-              </div>
-              {project.stats && (
-                <div>
-                  <span className="text-[var(--fg-muted)] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: 'var(--font-mono)' }}>
-                    Impact
-                  </span>
-                  <span className="text-[var(--fg)]/70">{project.stats}</span>
-                </div>
-              )}
-            </motion.div>
+          <div className="max-w-3xl flex flex-wrap gap-4">
+            {project.github && (
+              <motion.a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
+                style={{ fontFamily: 'var(--font-mono)' }}
+                {...fadeUp}
+              >
+                View on GitHub →
+              </motion.a>
+            )}
+            {project.demo && (
+              <motion.a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
+                style={{ fontFamily: 'var(--font-mono)' }}
+                {...fadeUp}
+                transition={{ ...fadeUp.transition, delay: 0.05 }}
+              >
+                Live Demo →
+              </motion.a>
+            )}
+            {project.pypi && (
+              <motion.a
+                href={project.pypi}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
+                style={{ fontFamily: 'var(--font-mono)' }}
+                {...fadeUp}
+                transition={{ ...fadeUp.transition, delay: 0.1 }}
+              >
+                PyPI Package →
+              </motion.a>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Case Study Content */}
-      <div>
-        {/* Problem Statement */}
-        <section className="py-16 md:py-24 border-t border-[var(--border)]">
-          <div className="section-container">
-            <div className="max-w-3xl">
-              <motion.span
-                className="text-xs font-medium uppercase tracking-widest text-[var(--fg-muted)] mb-6 block"
-                style={{ fontFamily: 'var(--font-mono)' }}
-                {...fadeUp}
-              >
-                01 / Problem
-              </motion.span>
-              <motion.p
-                className="text-xl md:text-2xl leading-relaxed text-[var(--fg)]/70 font-light"
-                {...fadeUp}
-                transition={{ ...fadeUp.transition, delay: 0.1 }}
-              >
-                {problem}
-              </motion.p>
-            </div>
-          </div>
-        </section>
-
-        {/* Approach */}
-        <section className="py-16 md:py-24 border-t border-[var(--border)]">
-          <div className="section-container">
-            <div className="max-w-3xl">
-              <motion.span
-                className="text-xs font-medium uppercase tracking-widest text-[var(--fg-muted)] mb-6 block"
-                style={{ fontFamily: 'var(--font-mono)' }}
-                {...fadeUp}
-              >
-                02 / Approach
-              </motion.span>
-              <motion.div
-                className="space-y-8"
-                {...staggerContainer}
-                transition={{ staggerChildren: 0.08 }}
-              >
-                {approach.map((item) => (
-                  <motion.div
-                    key={item.step}
-                    className="flex items-start gap-6"
-                    {...staggerChild}
-                  >
-                    <span
-                      className="text-xs font-medium text-[var(--fg-muted)]/30 shrink-0 w-8 text-right pt-1"
-                      style={{ fontFamily: 'var(--font-mono)' }}
-                    >
-                      {item.step}
-                    </span>
-                    <p className="text-base md:text-lg text-[var(--fg)]/70 leading-relaxed">
-                      {item.text}
-                    </p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Result */}
-        <section className="py-16 md:py-24 border-t border-[var(--border)]">
-          <div className="section-container">
-            <div className="max-w-3xl">
-              <motion.span
-                className="text-xs font-medium uppercase tracking-widest text-[var(--fg-muted)] mb-6 block"
-                style={{ fontFamily: 'var(--font-mono)' }}
-                {...fadeUp}
-              >
-                03 / Result
-              </motion.span>
-              <motion.p
-                className="text-xl md:text-2xl leading-relaxed text-[var(--fg)]/70 font-light mb-8"
-                {...fadeUp}
-                transition={{ ...fadeUp.transition, delay: 0.1 }}
-              >
-                {result}
-              </motion.p>
-
-              {project.lessonsLearned && (
-                <motion.div
-                  className="p-6 border border-[var(--border)] bg-[var(--bg-card)]"
-                  {...fadeUp}
-                  transition={{ ...fadeUp.transition, delay: 0.2 }}
-                >
-                  <h3 className="text-xs font-medium uppercase tracking-widest text-[var(--fg-muted)] mb-3">
-                    Key Takeaway
-                  </h3>
-                  <p className="text-sm text-[var(--fg)]/60 leading-relaxed italic">
-                    &ldquo;{project.lessonsLearned}&rdquo;
-                  </p>
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* Links */}
-        <section className="py-16 border-t border-[var(--border)]">
-          <div className="section-container">
-            <div className="max-w-3xl flex flex-wrap gap-4">
-              {project.github && (
-                <motion.a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
+      <Reveal y={32}>
+        <section className="border-t border-[var(--border)]">
+          <Link
+            href={`/projects/${nextProject.title.toLowerCase().replace(/\s+/g, '-')}`}
+            className="block group relative overflow-hidden"
+          >
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 bg-[var(--fg)] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          />
+          <div className="section-container relative py-14 md:py-20">
+            <div className="flex items-center justify-between gap-8">
+              <div className="min-w-0">
+                <span
+                  className="text-[11px] font-medium uppercase tracking-widest text-[var(--fg-muted)] group-hover:text-[var(--bg)]/60 transition-colors duration-500"
                   style={{ fontFamily: 'var(--font-mono)' }}
-                  {...fadeUp}
                 >
-                  View on GitHub →
-                </motion.a>
-              )}
-              {project.demo && (
-                <motion.a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                  {...fadeUp}
-                  transition={{ ...fadeUp.transition, delay: 0.05 }}
-                >
-                  Live Demo →
-                </motion.a>
-              )}
-              {project.pypi && (
-                <motion.a
-                  href={project.pypi}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-[var(--fg)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] transition-all duration-300"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                  {...fadeUp}
-                  transition={{ ...fadeUp.transition, delay: 0.1 }}
-                >
-                  PyPI Package →
-                </motion.a>
-              )}
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Next project */}
-      <section className="border-t border-[var(--border)]">
-        <Link href={`/projects/${nextProject.title.toLowerCase().replace(/\s+/g, '-')}`} className="block group">
-          <div className="section-container py-16 md:py-20">
-            <div className="max-w-3xl">
-              <span className="text-xs font-medium text-[var(--fg-muted)]/40" style={{ fontFamily: 'var(--font-mono)' }}>
-                Next project
+                  Next project — {String(currentIdx + 2 > projects.length ? 1 : currentIdx + 2).padStart(2, '0')}
+                </span>
+                <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-3 truncate group-hover:text-[var(--bg)] transition-colors duration-500">
+                  {nextProject.title}
+                </h2>
+                <p className="hidden md:block text-sm text-[var(--fg-muted)] mt-3 max-w-md group-hover:text-[var(--bg)]/70 transition-colors duration-500 truncate">
+                  {nextProject.description}
+                </p>
+              </div>
+              <span className="shrink-0 grid place-items-center w-14 h-14 md:w-20 md:h-20 border border-[var(--fg)] group-hover:border-[var(--bg)] transition-colors duration-500">
+                <ArrowRight
+                  size={26}
+                  strokeWidth={1.5}
+                  className="text-[var(--fg)] group-hover:text-[var(--bg)] group-hover:translate-x-1 transition-all duration-500"
+                />
               </span>
-              <h2 className="font-[family-name:var(--font-display)] text-3xl md:text-5xl font-bold tracking-tight mt-2 group-hover:text-[var(--accent)] transition-colors duration-300">
-                {nextProject.title}
-              </h2>
-              <p className="text-sm text-[var(--fg-muted)] mt-3 max-w-md">
-                {nextProject.description}
-              </p>
             </div>
           </div>
-        </Link>
-      </section>
-    </main>
+          </Link>
+        </section>
+      </Reveal>
+    </PageShell>
   );
 }

@@ -1,4 +1,5 @@
 import { Experience } from '@/components/sections/Experience';
+import { PageShell } from '@/components/layout/PageShell';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] pt-24 md:pt-32">
+    <PageShell>
       <Experience />
-    </main>
+    </PageShell>
   );
 }

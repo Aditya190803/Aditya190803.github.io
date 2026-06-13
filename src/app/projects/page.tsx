@@ -1,15 +1,17 @@
 import { Projects } from '@/components/sections/Projects';
+import { PageShell } from '@/components/layout/PageShell';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Projects | Aditya Mer',
-  description: 'Selected projects spanning generative AI, machine learning, and full-stack development.',
+  description:
+    'Case studies across generative AI, machine learning, research, and full-stack engineering — ATS systems, RAG pipelines, and production web apps.',
 };
 
 export default function ProjectsPage() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] pt-24 md:pt-32">
+    <PageShell>
       <Projects />
-    </main>
+    </PageShell>
   );
 }

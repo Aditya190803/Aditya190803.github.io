@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, useInView, animate } from 'framer-motion';
-import { Mail, Github, Linkedin, FileText } from 'lucide-react';
+import { Mail, Github, Linkedin, FileText, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { projects, profile, experience, research } from '@/lib/data';
+import { PageShell } from '@/components/layout/PageShell';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { EASE_OUT } from '@/lib/motion';
 
-/* ── Animation presets ─────────────────────────────────── */
-const easeOut = [0.16, 1, 0.3, 1] as const;
+const easeOut = EASE_OUT;
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -34,23 +35,27 @@ const staggerChild = {
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [val, setVal] = useState(0);
 
+  // Write the number straight to the DOM node (external system) so we avoid
+  // setState-driven re-renders every animation frame.
   useEffect(() => {
-    if (!isInView) return;
+    const el = ref.current;
+    if (!el || !isInView) return;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setVal(target);
+      el.textContent = `${target}${suffix}`;
       return;
     }
     const controls = animate(0, target, {
       duration: 1.4,
       ease: 'easeOut',
-      onUpdate: (v) => setVal(Math.round(v)),
+      onUpdate: (v) => {
+        el.textContent = `${Math.round(v)}${suffix}`;
+      },
     });
     return () => controls.stop();
-  }, [isInView, target]);
+  }, [isInView, target, suffix]);
 
-  return <span ref={ref}>{val}{suffix}</span>;
+  return <span ref={ref}>0{suffix}</span>;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -66,14 +71,17 @@ function HeroSection() {
   const heroY = useTransform(scrollYProgress, [0, 0.8], [0, -80]);
 
   return (
-    <section ref={sectionRef} className="min-h-dvh relative z-10 overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="min-h-dvh relative z-10 flex items-center justify-center overflow-x-clip"
+    >
       <motion.div
-        className="section-container pt-[22vh] md:pt-[18vh] pb-20"
+        className="section-container w-full py-28 flex flex-col items-center text-center relative z-10"
         style={{ opacity: heroOpacity, y: heroY }}
       >
         {/* Role tag */}
         <motion.div
-          className="flex items-center gap-3 mb-6"
+          className="flex items-center justify-center gap-3 mb-6"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: easeOut, delay: 0.3 }}
@@ -84,9 +92,9 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Name — massive staggered reveal */}
+        {/* Name — massive masked staggered reveal */}
         <motion.h1
-          className="font-[family-name:var(--font-display)] font-bold leading-[0.85] tracking-tight text-[var(--fg)]"
+          className="font-[family-name:var(--font-display)] font-bold leading-[0.92] tracking-tight text-[var(--fg)]"
           style={{ fontSize: 'clamp(4rem, 10vw, 9rem)' }}
           initial="initial"
           animate="animate"
@@ -96,31 +104,35 @@ function HeroSection() {
           }}
         >
           {['Aditya', 'Mer'].map((word, i) => (
-            <motion.span
+            <span
               key={i}
-              className="block"
-              variants={{
-                initial: { opacity: 0, y: 80 },
-                animate: { opacity: 1, y: 0, transition: { duration: 1, ease: easeOut } },
-              }}
+              className="block overflow-hidden pt-[0.18em] pb-[0.14em] -mt-[0.18em] -mb-[0.14em]"
             >
-              {word}
-            </motion.span>
+              <motion.span
+                className="block"
+                variants={{
+                  initial: { y: '110%' },
+                  animate: { y: '0%', transition: { duration: 1, ease: easeOut } },
+                }}
+              >
+                {word}
+              </motion.span>
+            </span>
           ))}
         </motion.h1>
 
         {/* Divider */}
         <motion.div
-          className="w-full max-w-xl h-px bg-[var(--border)] mt-8 md:mt-10"
+          className="w-full max-w-xl h-px bg-[var(--border)] mt-8 md:mt-10 mx-auto"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: easeOut, delay: 0.8 }}
-          style={{ transformOrigin: 'left' }}
+          style={{ transformOrigin: 'center' }}
         />
 
         {/* Descriptor */}
         <motion.p
-          className="text-sm md:text-base text-[var(--fg-muted)] leading-relaxed mt-6 md:mt-8 max-w-lg"
+          className="text-sm md:text-base text-[var(--fg-muted)] leading-relaxed mt-6 md:mt-8 max-w-lg mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: easeOut, delay: 0.9 }}
@@ -130,18 +142,18 @@ function HeroSection() {
 
         {/* CTA + socials — inline row */}
         <motion.div
-          className="flex flex-wrap items-center gap-6 mt-8 md:mt-10"
+          className="flex flex-wrap items-center justify-center gap-6 mt-8 md:mt-10"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: easeOut, delay: 1.05 }}
         >
           <Link
             href="/projects"
-            className="group inline-flex items-center gap-3 text-sm font-medium border border-[var(--fg)] px-7 py-3 hover:bg-[var(--fg)] hover:text-[var(--bg)] transition-all duration-400"
+            className="group inline-flex items-center gap-3 text-sm font-medium border border-[var(--fg)] px-7 py-3 hover:bg-[var(--fg)] hover:text-[var(--bg)] transition-all duration-300"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             View Projects
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 
           <span className="w-6 h-[1px] bg-[var(--border)] hidden md:block" />
@@ -162,11 +174,17 @@ function HeroSection() {
           </div>
         </motion.div>
       </motion.div>
+
+      {/* Scroll cue */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--fg-muted)]">
+        <span className="text-[10px] uppercase tracking-[0.25em]" style={{ fontFamily: 'var(--font-mono)' }}>
+          Scroll
+        </span>
+        <span className="w-px h-8 bg-gradient-to-b from-[var(--fg-muted)] to-transparent" />
+      </div>
     </section>
   );
 }
-
-
 
 /* ═══════════════════════════════════════════════════════════
    § 2 — STATS + DOMAINS
@@ -179,13 +197,22 @@ const DOMAINS = [
 ];
 
 function StatsAndDomains() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  // Subtle counter-parallax: stats drift up, domain grid drifts in.
+  const statsY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [60, -20]);
+
   return (
-    <section className="py-20 md:py-28 border-t border-[var(--border)]">
+    <section ref={ref} className="py-20 md:py-28 border-t border-[var(--border)] relative z-10 bg-[var(--bg)]/40">
       <div className="section-container">
         <SectionHeader number="01" label="Expertise" />
 
         {/* Stats row */}
-        <motion.div className="flex flex-wrap gap-12 md:gap-20 mb-16 md:mb-24" {...staggerContainer}>
+        <motion.div className="flex flex-wrap gap-12 md:gap-20 mb-16 md:mb-24" style={{ y: statsY }} {...staggerContainer}>
           {[
             { value: 4, label: 'Internships' },
             { value: 10, label: 'Projects' },
@@ -202,9 +229,9 @@ function StatsAndDomains() {
         </motion.div>
 
         {/* Domain grid */}
-        <motion.div className="grid md:grid-cols-2 gap-px bg-[var(--border)]" {...staggerContainer}>
+        <motion.div className="grid md:grid-cols-2 gap-px bg-[var(--border)]" style={{ y: gridY }} {...staggerContainer}>
           {DOMAINS.map((d) => (
-            <motion.div key={d.num} className="bg-[var(--bg)] py-10 md:py-14 px-6 md:px-10" {...staggerChild}>
+            <motion.div key={d.num} className="bg-[var(--bg-card)] py-10 md:py-14 px-6 md:px-10" {...staggerChild}>
               <span className="text-xs font-medium text-[var(--fg-muted)]" style={{ fontFamily: 'var(--font-mono)' }}>{d.num}</span>
               <h3 className="font-[family-name:var(--font-display)] text-2xl md:text-3xl font-bold mt-2 mb-3">{d.title}</h3>
               <p className="text-sm text-[var(--fg-muted)] leading-relaxed">{d.desc}</p>
@@ -217,50 +244,77 @@ function StatsAndDomains() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   § 3 — FEATURED PROJECTS
+   § 3 — FEATURED PROJECTS (pinned horizontal scroll on desktop)
    ═══════════════════════════════════════════════════════════ */
+function slugify(title: string) {
+  return title.toLowerCase().replace(/\s+/g, '-');
+}
+
+function ProjectCard({ project, index }: { project: (typeof projects)[number]; index: number }) {
+  return (
+    <Link
+      href={`/projects/${slugify(project.title)}`}
+      className="group flex h-full flex-col justify-between p-7 md:p-10 bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--accent)] transition-colors duration-300 min-h-[380px]"
+    >
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-[11px] font-medium text-[var(--accent)]/70" style={{ fontFamily: 'var(--font-mono)' }}>
+            {String(index + 1).padStart(2, '0')} — {project.category}
+          </span>
+          {project.stats && (
+            <span className="text-[10px] font-medium text-[var(--accent-green)] uppercase tracking-wider" style={{ fontFamily: 'var(--font-mono)' }}>
+              {project.stats}
+            </span>
+          )}
+        </div>
+        <h3 className="font-[family-name:var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight mb-4 group-hover:text-[var(--accent)] transition-colors duration-300">
+          {project.title}
+        </h3>
+        <p className="text-sm md:text-base text-[var(--fg-muted)] leading-relaxed">
+          {project.description}
+        </p>
+      </div>
+
+      <div className="flex items-end justify-between mt-10">
+        <div className="flex flex-wrap gap-3">
+          {project.technologies.slice(0, 4).map((tech) => (
+            <span key={tech} className="text-[10px] font-medium text-[var(--fg-muted)]/60" style={{ fontFamily: 'var(--font-mono)' }}>
+              {tech}
+            </span>
+          ))}
+        </div>
+        <ArrowUpRight
+          size={22}
+          strokeWidth={1.5}
+          className="text-[var(--fg-muted)]/30 group-hover:text-[var(--accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+        />
+      </div>
+    </Link>
+  );
+}
+
 function FeaturedProjects() {
-  const featured = projects.filter(p => p.featured).slice(0, 3);
+  const featured = projects.filter((p) => p.featured);
 
   return (
-    <section className="py-20 md:py-28 border-t border-[var(--border)]">
+    <section className="border-t border-[var(--border)] relative z-10 bg-[var(--bg)]/40 py-20 md:py-28">
       <div className="section-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 md:mb-20">
           <SectionHeader number="02" label="Selected Projects" />
-          <motion.div {...fadeUp}>
-            <Link
-              href="/projects"
-              className="text-sm font-medium text-[var(--accent)] hover:opacity-70 transition-opacity"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              View all projects →
-            </Link>
-          </motion.div>
+          <Link
+            href="/projects"
+            className="text-sm font-medium text-[var(--accent)] hover:opacity-70 transition-opacity shrink-0"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
+            View all projects →
+          </Link>
         </div>
 
-        <motion.div className="grid md:grid-cols-3 gap-4" {...staggerContainer} transition={{ staggerChildren: 0.1 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.map((project, i) => (
-            <motion.div key={project.title} {...staggerChild}>
-              <Link
-                href={`/projects/${project.title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="group block p-6 md:p-8 bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--accent)] transition-all duration-300 hover:-translate-y-1"
-              >
-                <span className="text-[11px] font-medium text-[var(--accent)]/60 mb-4 block" style={{ fontFamily: 'var(--font-mono)' }}>
-                  {String(i + 1).padStart(2, '0')} — {project.category}
-                </span>
-                <h3 className="font-[family-name:var(--font-display)] text-2xl md:text-3xl font-bold tracking-tight mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
-                  {project.title}
-                </h3>
-                <p className="text-sm text-[var(--fg-muted)] leading-relaxed mb-6">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.slice(0, 3).map(tech => (
-                    <span key={tech} className="text-[10px] font-medium text-[var(--fg-muted)]" style={{ fontFamily: 'var(--font-mono)' }}>{tech}</span>
-                  ))}
-                </div>
-              </Link>
-            </motion.div>
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -271,9 +325,15 @@ function FeaturedProjects() {
    ═══════════════════════════════════════════════════════════ */
 function ExperiencePreview() {
   const recent = experience.slice(0, 3);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], [50, -30]);
 
   return (
-    <section className="py-20 md:py-28 border-t border-[var(--border)]">
+    <section ref={ref} className="py-20 md:py-28 border-t border-[var(--border)] relative z-10 bg-[var(--bg)]/40">
       <div className="section-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 md:mb-20">
           <SectionHeader number="03" label="Experience" />
@@ -284,7 +344,7 @@ function ExperiencePreview() {
           </motion.div>
         </div>
 
-        <div className="border-t border-[var(--border)]">
+        <motion.div className="border-t border-[var(--border)]" style={{ y: contentY }}>
           {recent.map((exp, i) => (
             <motion.div
               key={`${exp.company}-${exp.role}`}
@@ -308,7 +368,7 @@ function ExperiencePreview() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -319,9 +379,15 @@ function ExperiencePreview() {
    ═══════════════════════════════════════════════════════════ */
 function ResearchPreview() {
   const previewPapers = research.papers.slice(0, 2);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section className="py-20 md:py-28 border-t border-[var(--border)]">
+    <section ref={ref} className="py-20 md:py-28 border-t border-[var(--border)] relative z-10 bg-[var(--bg)]/40">
       <div className="section-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 md:mb-20">
           <SectionHeader number="04" label="Research" />
@@ -332,7 +398,7 @@ function ResearchPreview() {
           </motion.div>
         </div>
 
-        <div className="space-y-0">
+        <motion.div className="space-y-0" style={{ y: contentY }}>
           {previewPapers.map((paper, i) => (
             <motion.div
               key={paper.title}
@@ -363,7 +429,52 @@ function ResearchPreview() {
             </motion.div>
           ))}
           <div className="border-t border-[var(--border)]" />
-        </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   § 6 — CONTACT CTA
+   ═══════════════════════════════════════════════════════════ */
+function ContactCTA() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  // Gentle counter-parallax on the headline as the section scrolls through.
+  const headingY = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
+  return (
+    <section ref={ref} className="py-24 md:py-40 border-t border-[var(--border)] relative z-10 bg-[var(--bg)]/40">
+      <div className="section-container text-center">
+        <motion.p
+          className="text-xs font-medium text-[var(--accent)] uppercase tracking-widest mb-6"
+          style={{ fontFamily: 'var(--font-mono)' }}
+          {...fadeUp}
+        >
+          Open to work
+        </motion.p>
+        <motion.h2
+          className="font-[family-name:var(--font-display)] text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight max-w-4xl mx-auto"
+          style={{ y: headingY }}
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.1 }}
+        >
+          Let&apos;s build something interesting.
+        </motion.h2>
+        <motion.div className="mt-12" {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }}>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-3 text-sm font-medium bg-[var(--fg)] text-[var(--bg)] px-8 py-4 hover:bg-[var(--accent)] transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
+            Get in touch
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -374,12 +485,13 @@ function ResearchPreview() {
    ═══════════════════════════════════════════════════════════ */
 export default function Home() {
   return (
-    <main>
+    <PageShell className="bg-transparent" offsetNav={false}>
       <HeroSection />
       <StatsAndDomains />
       <FeaturedProjects />
       <ExperiencePreview />
       <ResearchPreview />
-    </main>
+      <ContactCTA />
+    </PageShell>
   );
 }

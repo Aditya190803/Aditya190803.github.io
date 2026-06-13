@@ -1,39 +1,23 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { profile, education, experience, projects, skills, research, certifications } from '@/lib/data';
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-  transition: { duration: 0.6, ease: easeOut },
-};
-
-const staggerContainer = {
-  initial: {},
-  whileInView: {},
-  viewport: { once: true, margin: '-60px' },
-};
-
-const staggerChild = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: easeOut },
-};
+import { PageShell } from '@/components/layout/PageShell';
+import { PageHero } from '@/components/layout/PageHero';
+import { Reveal, RevealItem, RevealStagger } from '@/components/ui/ScrollReveal';
+import { fadeUp } from '@/lib/motion';
+import { useSectionScroll } from '@/lib/useSectionScroll';
 
 export default function ResumePage() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { heroY, contentY } = useSectionScroll(sectionRef);
+
   return (
-    <main className="min-h-screen bg-[var(--bg)] pt-20 md:pt-24">
+    <PageShell>
       <div className="section-container pb-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: easeOut }}
-        >
+        <Reveal>
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-300"
@@ -41,45 +25,39 @@ export default function ResumePage() {
           >
             ← Back
           </Link>
-        </motion.div>
+        </Reveal>
       </div>
 
+      <section ref={sectionRef} className="bg-[var(--bg)]/40">
       <div className="section-container pb-24 md:pb-32">
         <div className="max-w-3xl mx-auto">
-          {/* Header */}
-          <header className="border-b border-[var(--border)] pb-8 mb-10">
-            <motion.h1
-              className="font-[family-name:var(--font-display)] text-5xl md:text-7xl font-bold tracking-tight mb-3"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: easeOut }}
-            >
-              {profile.name}
-            </motion.h1>
-            <motion.p
-              className="text-lg text-[var(--fg-muted)] mb-6"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeOut, delay: 0.1 }}
-            >
-              {profile.title}
-            </motion.p>
-            <motion.div
-              className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[var(--fg-muted)]"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: easeOut, delay: 0.2 }}
-            >
-              <a href={`mailto:${profile.email}`} className="hover:text-[var(--accent)] transition-colors">
-                {profile.email}
-              </a>
-              <a href={profile.portfolio} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">
-                adityamer.dev
-              </a>
-              <span>{profile.location}</span>
-            </motion.div>
-          </header>
+          <motion.header
+            className="border-b border-[var(--border)] pb-8 mb-10 page-hero-space"
+            style={{ y: heroY }}
+          >
+            <div>
+              <PageHero
+                number="07"
+                label="Resume"
+                title={profile.name}
+                subtitle={profile.title}
+                className="mb-6"
+              />
+              <Reveal delay={0.2}>
+                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[var(--fg-muted)]">
+                <a href={`mailto:${profile.email}`} className="hover:text-[var(--accent)] transition-colors">
+                  {profile.email}
+                </a>
+                <a href={profile.portfolio} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">
+                  adityamer.dev
+                </a>
+                <span>{profile.location}</span>
+                </div>
+              </Reveal>
+            </div>
+          </motion.header>
 
+          <motion.div style={{ y: contentY }}>
           {/* Summary */}
           <section className="mb-12">
             <motion.h2
@@ -107,17 +85,10 @@ export default function ResumePage() {
             >
               Experience
             </motion.h2>
-            <motion.div
-              className="space-y-8"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.06 }}
-            >
+            <RevealStagger className="space-y-8" stagger={0.06}>
               {experience.map((exp) => (
-                <motion.div
-                  key={`${exp.company}-${exp.role}`}
-                  className="border-l border-[var(--border)] pl-4"
-                  {...staggerChild}
-                >
+                <RevealItem key={`${exp.company}-${exp.role}`}>
+                  <div className="border-l border-[var(--border)] pl-4">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1 mb-2">
                     <div>
                       <h3 className="font-semibold">{exp.role}</h3>
@@ -135,9 +106,10 @@ export default function ResumePage() {
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                  </div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
 
           {/* Education */}
@@ -149,17 +121,10 @@ export default function ResumePage() {
             >
               Education
             </motion.h2>
-            <motion.div
-              className="space-y-4"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.06 }}
-            >
+            <RevealStagger className="space-y-4" stagger={0.06}>
               {education.map((edu) => (
-                <motion.div
-                  key={edu.degree}
-                  className="flex justify-between gap-4"
-                  {...staggerChild}
-                >
+                <RevealItem key={edu.degree}>
+                  <div className="flex justify-between gap-4">
                   <div>
                     <h3 className="font-semibold text-sm">{edu.degree}</h3>
                     <p className="text-sm text-[var(--fg-muted)]">{edu.institution}</p>
@@ -167,9 +132,10 @@ export default function ResumePage() {
                   <span className="text-xs text-[var(--fg-muted)]/60 shrink-0" style={{ fontFamily: 'var(--font-mono)' }}>
                     {edu.period}
                   </span>
-                </motion.div>
+                  </div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
 
           {/* Skills */}
@@ -181,28 +147,24 @@ export default function ResumePage() {
             >
               Skills
             </motion.h2>
-            <motion.div
-              className="grid md:grid-cols-2 gap-6"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.06 }}
-            >
+            <RevealStagger className="grid md:grid-cols-2 gap-6" stagger={0.06}>
               {Object.entries(skills).map(([category, items]) => (
-                <motion.div key={category} {...staggerChild}>
+                <RevealItem key={category}>
                   <h3 className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)] mb-2">{category}</h3>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1.5">
                     {items.map((skill: string) => (
                       <span
                         key={skill}
-                        className="px-2 py-1 text-[11px] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--accent)] transition-colors duration-200"
+                        className="text-[12px] text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-200"
                         style={{ fontFamily: 'var(--font-mono)' }}
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
 
           {/* Certifications */}
@@ -214,17 +176,10 @@ export default function ResumePage() {
             >
               Certifications
             </motion.h2>
-            <motion.div
-              className="space-y-4"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.05 }}
-            >
+            <RevealStagger className="space-y-4" stagger={0.05}>
               {certifications.map((cert) => (
-                <motion.div
-                  key={cert.title}
-                  className="flex flex-col md:flex-row md:items-start md:justify-between gap-1"
-                  {...staggerChild}
-                >
+                <RevealItem key={cert.title}>
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
                   <div>
                     <h3 className="font-semibold text-sm">{cert.title}</h3>
                     <p className="text-sm text-[var(--fg-muted)]">{cert.issuer}</p>
@@ -232,9 +187,10 @@ export default function ResumePage() {
                   <span className="text-xs text-[var(--fg-muted)]/60 shrink-0" style={{ fontFamily: 'var(--font-mono)' }}>
                     {cert.date}
                   </span>
-                </motion.div>
+                  </div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
 
           {/* Research */}
@@ -246,19 +202,15 @@ export default function ResumePage() {
             >
               Research
             </motion.h2>
-            <motion.div
-              className="space-y-6"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.06 }}
-            >
+            <RevealStagger className="space-y-6" stagger={0.06}>
               {research.papers.map((paper) => (
-                <motion.div key={paper.title} {...staggerChild}>
+                <RevealItem key={paper.title}>
                   <h3 className="text-sm font-semibold mb-1">{paper.title}</h3>
                   <p className="text-xs text-[var(--fg-muted)] mb-1">{paper.venue} ({paper.year})</p>
                   <p className="text-sm text-[var(--fg)]/60 leading-relaxed">{paper.abstract}</p>
-                </motion.div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
 
           {/* Projects */}
@@ -270,36 +222,32 @@ export default function ResumePage() {
             >
               Featured Projects
             </motion.h2>
-            <motion.div
-              className="grid md:grid-cols-2 gap-6"
-              {...staggerContainer}
-              transition={{ staggerChildren: 0.06 }}
-            >
+            <RevealStagger className="grid md:grid-cols-2 gap-6" stagger={0.06}>
               {projects.filter((p) => p.featured).map((project) => (
-                <motion.div
-                  key={project.title}
-                  className="border border-[var(--border)] p-4 bg-[var(--bg-card)]"
-                  {...staggerChild}
-                >
+                <RevealItem key={project.title}>
+                  <div className="border border-[var(--border)] p-4 bg-[var(--bg-card)]">
                   <h3 className="font-semibold mb-1">{project.title}</h3>
                   <p className="text-sm text-[var(--fg)]/60 mb-3">{project.description}</p>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
                     {project.technologies.slice(0, 4).map((tech) => (
                       <span
                         key={tech}
-                        className="text-[10px] px-1.5 py-0.5 border border-[var(--border)] text-[var(--fg-muted)]"
+                        className="text-[11px] text-[var(--fg-muted)]"
                         style={{ fontFamily: 'var(--font-mono)' }}
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                  </div>
+                </RevealItem>
               ))}
-            </motion.div>
+            </RevealStagger>
           </section>
+          </motion.div>
         </div>
       </div>
-    </main>
+      </section>
+    </PageShell>
   );
 }

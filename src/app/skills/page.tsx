@@ -1,4 +1,5 @@
 import { Skills } from '@/components/sections/Skills';
+import { PageShell } from '@/components/layout/PageShell';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function SkillsPage() {
   return (
-    <main className="min-h-screen bg-[var(--bg)] pt-24 md:pt-32">
+    <PageShell>
       <Skills />
-    </main>
+    </PageShell>
   );
 }
