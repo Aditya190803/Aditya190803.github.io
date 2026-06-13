@@ -16,17 +16,19 @@ Editorial, precise, confident, technically sophisticated. The tone of a high-end
 
 ## Anti-References
 - ❌ No hero image of the person
-- ❌ No gradient backgrounds
-- ❌ No looping animations
-- ❌ No centered layouts (left-aligned grid)
-- ❌ No color accents (contrast does the work)
+- ❌ No loud gradient backgrounds (a subtle monochrome 3D lattice is the only ambient layer)
 - ❌ No "funky" or brutalist design
-- ❌ No bouncing animations
-- ❌ No cards in grids — alternating full-bleed layouts
+- ❌ No bouncing / elastic UI animations
 - ❌ No gradient text
 - ❌ No glassmorphism
-- ❌ No hero-metric template (big number, small label)
 - ❌ No modal as default interaction
+- ❌ No rainbow color — strictly ink/paper with restrained rust accent
+
+## Signature Elements (allowed, on-brand)
+- ✅ Monochrome point-cloud 3D background that reacts to scroll (subtle, reduced-motion aware)
+- ✅ Pinned horizontal scroll for selected projects (desktop)
+- ✅ Custom ink cursor with lagging ring
+- ✅ Editorial typography (Fraunces display, Inter body, JetBrains Mono labels)
 
 ## Strategic Principles
 1. The site itself is proof of what Aditya builds

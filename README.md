@@ -1,6 +1,6 @@
 # Aditya Mer — Portfolio (Next.js)
 
-A fast, modern portfolio built with Next.js 16, React 19, Tailwind CSS v4, and Framer Motion. It showcases projects, experience, education, and research with a crisp, “funky” theme.
+A fast, modern portfolio built with Next.js 16, React 19, Tailwind CSS v4, GSAP, Lenis, React Three Fiber, and Framer Motion. It showcases projects, experience, education, and research with an editorial, light-mode theme and a scroll-reactive 3D backdrop.
 
 - Live: https://adityamer.dev
 - Repo: https://github.com/Aditya190803/Aditya190803.github.io
