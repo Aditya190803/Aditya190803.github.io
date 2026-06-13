@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EASE_OUT } from '@/lib/motion';
 
 interface SectionHeaderProps {
   number: string;
@@ -16,7 +17,7 @@ export function SectionHeader({ number, label, title, subtitle }: SectionHeaderP
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: EASE_OUT }}
       >
         <span className="section-number block mb-4">
           {number} / {label}
@@ -38,14 +39,12 @@ export function SectionHeader({ number, label, title, subtitle }: SectionHeaderP
         )}
       </motion.div>
 
-      {/* Accent underline draw-in */}
       <motion.div
-        className="h-[2px] mt-6 origin-left"
-        style={{ backgroundColor: 'var(--accent)' }}
+        className="h-[2px] mt-6 origin-left bg-[var(--accent)]"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+        transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.3 }}
       />
     </div>
   );
