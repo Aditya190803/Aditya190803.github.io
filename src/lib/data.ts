@@ -42,6 +42,7 @@ export interface Author {
 }
 
 export interface ResearchPaper {
+  slug: string;
   title: string;
   venue: string;
   venueShort: string;
@@ -307,32 +308,11 @@ export const skills = {
   "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
   "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
 };
-export interface Testimonial {
-  name: string;
-  role: string;
-  company: string;
-  content: string;
-  avatar?: string;
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    name: "Dr. Jane Smith",
-    role: "Senior Research Scientist",
-    company: "AI Research Lab",
-    content: "Aditya is an exceptional engineer with a deep understanding of ML fundamentals. His work on LLM inference optimization was truly impressive.",
-  },
-  {
-    name: "John Doe",
-    role: "Lead Developer",
-    company: "Tech Solutions Inc.",
-    content: "Working with Aditya was a pleasure. He bridges the gap between research and production seamlessly.",
-  },
-];
 
 export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
+      slug: "mitigating-misinformation-dataset",
       title: "Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media",
       venue: "IEEE Region 10 Symposium (TENSYMP), 2024",
       venueShort: "TENSYMP '24",
@@ -357,6 +337,7 @@ export const research: { papers: ResearchPaper[] } = {
       tags: ["Misinformation Detection", "Dataset", "NLP", "Machine Learning"],
     },
     {
+      slug: "fastwrite-automation-code-documentation",
       title: "FastWrite: Automation in Code Documentation",
       venue: "Automation in Code Documentation, Taylor & Francis (CRC Press), 2025",
       venueShort: "Taylor & Francis",
