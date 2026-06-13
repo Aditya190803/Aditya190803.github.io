@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { PageTransition } from "@/components/providers/PageTransition";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { ScrollProgressBar } from "@/components/ui/ScrollProgress";
+import { Scene3D } from "@/components/three/Scene3D";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
 const fraunces = Fraunces({
@@ -72,10 +75,17 @@ export default function RootLayout({
       style={{ colorScheme: "light" }}
       className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="antialiased">
+      {/* suppressHydrationWarning: some browser extensions inject attributes
+          (e.g. bis_register, __processed_*) onto <body> before React hydrates,
+          which would otherwise log a hydration mismatch. */}
+      <body className="antialiased" suppressHydrationWarning>
+        <Scene3D />
+        <CustomCursor />
         <ScrollProgressBar />
         <Navbar />
-        <PageTransition>{children}</PageTransition>
+        <SmoothScroll>
+          <PageTransition>{children}</PageTransition>
+        </SmoothScroll>
       </body>
     </html>
   );

@@ -7,12 +7,20 @@
   --fg-muted: #6B6B66;
   --border: #E7E5E0;
   --accent: #C2410C;
+  --accent-light: #E8744A;
   --accent-green: #3F6212;
   --radius: 0px;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
   --font-mono: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  --nav-height: 4rem;
   color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-height: 5rem;
+  }
 }
 
 @theme inline {
@@ -32,15 +40,21 @@
 
 html {
   scroll-behavior: auto;
+  scroll-padding-top: var(--nav-height);
+  background: var(--bg);
+  /* Clip horizontal overflow here (not on <body>) so that `position: sticky`
+     descendants still pin to the viewport. */
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--bg);
+  /* Transparent so the fixed 3D canvas (behind content) stays visible.
+     The paper colour lives on <html>. */
+  background: transparent;
   color: var(--fg);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 ::selection {
@@ -57,6 +71,22 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--fg-muted);
+}
+
+/* ── Fixed-navbar clearance (plain CSS — Tailwind arbitrary vars don't always emit) */
+.page-shell-offset {
+  padding-top: var(--nav-height);
+}
+
+/* Editorial breathing room below the nav — generous gap before the masthead */
+.page-hero-space {
+  padding-top: 5rem;
+}
+
+@media (min-width: 768px) {
+  .page-hero-space {
+    padding-top: 8rem;
+  }
 }
 
 /* ── Container ────────────────────────────────────── */
@@ -95,4 +125,58 @@ button:focus-visible,
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
+}
+
+/* ── Decorative background textures ───────────────── */
+.bg-dot-grid {
+  background-image: radial-gradient(
+    color-mix(in oklch, var(--fg) 22%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+}
+
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── 3D canvas layer ──────────────────────────────── */
+/* Sits above the <html> paper background but below all page content
+   (which uses `relative z-10`). */
+.scene-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Custom cursor (refined ring only — no filled dot to avoid artifacts over typography) */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor a,
+  .has-custom-cursor button,
+  .has-custom-cursor [role="button"] {
+    cursor: none;
+  }
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklch, var(--fg) 45%, transparent);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform, width, height;
+}
+
+/* ── Horizontal scroll track ──────────────────────── */
+.h-scroll-track {
+  display: flex;
+  flex-wrap: nowrap;
+  will-change: transform;
 }

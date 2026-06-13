@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { projects } from '@/lib/data';
+import { projects, research } from '@/lib/data';
 
 export const dynamic = 'force-static';
 
@@ -21,7 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...projectRoutes].map((route) => ({
+  const researchRoutes = research.papers.map((p) => ({
+    url: `${baseUrl}/research/${p.slug}`,
+    priority: 0.7,
+  }));
+
+  return [...routes, ...projectRoutes, ...researchRoutes].map((route) => ({
     ...route,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
