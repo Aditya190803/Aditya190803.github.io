@@ -1,47 +1,54 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Funnel_Display, Geist_Mono, Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import { profile, services, site } from "@/lib/data";
+import { clientWork, profile, services, site } from "@/lib/data";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Funnel_Display({
+  variable: "--font-display-face",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const body = Instrument_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-const displaySerif = Instrument_Serif({
-  variable: "--font-display-serif",
+const mono = Geist_Mono({
+  variable: "--font-mono-face",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
 });
 
-const title = `${site.brand} | Freelance Data Science, AI & Software Development`;
+const title = `${site.brand} | Freelance Data Scientist, AI & Software Developer`;
 const description =
-  "Freelance data analytics, machine learning, generative AI and software development. I help businesses turn data into decisions and ideas into shipped products.";
+  "Freelance data analytics, machine learning, generative AI and web development. Dashboards, ML models, LLM apps, websites and internal tools, designed, built and shipped for your business. Based in Mumbai, working worldwide.";
 
 export const metadata: Metadata = {
-  title,
+  metadataBase: new URL(profile.portfolio),
+  title: {
+    default: title,
+    template: `%s | ${site.brand}`,
+  },
   description,
   keywords: [
     "freelance data scientist",
+    "freelance data analyst",
     "freelance machine learning engineer",
     "freelance AI developer",
+    "generative AI consultant",
     "LLM app development",
     "RAG chatbot developer",
-    "data analytics consultant",
-    "Next.js developer",
+    "AI automation freelancer",
+    "freelance web developer",
+    "Next.js developer for hire",
+    "custom CMS website development",
     "freelance software developer India",
-    "Aditya Mer",
+    "freelance developer Mumbai",
+    profile.name,
   ],
-  authors: [{ name: profile.name }],
+  authors: [{ name: profile.name, url: profile.portfolio }],
   creator: profile.name,
-  publisher: profile.name,
-  robots: "index, follow",
+  publisher: site.brand,
+  robots: { index: true, follow: true },
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
@@ -49,23 +56,22 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: profile.portfolio,
+    url: "/",
     siteName: site.brand,
     locale: "en_US",
     type: "website",
     images: [{ url: "/logo.png", alt: site.brand }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title,
     description,
     creator: "@aditya190803",
     images: ["/logo.png"],
   },
   alternates: {
-    canonical: profile.portfolio,
+    canonical: "/",
   },
-  metadataBase: new URL(profile.portfolio),
 };
 
 export function generateViewport() {
@@ -73,8 +79,8 @@ export function generateViewport() {
     width: "device-width",
     initialScale: 1,
     themeColor: [
-      { media: "(prefers-color-scheme: light)", color: "#f6f5f1" },
-      { media: "(prefers-color-scheme: dark)", color: "#0e100f" },
+      { media: "(prefers-color-scheme: light)", color: "#f4f5f7" },
+      { media: "(prefers-color-scheme: dark)", color: "#0b0d11" },
     ],
   };
 }
@@ -82,29 +88,77 @@ export function generateViewport() {
 // Sets the theme before first paint to avoid a flash of the wrong theme.
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`;
 
+const businessId = `${profile.portfolio}/#business`;
+const personId = `${profile.portfolio}/#person`;
+
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: site.brand,
-  url: profile.portfolio,
-  email: profile.email,
-  description,
-  areaServed: "Worldwide",
-  address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressCountry: "IN" },
-  founder: {
-    "@type": "Person",
-    name: profile.name,
-    jobTitle: profile.title,
-    sameAs: [profile.github, profile.linkedin],
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Services",
-    itemListElement: services.map((s) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, description: s.summary },
-    })),
-  },
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": businessId,
+      name: site.brand,
+      url: profile.portfolio,
+      email: profile.email,
+      image: `${profile.portfolio}/logo.png`,
+      description,
+      areaServed: "Worldwide",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Mumbai",
+        addressRegion: "Maharashtra",
+        addressCountry: "IN",
+      },
+      founder: { "@id": personId },
+      knowsAbout: [
+        "Data analytics",
+        "Data science",
+        "Machine learning",
+        "Deep learning",
+        "Generative AI",
+        "Large language models",
+        "Web development",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Freelance services",
+        itemListElement: services.map((s) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: s.title,
+            description: s.summary,
+            provider: { "@id": businessId },
+            areaServed: "Worldwide",
+          },
+        })),
+      },
+      subjectOf: clientWork
+        .filter((w) => w.url && !w.internal)
+        .map((w) => ({
+          "@type": "CreativeWork",
+          name: w.client,
+          url: w.url,
+          description: w.summary,
+        })),
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: profile.name,
+      jobTitle: profile.title,
+      url: profile.portfolio,
+      email: profile.email,
+      worksFor: { "@id": businessId },
+      sameAs: [profile.github, profile.linkedin],
+    },
+    {
+      "@type": "WebSite",
+      name: site.brand,
+      url: profile.portfolio,
+      publisher: { "@id": businessId },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -121,9 +175,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${displaySerif.variable} antialiased`}
-      >
+      <body className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
         {children}
       </body>
     </html>

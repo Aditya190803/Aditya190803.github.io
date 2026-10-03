@@ -5,20 +5,24 @@
 
 /* ------------------------------------------------------------------ */
 /* Design tokens                                                       */
+/* Note: `@theme inline` values are not emitted as CSS variables, so   */
+/* plain CSS below references the next/font variables directly.        */
+/* Cool slate neutrals, one cobalt accent, green reserved for "live". */
 /* ------------------------------------------------------------------ */
 :root {
-  --bg: #f6f5f1;
+  --bg: #f4f5f7;
   --surface: #ffffff;
-  --surface-2: #efede6;
-  --ink: #141413;
-  --muted: #5e5d58;
-  --faint: #8b8a84;
-  --line: #e3e1d9;
-  --line-strong: #cfccc2;
-  --accent: #0b7a63;
+  --surface-2: #eceef2;
+  --ink: #0e1116;
+  --muted: #535b69;
+  --faint: #868d99;
+  --line: #dfe2e8;
+  --line-strong: #c4c9d2;
+  --accent: #2440d6;
   --accent-ink: #ffffff;
-  --accent-soft: #dcefe9;
-  --danger: #c2410c;
+  --accent-soft: #e5e9fd;
+  --live: #13845e;
+  --danger: #b42318;
 
   /* Legacy palette — only used by the printable /resume page. */
   --legacy-coral: #ff5c35;
@@ -32,18 +36,19 @@
 }
 
 [data-theme="dark"] {
-  --bg: #0e100f;
-  --surface: #151817;
-  --surface-2: #1b1f1d;
-  --ink: #ecebe6;
-  --muted: #a3a29c;
-  --faint: #75746f;
-  --line: #262a28;
-  --line-strong: #353a37;
-  --accent: #3fcfa9;
-  --accent-ink: #06231c;
-  --accent-soft: #123129;
-  --danger: #fb923c;
+  --bg: #0b0d11;
+  --surface: #12151b;
+  --surface-2: #191d25;
+  --ink: #e8ebf0;
+  --muted: #a1a8b5;
+  --faint: #6f7684;
+  --line: #222732;
+  --line-strong: #323946;
+  --accent: #8ea1ff;
+  --accent-ink: #0b0d11;
+  --accent-soft: #1a2142;
+  --live: #3dd68c;
+  --danger: #f97066;
 
   color-scheme: dark;
 }
@@ -60,6 +65,7 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-live: var(--live);
   --color-danger: var(--danger);
 
   --color-black: #0a0a0a;
@@ -71,9 +77,9 @@
   --color-blue: var(--legacy-blue);
   --color-cream: var(--legacy-cream);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-display-serif);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, monospace;
+  --font-display: var(--font-display-face), var(--font-body), sans-serif;
 }
 
 /* ------------------------------------------------------------------ */
@@ -84,13 +90,13 @@
 }
 
 html {
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 5.5rem;
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -103,7 +109,7 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,6 +120,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
@@ -124,51 +131,68 @@ body {
 @layer utilities {
   .container-page {
     width: 100%;
-    max-width: 72rem;
+    max-width: 76rem;
     margin-inline: auto;
-    padding-inline: 1rem;
+    padding-inline: 1.25rem;
   }
   @media (min-width: 640px) {
     .container-page {
-      padding-inline: 1.5rem;
+      padding-inline: 2rem;
     }
   }
 
   .section {
-    padding-block: 4.5rem;
+    padding-block: 5rem;
   }
   @media (min-width: 768px) {
     .section {
-      padding-block: 7rem;
+      padding-block: 8rem;
     }
   }
 
-  .eyebrow {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
+  /* Small mono label used for section names and metadata. */
+  .label {
+    font-family: var(--font-mono-face), ui-monospace, monospace;
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    line-height: 1rem;
+    letter-spacing: 0.02em;
     color: var(--muted);
   }
 
   .display {
-    font-family: var(--font-display-serif), Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.02;
-  }
-
-  /* Faint graph-paper grid used behind the hero. */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, var(--line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-    background-size: 48px 48px;
+    font-family: var(--font-display-face), var(--font-body), sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
   }
 
   /* Legacy helpers kept for the printable /resume page. */
-  .border-3 { border-width: 3px; }
-  .border-b-3 { border-bottom-width: 3px; }
-  .border-l-3 { border-left-width: 3px; }
-  .shadow-brutal { box-shadow: 4px 4px 0 #0a0a0a; }
+  .border-3 {
+    border-width: 3px;
+  }
+  .border-b-3 {
+    border-bottom-width: 3px;
+  }
+  .border-l-3 {
+    border-left-width: 3px;
+  }
+  .shadow-brutal {
+    box-shadow: 4px 4px 0 #0a0a0a;
+  }
+}
+
+/* Status dot pulse for "available" indicators. */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
 }

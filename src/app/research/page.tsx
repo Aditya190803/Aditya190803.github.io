@@ -5,7 +5,7 @@ import { ButtonLink, ExternalLink, Tag } from "@/components/ui";
 import { certifications, education, experience, research, skills } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Research & Background | Aditya Mer",
+  title: "Research & background",
   description:
     "Publications, experience, education and certifications: applied ML research in misinformation detection and LLM-powered code documentation.",
   alternates: { canonical: "/research" },
@@ -13,11 +13,14 @@ export const metadata: Metadata = {
 
 function Block({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <section aria-labelledby={id} className="grid gap-6 border-t border-line py-14 md:grid-cols-[14rem_1fr] md:gap-10">
-      <h2 id={id} className="eyebrow md:pt-1">
+    <section
+      aria-labelledby={id}
+      className="grid gap-6 border-t border-line py-14 md:grid-cols-12 md:gap-8"
+    >
+      <h2 id={id} className="label md:col-span-3 md:pt-1">
         {title}
       </h2>
-      <div>{children}</div>
+      <div className="md:col-span-9">{children}</div>
     </section>
   );
 }
@@ -26,13 +29,15 @@ export default function ResearchPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-28 md:pt-36">
+      <main className="pt-32 md:pt-40">
         <div className="container-page">
           <header className="max-w-3xl pb-14">
-            <p className="eyebrow mb-4">Research &amp; background</p>
-            <h1 className="display text-5xl md:text-7xl text-balance">The depth behind the work.</h1>
+            <p className="label mb-5">Research &amp; background</p>
+            <h1 className="display text-5xl md:text-7xl text-balance">
+              The research behind the work.
+            </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted">
-              Publications, experience and training: the academic side of how I approach data and AI problems.
+              Publications, internships, education and certifications.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/resume" variant="secondary">
@@ -49,11 +54,17 @@ export default function ResearchPage() {
                     <span className="text-accent">{p.status}</span>
                     <span>{p.venue}</span>
                   </div>
-                  <h3 className="text-xl font-semibold leading-snug tracking-tight">{p.title}</h3>
+                  <h3 className="font-display text-2xl font-medium leading-snug tracking-[-0.02em]">
+                    {p.title}
+                  </h3>
                   <p className="mt-2 text-sm text-muted">
                     {p.authors.map((a, i) => (
                       <span key={a.name}>
-                        <span className={a.name === "Aditya Mer" ? "font-medium text-ink" : undefined}>{a.name}</span>
+                        <span
+                          className={a.name === "Aditya Mer" ? "font-medium text-ink" : undefined}
+                        >
+                          {a.name}
+                        </span>
                         {i < p.authors.length - 1 && ", "}
                       </span>
                     ))}
@@ -77,7 +88,10 @@ export default function ResearchPage() {
           <Block id="experience" title="Experience">
             <ol className="space-y-8">
               {experience.map((e) => (
-                <li key={`${e.company}-${e.period}`} className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6">
+                <li
+                  key={`${e.company}-${e.period}`}
+                  className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6"
+                >
                   <div>
                     <h3 className="font-semibold tracking-tight">
                       {e.role} <span className="font-normal text-muted">· {e.company}</span>
@@ -88,7 +102,9 @@ export default function ResearchPage() {
                       ))}
                     </ul>
                   </div>
-                  <p className="order-first font-mono text-xs text-faint sm:order-none sm:pt-1">{e.period}</p>
+                  <p className="order-first font-mono text-xs text-faint sm:order-none sm:pt-1">
+                    {e.period}
+                  </p>
                 </li>
               ))}
             </ol>
@@ -102,7 +118,9 @@ export default function ResearchPage() {
                     <h3 className="font-semibold tracking-tight">{e.degree}</h3>
                     <p className="text-sm text-muted">{e.institution}</p>
                   </div>
-                  <p className="order-first font-mono text-xs text-faint sm:order-none sm:pt-1">{e.period}</p>
+                  <p className="order-first font-mono text-xs text-faint sm:order-none sm:pt-1">
+                    {e.period}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -111,7 +129,10 @@ export default function ResearchPage() {
           <Block id="certifications" title="Certifications">
             <ul className="grid gap-4 sm:grid-cols-2">
               {certifications.map((c) => (
-                <li key={c.credentialId ?? c.title} className="rounded-xl border border-line bg-surface p-5">
+                <li
+                  key={c.credentialId ?? c.title}
+                  className="rounded-xl border border-line bg-surface p-5 transition-colors hover:border-line-strong"
+                >
                   <p className="font-mono text-xs text-faint">
                     {c.issuer} · {c.date}
                   </p>

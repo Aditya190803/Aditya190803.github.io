@@ -68,18 +68,18 @@ export const profile = {
 };
 
 /**
- * Site-wide settings for the freelance site.
- * - `brand`: change this once you settle on a studio/brand name.
- * - `bookingUrl`: paste your Cal.com / Calendly link here to enable "Book a call" buttons.
- * - `availability`: shown in the hero and contact section.
+ * Site-wide settings. Everything client-facing reads from here.
+ * - `brand`: the business name shown in the nav, footer, titles and structured data.
+ *   Change it once you settle on a brand name.
+ * - `bookingUrl`: paste a Cal.com / Calendly link to show "Book a call" buttons.
+ *   While it's empty, the contact form is the main call to action.
+ * - `availability`: the status line in the hero and contact section.
  */
 export const site = {
   brand: "Aditya Mer",
   bookingUrl: "",
   availability: "Available for new projects",
-  responseTime: "I usually reply within 24 hours.",
 };
-
 
 export const education: Education[] = [
   {
@@ -162,7 +162,8 @@ export const projects: Project[] = [
   {
     title: "ATS System",
     featured: true,
-    description: "Streamlit app functioning as an ATS resume scanner, leveraging Google's Gemini AI to evaluate resumes against job descriptions.",
+    description:
+      "Resume scanner that uses Gemini to score a resume against a job description and point out missing skills.",
     technologies: ["Gemini AI", "Streamlit", "Python", "NLP"],
     github: "https://github.com/Aditya190803/ATS-System",
     demo: "https://ats.adityamer.dev/",
@@ -173,14 +174,16 @@ export const projects: Project[] = [
       "Skill gap identification",
       "ATS compatibility scoring",
     ],
-    lessonsLearned: "Learned to leverage LLMs for structured data extraction from unstructured PDF resumes.",
+    lessonsLearned:
+      "Learned to leverage LLMs for structured data extraction from unstructured PDF resumes.",
   },
   {
     title: "FastWrite",
     featured: true,
-    description: "AI-powered Python module for documentation generation with intelligent code analysis and automated documentation creation.",
+    description:
+      "Python package that reads your code and writes its documentation with the LLM of your choice.",
     technologies: ["Python", "AI", "PyPI", "LLMs"],
-    stats: "6k+ Downloads in First Month!",
+    stats: "6k+ PyPI downloads in its first month",
     github: "https://github.com/R-G-KJSIT/FastWrite",
     pypi: "https://pypi.org/project/FastWrite/",
     category: "GenAI",
@@ -189,11 +192,13 @@ export const projects: Project[] = [
       "Multiple LLM support (OpenAI, Groq, Gemini, etc.)",
       "BLEU score comparison for quality measurement",
     ],
-    lessonsLearned: "Learned how to package and distribute Python modules on PyPI, and implemented a robust plugin system for supporting multiple LLM providers.",
+    lessonsLearned:
+      "Learned how to package and distribute Python modules on PyPI, and implemented a robust plugin system for supporting multiple LLM providers.",
   },
   {
     title: "EchoMail",
-    description: "The open-source prototype behind SendFlier. Email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
+    description:
+      "The open-source prototype behind SendFlier. Email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
     technologies: ["Next.js", "TypeScript", "Gmail API", "React"],
     github: "https://github.com/Aditya190803/EchoMail",
     demo: "https://echomail.adityamer.dev",
@@ -206,12 +211,13 @@ export const projects: Project[] = [
       "Bulk send with real-time progress tracking",
       "Preview every personalized message",
     ],
-    lessonsLearned: "Mastered OAuth2 flow for Gmail API and optimized large CSV processing in the browser using Web Workers to prevent UI blocking.",
+    lessonsLearned:
+      "Mastered OAuth2 flow for Gmail API and optimized large CSV processing in the browser using Web Workers to prevent UI blocking.",
   },
   {
     title: "Mini App Factory",
     featured: true,
-    description: "AI static website generator for quickly creating mini apps/sites from prompts and templates.",
+    description: "Generates small static websites and apps from a prompt or a starting template.",
     technologies: ["AI", "Web Development", "GenAI", "Templates"],
     github: "https://github.com/Aditya190803/mini-app-factory",
     demo: "https://mini-app-factory.adityamer.dev",
@@ -226,7 +232,8 @@ export const projects: Project[] = [
   {
     title: "Verify News",
     featured: true,
-    description: "Modern news verification platform built with React, TypeScript, LangSearch and Gemini AI to detect misinformation across text, images, audio, and video.",
+    description:
+      "Checks news claims across text, images, audio and video, using LangSearch for sources and Gemini for analysis.",
     technologies: ["React", "TypeScript", "LangSearch", "Gemini AI"],
     github: "https://github.com/Aditya190803/Verify-News",
     demo: "https://verify-news.adityamer.dev",
@@ -236,12 +243,14 @@ export const projects: Project[] = [
       "Real-time fact-checking",
       "AI-powered content verification",
     ],
-    lessonsLearned: "Implemented multi-modal AI pipelines and handled complex state management for real-time verification results.",
+    lessonsLearned:
+      "Implemented multi-modal AI pipelines and handled complex state management for real-time verification results.",
   },
   {
     title: "AI Research Agent",
     featured: true,
-    description: "Developed an autonomous AI agent using CrewAI to perform automated literature reviews, synthesize findings, and generate research summaries.",
+    description:
+      "Autonomous research agent built with CrewAI that runs literature reviews, synthesises findings and writes research summaries.",
     technologies: ["CrewAI", "Python", "Autonomous Agents", "LLMs"],
     github: "https://github.com/Aditya190803/AI-Research-Agent",
     demo: "https://ai-research-agent.adityamer.dev",
@@ -252,11 +261,13 @@ export const projects: Project[] = [
       "Research summary generation",
       "Autonomous web action",
     ],
-    lessonsLearned: "Mastered building autonomous multi-agent systems using CrewAI for reliable research execution.",
+    lessonsLearned:
+      "Mastered building autonomous multi-agent systems using CrewAI for reliable research execution.",
   },
   {
     title: "OSFM-Net",
-    description: "A powerful Python module designed for network system management, operating in both Server and Client modes.",
+    description:
+      "A powerful Python module designed for network system management, operating in both Server and Client modes.",
     technologies: ["Python", "Network Management", "Remote Desktop"],
     github: "https://github.com/Aditya190803/osfm/tree/osfm-net",
     pypi: "https://pypi.org/project/osfm/",
@@ -267,12 +278,14 @@ export const projects: Project[] = [
       "Application Management via Winget",
       "Centralized System Administration",
     ],
-    lessonsLearned: "Deepened understanding of socket programming and remote system administration protocols in Python.",
+    lessonsLearned:
+      "Deepened understanding of socket programming and remote system administration protocols in Python.",
   },
   {
     title: "Chat With PDF",
     featured: true,
-    description: "Intelligent PDF interaction system combining Gemini AI and Langchain for natural document conversations.",
+    description:
+      "Ask questions about a PDF in plain language. Retrieval-augmented answers with Gemini and LangChain.",
     technologies: ["Gemini", "Langchain", "Streamlit", "RAG"],
     github: "https://github.com/Aditya190803/Chat-with-PDF",
     demo: "https://adityamer.dev/Chat-with-PDF/",
@@ -282,25 +295,24 @@ export const projects: Project[] = [
       "Context-aware document Q&A",
       "RAG-based information retrieval",
     ],
-    lessonsLearned: "Mastered Retrieval-Augmented Generation (RAG) concepts and vector database integration.",
+    lessonsLearned:
+      "Mastered Retrieval-Augmented Generation (RAG) concepts and vector database integration.",
   },
   {
     title: "Handwritten Digit Recognition",
-    description: "A simple Streamlit application for recognizing handwritten digits using a pre-trained TensorFlow model.",
+    description:
+      "A simple Streamlit application for recognizing handwritten digits using a pre-trained TensorFlow model.",
     technologies: ["TensorFlow", "Streamlit", "Python", "Computer Vision"],
     github: "https://github.com/Aditya190803/Handwritten-Digit-Recognition",
     demo: "https://adityamer.dev/Handwritten-Digit-Recognition/",
     category: "ML",
-    features: [
-      "Draw a Digit on canvas",
-      "Real-time model prediction",
-      "Processed image display",
-    ],
+    features: ["Draw a Digit on canvas", "Real-time model prediction", "Processed image display"],
     lessonsLearned: "Gained hands-on experience with CNNs and deploying ML models via Streamlit.",
   },
   {
     title: "Chat with Website",
-    description: "RAG-based website chatbot leveraging ChatGroq for intelligent web content interaction and analysis.",
+    description:
+      "RAG-based website chatbot leveraging ChatGroq for intelligent web content interaction and analysis.",
     technologies: ["RAG", "ChatGroq", "Streamlit", "Web Scraping"],
     github: "https://github.com/aditya190803/Chat-with-Website",
     demo: "https://adityamer.dev/Chat-with-Website",
@@ -314,17 +326,52 @@ export const projects: Project[] = [
 ];
 
 export const skills = {
-  "Languages": ["Python", "JavaScript", "TypeScript", "C++", "Java", "SQL", "HTML/CSS"],
-  "Machine Learning": ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "PyTorch Lightning", "Pandas", "NumPy", "Computer Vision", "GANs"],
-  "Generative AI": ["LLMs", "RAG", "Prompt Engineering", "Langchain", "CrewAI", "Transformers", "Fine-tuning", "NLP"],
-  "Web Development": ["React", "Next.js", "Node.js", "Streamlit", "Tailwind CSS", "REST APIs", "GraphQL"],
+  Languages: ["Python", "JavaScript", "TypeScript", "C++", "Java", "SQL", "HTML/CSS"],
+  "Machine Learning": [
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn",
+    "Keras",
+    "PyTorch Lightning",
+    "Pandas",
+    "NumPy",
+    "Computer Vision",
+    "GANs",
+  ],
+  "Generative AI": [
+    "LLMs",
+    "RAG",
+    "Prompt Engineering",
+    "Langchain",
+    "CrewAI",
+    "Transformers",
+    "Fine-tuning",
+    "NLP",
+  ],
+  "Web Development": [
+    "React",
+    "Next.js",
+    "Node.js",
+    "Streamlit",
+    "Tailwind CSS",
+    "REST APIs",
+    "GraphQL",
+  ],
   "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
-  "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
+  "Data & Tools": [
+    "PostgreSQL",
+    "NoSQL",
+    "Apache Spark",
+    "Statistical Modeling",
+    "Time Series Analysis",
+    "Linux",
+  ],
 };
 export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
-      title: "Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media",
+      title:
+        "Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media",
       venue: "IEEE Region 10 Symposium (TENSYMP), 2024",
       venueShort: "TENSYMP '24",
       year: "2024",
@@ -501,34 +548,34 @@ export interface ClientWork {
   slug: string;
   client: string;
   url?: string;
-  /** Short label shown above the title, e.g. "Website + CMS". */
+  /** Short label for the kind of project, e.g. "Website + custom CMS". */
   type: string;
-  year: string;
   summary: string;
   highlights: string[];
   services: Service["id"][];
-  /** Optional proof line shown as a badge, e.g. who uses it. */
+  /** Screenshot in /public, 1440x900. Omit for private work. */
+  image?: string;
+  /** Optional proof line, e.g. who uses it. */
   badge?: string;
-  /** Internal tools have no public URL. */
+  /** Private work has no public URL; details are shared on request. */
   internal?: boolean;
 }
 
-// TODO(Aditya): add the year and any numbers you can share (users, emails sent,
-// orders, page speed, etc.) — specifics sell better than adjectives.
+// Only verified facts here. Add numbers (users, emails sent, orders) once the client is happy to share them.
 export const clientWork: ClientWork[] = [
   {
     slug: "sendflier",
     client: "SendFlier",
     url: "https://sendflier.tech",
-    type: "SaaS product",
-    year: "2025",
-    badge: "Used at Tata Memorial Hospital",
+    type: "Open-source SaaS platform",
+    image: "/work/sendflier.jpg",
+    badge: "Used by Tata Memorial Hospital",
     summary:
-      "An open-source bulk email platform: upload a CSV, write with {{variables}}, and send personalised campaigns through Gmail in three clicks. Teams at Tata Memorial Hospital use it for their outreach.",
+      "A bulk email platform: upload a CSV, write with {{variables}}, and send personalised campaigns through Gmail. It grew out of my earlier open-source project, EchoMail.",
     highlights: [
-      "CSV upload with auto-mapped personalisation variables",
-      "Rich text editor with live per-recipient preview",
-      "Sends via Gmail API with OAuth 2.0, with live progress and analytics",
+      "CSV upload with personalisation variables",
+      "Sending through Gmail with Google OAuth",
+      "Live sending progress and campaign analytics",
     ],
     services: ["software"],
   },
@@ -536,14 +583,14 @@ export const clientWork: ClientWork[] = [
     slug: "iascc",
     client: "IASCC",
     url: "https://iascc.in",
-    type: "Nonprofit website + custom CMS",
-    year: "2025",
+    type: "Website + custom CMS",
+    image: "/work/iascc.jpg",
     summary:
-      "Website for the Integrated Association of Supportive Care in Cancer, India's national affiliate of MASCC. Designed and built from scratch, with a custom CMS so the team can publish events, announcements, research grants and newsletters on their own.",
+      "The website for the Integrated Association of Supportive Care in Cancer, India's national affiliate of MASCC. Built from scratch, with a custom CMS so the team publishes their own updates.",
     highlights: [
-      "Custom CMS for events, announcements, grants and publications",
-      "Membership and contact flows",
-      "Designed for performance and accessibility",
+      "CMS for events, announcements, research grants and newsletters",
+      "Membership and contact pages",
+      "Designed and built from scratch",
     ],
     services: ["software"],
   },
@@ -552,31 +599,20 @@ export const clientWork: ClientWork[] = [
     client: "Younique India",
     url: "https://youniqueindia.co.in",
     type: "E-commerce store",
-    year: "2025",
-    summary:
-      "Online store for an 18k gold-plated jewellery brand: product catalogue, featured collections, offers and a shopping experience that ships across India.",
-    highlights: [
-      "Shop, product catalogue and featured collections",
-      "Promotions and free-shipping offers",
-      "Mobile-first, brand-led design",
-    ],
+    image: "/work/younique-india.jpg",
+    summary: "An online store for an 18k gold-plated jewellery brand.",
+    highlights: ["Shop and product catalogue", "Featured collections", "Offers and promotions"],
     services: ["software"],
   },
   {
     slug: "theska",
     client: "Theska",
-    url: "https://theska.in",
     type: "Internal software",
-    year: "2025",
     internal: true,
     summary:
-      "Internal software that supports Theska's day-to-day operations, built around how the team actually works.",
-    highlights: [
-      "Custom internal tooling",
-      "Built around existing workflows",
-      "Private — details available on request",
-    ],
-    services: ["software", "analytics"],
+      "Internal software for the company. The project is private, so details are available on request.",
+    highlights: [],
+    services: ["software"],
   },
 ];
 
@@ -602,7 +638,7 @@ export const processSteps = [
 export const faqs = [
   {
     q: "How do you price projects?",
-    a: "Every project is different, so pricing is based on the scope and complexity of the work. After a short call I'll send a written proposal with a clear quote and timeline — no surprises.",
+    a: "Every project is quoted individually, based on its scope. After we talk, I send a written proposal with the deliverables, timeline and quote, so you know the cost before any work starts.",
   },
   {
     q: "What kind of projects do you take on?",
@@ -610,11 +646,15 @@ export const faqs = [
   },
   {
     q: "Do you work with clients outside India?",
-    a: "Yes. I work remotely and can overlap with most time zones for calls and updates.",
+    a: "Yes. I'm based in Mumbai and work remotely with clients anywhere, and I can overlap with your working hours for calls and updates.",
   },
   {
     q: "Who owns the code and the data?",
-    a: "You do. Once the project is delivered, the code, models and documentation are yours. I'm happy to sign an NDA before we discuss details.",
+    a: "You do. Your data stays yours throughout, and once the project is delivered and paid for, the code, models and documentation are yours too.",
+  },
+  {
+    q: "Will you sign an NDA?",
+    a: "Yes. I'm happy to sign an NDA before you share details about your product, data or business.",
   },
   {
     q: "What do you need from me to get started?",
@@ -622,6 +662,6 @@ export const faqs = [
   },
   {
     q: "Do you offer support after launch?",
-    a: "Yes. Every project includes a support window after handoff, and ongoing maintenance can be arranged if you need it.",
+    a: "Yes. Post-launch support is agreed as part of the proposal, and ongoing maintenance can be arranged if you need it.",
   },
 ];

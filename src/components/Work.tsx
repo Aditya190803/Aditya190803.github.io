@@ -1,144 +1,216 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Lock } from "lucide-react";
-import { clientWork, projects, services, type ClientWork, type Project } from "@/lib/data";
-import { ExternalLink, Reveal, SectionHeading, Tag } from "@/components/ui";
+import { clientWork, projects, type ClientWork, type Project } from "@/lib/data";
+import { ExternalLink, Reveal, SectionHeading } from "@/components/ui";
+import { cn, hostname } from "@/lib/utils";
 
-const serviceName = Object.fromEntries(services.map((s) => [s.id, s.title]));
-
-function hostname(url: string) {
-  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+/** Minimal browser chrome around a screenshot or the private-project placeholder. */
+function Frame({ address, children }: { address: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(14,17,22,0.04),0_30px_70px_-40px_rgba(14,17,22,0.35)]">
+      <div className="flex items-center gap-3 border-b border-line bg-surface px-4 py-2.5">
+        <span className="flex gap-1.5" aria-hidden="true">
+          <span className="h-2 w-2 rounded-full bg-line-strong" />
+          <span className="h-2 w-2 rounded-full bg-line-strong" />
+          <span className="h-2 w-2 rounded-full bg-line-strong" />
+        </span>
+        <span className="mx-auto flex min-w-0 items-center gap-1.5 truncate rounded-md bg-surface-2 px-3 py-1 font-mono text-[11px] text-muted">
+          {address}
+        </span>
+        <span className="w-[1.875rem]" aria-hidden="true" />
+      </div>
+      <div className="relative aspect-[16/10] bg-surface-2">{children}</div>
+    </div>
+  );
 }
 
-export function ClientCard({ work }: { work: ClientWork }) {
+/** Stand-in for private work: an abstract app layout, nothing real. */
+function PrivatePreview() {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-colors hover:border-line-strong">
-      {/* Browser-frame preview */}
-      <div className="border-b border-line bg-surface-2">
-        <div className="flex items-center gap-1.5 px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-          <span className="ml-3 flex items-center gap-1.5 truncate rounded-md bg-surface px-2.5 py-1 font-mono text-[11px] text-muted">
-            {work.internal && <Lock size={11} />}
-            {work.internal ? "internal tool" : work.url ? hostname(work.url) : work.client}
-          </span>
+    <div aria-hidden="true" className="absolute inset-0 flex gap-4 p-5 md:gap-6 md:p-8">
+      <div className="hidden w-1/5 flex-col gap-3 sm:flex">
+        <div className="h-6 w-2/3 rounded-md bg-line-strong/70" />
+        {[80, 65, 72, 58, 70].map((w) => (
+          <div key={w} className="h-3 rounded bg-line" style={{ width: `${w}%` }} />
+        ))}
+      </div>
+      <div className="flex flex-1 flex-col gap-4">
+        <div className="grid grid-cols-3 gap-3">
+          {[0, 1, 2].map((k) => (
+            <div key={k} className="h-14 rounded-lg border border-line bg-surface md:h-20" />
+          ))}
         </div>
-        <div className="relative flex h-36 items-end px-6 pb-5 md:h-44">
-          <span className="display text-4xl text-ink md:text-5xl">{work.client}</span>
-          {work.badge && (
-            <span className="absolute top-3 right-4 rounded-full bg-accent px-3 py-1 text-[11px] font-medium text-accent-ink">
-              {work.badge}
-            </span>
-          )}
+        <div className="flex-1 rounded-lg border border-line bg-surface p-3 md:p-4">
+          {[90, 75, 84, 62, 78, 70].map((w, k) => (
+            <div
+              key={k}
+              className="flex items-center gap-3 border-b border-line py-2 last:border-0 md:py-2.5"
+            >
+              <div className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+              <div className="h-2.5 rounded bg-line" style={{ width: `${w * 0.5}%` }} />
+              <div className="ml-auto h-2.5 w-10 rounded bg-line" />
+            </div>
+          ))}
         </div>
       </div>
+      <div className="absolute inset-0 grid place-items-center bg-surface-2/40 backdrop-blur-[3px]">
+        <span className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-2 text-sm font-medium text-ink shadow-sm">
+          <Lock size={14} />
+          Private project
+        </span>
+      </div>
+    </div>
+  );
+}
 
-      <div className="flex flex-1 flex-col p-6 md:p-7">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="eyebrow">{work.type}</p>
-          <p className="font-mono text-xs text-faint">{work.year}</p>
-        </div>
-        <p className="leading-relaxed text-muted">{work.summary}</p>
-        <ul className="mt-4 space-y-1.5">
-          {work.highlights.map((h) => (
-            <li key={h} className="flex gap-2 text-sm">
-              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-              {h}
-            </li>
-          ))}
-        </ul>
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {work.services.map((id) => (
-            <li key={id}>
-              <Tag>{serviceName[id]}</Tag>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-auto pt-6">
-          {work.url && !work.internal ? (
-            <ExternalLink href={work.url}>Visit {hostname(work.url)}</ExternalLink>
+export function ClientCase({ work, flip }: { work: ClientWork; flip?: boolean }) {
+  const live = work.url && !work.internal;
+  return (
+    <article
+      id={work.slug}
+      className="grid scroll-mt-28 items-center gap-8 lg:grid-cols-12 lg:gap-12"
+    >
+      <Reveal className={cn("lg:col-span-7", flip && "lg:order-2")}>
+        <Frame
+          address={
+            live ? (
+              hostname(work.url!)
+            ) : (
+              <>
+                <Lock size={11} aria-hidden="true" /> internal
+              </>
+            )
+          }
+        >
+          {work.image ? (
+            <Image
+              src={work.image}
+              alt={`Screenshot of the ${work.client} homepage`}
+              fill
+              unoptimized
+              sizes="(min-width: 1024px) 680px, 100vw"
+              className="object-cover object-top dark:brightness-[0.85]"
+            />
           ) : (
-            <span className="text-sm text-muted">Private project — details on request</span>
+            <PrivatePreview />
+          )}
+        </Frame>
+      </Reveal>
+
+      <Reveal delay={0.08} className={cn("lg:col-span-5", flip && "lg:order-1")}>
+        <p className="label">{work.type}</p>
+        <h3 className="display mt-3 text-4xl tracking-[-0.035em] md:text-5xl">{work.client}</h3>
+        {work.badge && (
+          <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1.5 text-sm font-medium text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            {work.badge}
+          </p>
+        )}
+        <p className="mt-5 leading-relaxed text-pretty text-muted">{work.summary}</p>
+
+        {work.highlights.length > 0 && (
+          <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
+            {work.highlights.map((h) => (
+              <li key={h} className="flex gap-3 text-[15px] leading-snug">
+                <span
+                  className="mt-[0.55rem] h-1 w-3 shrink-0 rounded-full bg-accent"
+                  aria-hidden="true"
+                />
+                {h}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+          {live ? (
+            <ExternalLink href={work.url!}>Visit {hostname(work.url!)}</ExternalLink>
+          ) : (
+            <Link
+              href="/#contact"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium underline decoration-line-strong underline-offset-4 hover:text-accent hover:decoration-accent"
+            >
+              Ask for details
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
           )}
         </div>
-      </div>
+      </Reveal>
     </article>
   );
 }
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-line-strong">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <p className="eyebrow">{project.category}</p>
-        {project.stats && (
-          <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-medium text-accent">
-            {project.stats.replace(/!$/, "")}
-          </span>
-        )}
+    <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-colors duration-200 hover:border-line-strong md:p-7">
+      <div className="flex items-start justify-between gap-3">
+        <p className="label">{project.category}</p>
+        {project.pypi && !project.demo && <p className="label">Python package</p>}
       </div>
-      <h3 className="text-lg font-semibold tracking-tight">{project.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{project.description}</p>
-      <ul className="mt-4 flex flex-wrap gap-1.5">
-        {project.technologies.slice(0, 4).map((t) => (
-          <li key={t}>
-            <Tag>{t}</Tag>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-5">
-        {project.demo && <ExternalLink href={project.demo}>Live demo</ExternalLink>}
+      <h3 className="mt-5 font-display text-2xl font-medium tracking-[-0.025em]">
+        {project.title}
+      </h3>
+      {project.stats && <p className="mt-3 text-sm font-medium text-accent">{project.stats}</p>}
+      <p className="mt-3 text-[15px] leading-relaxed text-muted">{project.description}</p>
+      <p className="mt-5 font-mono text-[11px] leading-relaxed text-faint">
+        {project.technologies.slice(0, 4).join("  /  ")}
+      </p>
+      <div className="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-6">
+        {project.demo && <ExternalLink href={project.demo}>Live app</ExternalLink>}
         {project.pypi && <ExternalLink href={project.pypi}>PyPI</ExternalLink>}
-        {project.github && <ExternalLink href={project.github}>Code</ExternalLink>}
+        {project.github && <ExternalLink href={project.github}>Source</ExternalLink>}
       </div>
     </article>
   );
 }
 
 export default function Work() {
-  const featured = projects.filter((p) => p.featured).slice(0, 6);
-
   return (
     <section id="work" className="section border-t border-line">
       <div className="container-page">
         <SectionHeading
-          eyebrow="Client work"
-          title="Built for real teams, running in production."
-          lede="A selection of recent freelance projects — from organisation websites with their own CMS to platforms used inside a national cancer hospital."
+          label="Client work"
+          title="Running in production, for real organisations."
+          lede="An email platform used by Tata Memorial Hospital, a national cancer-care association's website, a jewellery brand's online store and a company's internal software."
         />
-
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="space-y-24 md:space-y-32">
           {clientWork.map((w, i) => (
-            <Reveal key={w.slug} delay={(i % 2) * 0.05}>
-              <ClientCard work={w} />
-            </Reveal>
+            <ClientCase key={w.slug} work={w} flip={i % 2 === 1} />
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="mt-24 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-2xl">
-            <p className="eyebrow mb-4">Products &amp; open source</p>
-            <h3 className="display text-3xl sm:text-4xl">AI products I&apos;ve built and shipped myself.</h3>
-            <p className="mt-4 text-muted">
-              Live apps and packages that show how I work with LLMs, ML models and full-stack code.
-            </p>
-          </div>
+export function Products() {
+  const featured = projects.filter((p) => p.featured);
+
+  return (
+    <section id="products" className="section border-t border-line bg-surface-2/50">
+      <div className="container-page">
+        <SectionHeading
+          label="Products & open source"
+          title="My own products, live and open source."
+          lede="Apps and packages I've built and released myself. Try the live apps, or read the code behind them."
+        >
           <Link
             href="/work"
-            className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium hover:text-accent"
+            className="group mt-8 inline-flex items-center gap-2 text-sm font-medium hover:text-accent"
           >
-            All projects
+            Browse the full archive
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
-        </div>
+        </SectionHeading>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((p, i) => (
-            <Reveal key={p.title} delay={(i % 3) * 0.05}>
+            <Reveal as="li" key={p.title} delay={(i % 3) * 0.05}>
               <ProjectCard project={p} />
             </Reveal>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

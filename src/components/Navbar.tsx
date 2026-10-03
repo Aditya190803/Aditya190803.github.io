@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { site } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { cn, initials } from "@/lib/utils";
 
 const links = [
   { href: "/#services", label: "Services" },
-  { href: "/#work", label: "Work" },
+  { href: "/#work", label: "Client work" },
   { href: "/#process", label: "Process" },
+  { href: "/work", label: "Archive" },
   { href: "/research", label: "Research" },
-  { href: "/#faq", label: "FAQ" },
 ];
 
 function ThemeToggle() {
@@ -22,7 +22,7 @@ function ThemeToggle() {
     try {
       localStorage.setItem("theme", next);
     } catch {
-      /* storage unavailable — theme still applies for this visit */
+      /* storage unavailable: the theme still applies for this visit */
     }
   };
 
@@ -30,12 +30,26 @@ function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label="Toggle dark mode"
-      className="grid h-9 w-9 place-items-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+      aria-label="Switch between light and dark theme"
+      className="grid h-10 w-10 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-ink"
     >
       <Sun size={17} className="hidden dark:block" />
       <Moon size={17} className="dark:hidden" />
     </button>
+  );
+}
+
+export function BrandMark({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "grid h-8 w-8 place-items-center rounded-lg bg-ink font-display text-[13px] font-semibold tracking-tight text-bg",
+        className,
+      )}
+    >
+      {initials(site.brand)}
+    </span>
   );
 }
 
@@ -50,25 +64,43 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const cta = site.bookingUrl
+    ? { href: site.bookingUrl, label: "Book a call", external: true }
+    : { href: "/#contact", label: "Start a project", external: false };
+
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors",
-        scrolled || open ? "border-b border-line bg-bg/85 backdrop-blur-md" : "border-b border-transparent"
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        scrolled || open ? "border-line bg-bg/85 backdrop-blur-xl" : "border-transparent",
       )}
     >
-      <nav className="container-page flex h-16 items-center justify-between" aria-label="Main">
-        <Link href="/" className="flex items-center gap-2 font-medium tracking-tight" onClick={() => setOpen(false)}>
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-ink font-mono text-xs text-bg">AM</span>
+      <nav
+        className="container-page flex h-16 items-center justify-between gap-4"
+        aria-label="Main"
+      >
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 font-display text-[17px] font-semibold tracking-tight"
+          onClick={() => setOpen(false)}
+        >
+          <BrandMark />
           {site.brand}
         </Link>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="rounded-full px-3 py-2 text-sm text-muted transition-colors hover:text-ink"
+                className="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink"
               >
                 {l.label}
               </Link>
@@ -76,21 +108,22 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <ThemeToggle />
-          <Link
-            href="/#contact"
-            className="ml-1 hidden rounded-full bg-ink px-4 py-2 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-accent-ink sm:inline-flex"
+          <a
+            href={cta.href}
+            {...(cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="hidden rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-accent-ink sm:inline-flex"
           >
-            Start a project
-          </Link>
+            {cta.label}
+          </a>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="grid h-9 w-9 place-items-center rounded-full text-ink md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-lg text-ink hover:bg-surface-2 lg:hidden"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -98,27 +131,28 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-line md:hidden">
-          <ul className="container-page flex flex-col py-3">
+        <div id="mobile-menu" className="border-t border-line lg:hidden">
+          <ul className="container-page flex flex-col py-2">
             {links.map((l) => (
-              <li key={l.href}>
+              <li key={l.href} className="border-b border-line last:border-0">
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3 text-lg text-ink"
+                  className="block py-4 font-display text-2xl font-medium tracking-tight"
                 >
                   {l.label}
                 </Link>
               </li>
             ))}
-            <li className="pt-2 pb-3">
-              <Link
-                href="/#contact"
+            <li className="pt-4 pb-5 sm:hidden">
+              <a
+                href={cta.href}
                 onClick={() => setOpen(false)}
-                className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg"
+                {...(cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="flex w-full justify-center rounded-lg bg-ink px-5 py-3.5 text-[15px] font-medium text-bg"
               >
-                Start a project
-              </Link>
+                {cta.label}
+              </a>
             </li>
           </ul>
         </div>
