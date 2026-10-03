@@ -1,4 +1,6 @@
-import { expect, test } from "vite-plus/test";
+// vite-plus is not in package.json yet, so CI and fresh installs need the plain vitest import.
+// oxlint-disable-next-line vite-plus/prefer-vite-plus-imports
+import { expect, test } from "vitest";
 import { cn, hostname, initials } from "./utils";
 
 test("cn merges tailwind classes correctly", () => {
