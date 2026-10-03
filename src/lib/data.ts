@@ -553,7 +553,7 @@ export interface ClientWork {
   summary: string;
   highlights: string[];
   services: Service["id"][];
-  /** Screenshot in /public, 1440x900. Omit for private work. */
+  /** Screenshot in /public/images/clients, 1440x900. Omit for private work. */
   image?: string;
   /** Optional proof line, e.g. who uses it. */
   badge?: string;
@@ -568,7 +568,7 @@ export const clientWork: ClientWork[] = [
     client: "SendFlier",
     url: "https://sendflier.tech",
     type: "Open-source SaaS platform",
-    image: "/work/sendflier.jpg",
+    image: "/images/clients/sendflier.jpg",
     badge: "Used by Tata Memorial Hospital",
     summary:
       "A bulk email platform: upload a CSV, write with {{variables}}, and send personalised campaigns through Gmail. It grew out of my earlier open-source project, EchoMail.",
@@ -584,7 +584,7 @@ export const clientWork: ClientWork[] = [
     client: "IASCC",
     url: "https://iascc.in",
     type: "Website + custom CMS",
-    image: "/work/iascc.jpg",
+    image: "/images/clients/iascc.jpg",
     summary:
       "The website for the Integrated Association of Supportive Care in Cancer, India's national affiliate of MASCC. Built from scratch, with a custom CMS so the team publishes their own updates.",
     highlights: [
@@ -599,7 +599,7 @@ export const clientWork: ClientWork[] = [
     client: "Younique India",
     url: "https://youniqueindia.co.in",
     type: "E-commerce store",
-    image: "/work/younique-india.jpg",
+    image: "/images/clients/younique-india.jpg",
     summary: "An online store for an 18k gold-plated jewellery brand.",
     highlights: ["Shop and product catalogue", "Featured collections", "Offers and promotions"],
     services: ["software"],
