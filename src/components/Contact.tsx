@@ -1,13 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, ArrowUpRight, CheckCircle, Loader2 } from "lucide-react";
-import { profile } from "@/lib/data";
+import { ArrowRight, CalendarDays, CheckCircle2, Loader2, Mail } from "lucide-react";
+import { profile, services, site } from "@/lib/data";
+import { Reveal, buttonStyles } from "@/components/ui";
+import { cn } from "@/lib/utils";
+
+const timelines = ["As soon as possible", "Within a month", "1–3 months", "Just exploring"];
+
+const field =
+  "w-full rounded-lg border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] text-ink placeholder:text-faint transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20";
+
+const emptyForm = { name: "", email: "", company: "", service: "", timeline: "", message: "" };
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const set =
+    (key: keyof typeof emptyForm) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+      setForm({ ...form, [key]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,18 +32,21 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_ACCESS_KEY",
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          from_name: "Portfolio Contact Form",
+          subject: `New project inquiry: ${form.service || "General"}`,
+          from_name: `${site.brand} website`,
+          name: form.name,
+          email: form.email,
+          company: form.company,
+          service: form.service,
+          timeline: form.timeline,
+          message: form.message,
         }),
       });
 
       const data = await response.json();
       if (data.success) {
         setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setStatus("idle"), 5000);
+        setForm(emptyForm);
       } else {
         setStatus("error");
       }
@@ -40,182 +56,154 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding bg-white relative overflow-hidden">
-      {/* Subtle Background */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #0a0a0a 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <span className="w-12 h-12 bg-coral text-white flex items-center justify-center">
-              <Mail size={24} />
-            </span>
-            <span className="text-sm font-bold uppercase tracking-widest">Get in Touch</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-8 leading-[0.9] tracking-tight">
-            Let's
-            <br />
-            <span className="text-stroke-thin"> Connect</span>
+    <section id="contact" className="section border-t border-line">
+      <div className="container-page grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+        <Reveal>
+          <p className="eyebrow mb-4">Start a project</p>
+          <h2 className="display text-4xl sm:text-5xl md:text-6xl text-balance">
+            Tell me what you&apos;re building.
           </h2>
-        </motion.div>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
+            Share a few details and I&apos;ll get back to you with questions or a proposal. {site.responseTime}
+          </p>
 
-        <div className="grid lg:grid-cols-2 gap-16 max-w-6xl">
-          {/* Left Column - Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="p-8 bg-white border-3 border-black shadow-brutal">
-              <h3 className="text-2xl font-black mb-6">Send Me a Message</h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Name</label>
+          <div className="mt-10 space-y-4">
+            {site.bookingUrl && (
+              <a
+                href={site.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong"
+              >
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-accent-soft text-accent">
+                  <CalendarDays size={18} />
+                </span>
+                <span>
+                  <span className="block font-medium">Book a free 20-minute call</span>
+                  <span className="text-sm text-muted">Pick a time that works for you</span>
+                </span>
+              </a>
+            )}
+            <a
+              href={`mailto:${profile.email}`}
+              className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong"
+            >
+              <span className="grid h-10 w-10 place-items-center rounded-lg bg-accent-soft text-accent">
+                <Mail size={18} />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-medium">Prefer email?</span>
+                <span className="block truncate text-sm text-muted">{profile.email}</span>
+              </span>
+            </a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.05}>
+          <div className="rounded-2xl border border-line bg-surface p-6 md:p-8">
+            {status === "success" ? (
+              <div className="flex flex-col items-start gap-4 py-10" role="status">
+                <CheckCircle2 size={32} className="text-accent" />
+                <h3 className="text-2xl font-semibold tracking-tight">Thanks, message received.</h3>
+                <p className="text-muted">I&apos;ll read it and reply to you by email soon.</p>
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="text-sm font-medium underline underline-offset-4"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-medium">Name</span>
+                    <input required value={form.name} onChange={set("name")} className={field} autoComplete="name" />
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-medium">Email</span>
                     <input
-                      type="text"
                       required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Email</label>
-                    <input
                       type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
+                      value={form.email}
+                      onChange={set("email")}
+                      className={field}
+                      autoComplete="email"
                     />
-                  </div>
+                  </label>
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-bold mb-2">Message</label>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-medium">
+                    Company <span className="font-normal text-faint">(optional)</span>
+                  </span>
+                  <input value={form.company} onChange={set("company")} className={field} autoComplete="organization" />
+                </label>
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-medium">What do you need?</span>
+                    <select required value={form.service} onChange={set("service")} className={field}>
+                      <option value="" disabled>
+                        Select a service
+                      </option>
+                      {services.map((s) => (
+                        <option key={s.id}>{s.title}</option>
+                      ))}
+                      <option>Not sure yet</option>
+                    </select>
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-sm font-medium">Timeline</span>
+                    <select value={form.timeline} onChange={set("timeline")} className={field}>
+                      <option value="">Select a timeline</option>
+                      {timelines.map((t) => (
+                        <option key={t}>{t}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-medium">Project details</span>
                   <textarea
-                    rows={5}
                     required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell me about your project..."
-                    className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200 resize-none"
+                    rows={5}
+                    value={form.message}
+                    onChange={set("message")}
+                    placeholder="What are you trying to build or solve? Any data, systems or deadlines I should know about?"
+                    className={cn(field, "resize-y")}
                   />
-                </div>
+                </label>
 
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="group w-full px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg flex items-center justify-center gap-3 hover:bg-coral transition-all disabled:opacity-50 disabled:cursor-not-allowed border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-                  aria-label={status === "loading" ? "Sending message" : "Send message"}
+                  className={cn(buttonStyles.primary, "w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto")}
                 >
                   {status === "loading" ? (
                     <>
-                      <Loader2 size={20} className="animate-spin" />
-                      Sending...
-                    </>
-                  ) : status === "success" ? (
-                    <>
-                      <CheckCircle size={20} />
-                      Message Sent!
+                      <Loader2 size={16} className="animate-spin" />
+                      Sending…
                     </>
                   ) : (
                     <>
-                      Send Message
-                      <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      Send inquiry
+                      <ArrowRight size={16} />
                     </>
                   )}
                 </button>
 
                 {status === "error" && (
-                  <p className="text-danger text-sm text-center">Something went wrong. Please try again or email directly.</p>
+                  <p className="text-sm text-danger" role="alert">
+                    Something went wrong. Please try again, or email me at {profile.email}.
+                  </p>
                 )}
               </form>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Links & Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
-          >
-            {/* Direct Email */}
-            <div className="p-8 bg-coral text-white border-3 border-black shadow-brutal">
-              <h3 className="text-xl font-black mb-4">Prefer Email?</h3>
-              <a
-                href={`mailto:${profile.email}`}
-                className="group inline-flex items-center gap-3 text-lg font-bold hover:underline"
-              >
-                {profile.email}
-                <ArrowUpRight size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
-            </div>
-
-            {/* Social Links */}
-            <div className="p-8 bg-white border-3 border-black shadow-brutal">
-              <h3 className="text-xl font-black mb-6">Find Me Online</h3>
-              <div className="space-y-4">
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                >
-                  <Github size={24} />
-                  <div className="flex-1">
-                    <span className="font-bold block">GitHub</span>
-                    <span className="text-xs opacity-60">Check out my code</span>
-                  </div>
-                  <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-mint hover:text-black transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                >
-                  <Linkedin size={24} />
-                  <div className="flex-1">
-                    <span className="font-bold block">LinkedIn</span>
-                    <span className="text-xs opacity-60">Let's connect professionally</span>
-                  </div>
-                  <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 bg-yellow border-3 border-black text-center">
-                <span className="text-3xl font-black block">24h</span>
-                <span className="text-xs font-bold opacity-70">Response Time</span>
-              </div>
-              <div className="p-6 bg-mint border-3 border-black text-center">
-                <span className="text-3xl font-black block">100%</span>
-                <span className="text-xs font-bold opacity-70">Commitment</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            )}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

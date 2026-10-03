@@ -1,141 +1,148 @@
-"use client";
+import { ArrowRight, CalendarDays } from "lucide-react";
+import { clientWork, profile, site } from "@/lib/data";
+import { ButtonLink, Reveal } from "@/components/ui";
 
-import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail, FileText } from "lucide-react";
-import { profile } from "@/lib/data";
-import Link from "next/link";
+const stats = [
+  { value: `${clientWork.length}+`, label: "client products shipped" },
+  { value: "6k+", label: "PyPI downloads in month one" },
+  { value: "2", label: "peer-reviewed publications" },
+];
+
+/** Decorative chart: observed data + model fit + forecast band. */
+function HeroChart() {
+  const observed = [
+    [20, 150], [50, 138], [80, 142], [110, 120], [140, 124], [170, 104],
+    [200, 108], [230, 90], [260, 94],
+  ];
+  const fit = "M20 150 C 80 140, 140 122, 200 104 S 250 92, 260 92";
+  const forecast = "M260 92 C 290 84, 320 74, 360 60";
+  const band = "M260 86 C 290 74, 320 58, 360 40 L 360 80 C 320 90, 290 94, 260 98 Z";
+
+  return (
+    <div
+      aria-hidden="true"
+      className="relative rounded-2xl border border-line bg-surface p-5 shadow-[0_1px_0_var(--line),0_24px_48px_-24px_rgba(0,0,0,0.18)]"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <span className="font-mono text-xs text-muted">forecast.ipynb</span>
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-accent">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          model: deployed
+        </span>
+      </div>
+      <svg viewBox="0 0 380 180" className="w-full">
+        {[40, 80, 120, 160].map((y) => (
+          <line key={y} x1="10" x2="370" y1={y} y2={y} stroke="var(--line)" strokeWidth="1" />
+        ))}
+        <path d={band} fill="var(--accent-soft)" />
+        <path d={fit} fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" />
+        <path
+          d={forecast}
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2"
+          strokeDasharray="5 5"
+          strokeLinecap="round"
+        />
+        {observed.map(([x, y]) => (
+          <circle key={x} cx={x} cy={y} r="3.5" fill="var(--surface)" stroke="var(--ink)" strokeWidth="1.5" />
+        ))}
+        <circle cx="360" cy="60" r="4" fill="var(--accent)" />
+      </svg>
+      <div className="mt-4 grid grid-cols-3 gap-3 border-t border-line pt-4 font-mono text-[11px] text-muted">
+        <div>
+          <div className="text-faint">data</div>
+          <div className="text-ink">cleaned</div>
+        </div>
+        <div>
+          <div className="text-faint">model</div>
+          <div className="text-ink">evaluated</div>
+        </div>
+        <div>
+          <div className="text-faint">app</div>
+          <div className="text-ink">shipped</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
-    <section className="min-h-screen bg-cream relative overflow-hidden">
+    <section className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
+      <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)] opacity-60" />
 
-      {/* Floating Stickers */}
-      <motion.div
-        initial={{ opacity: 0, rotate: -15 }}
-        animate={{ opacity: 1, rotate: -8 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute top-32 right-[15%] hidden lg:block"
-      >
-        <div className="sticker px-6 py-3 bg-yellow">
-          <span className="font-black text-sm uppercase tracking-wider">Open to Work</span>
-        </div>
-      </motion.div>
+      <div className="container-page relative grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <Reveal>
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-muted">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              {site.availability}
+            </p>
+          </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, rotate: 10 }}
-        animate={{ opacity: 1, rotate: 5 }}
-        transition={{ delay: 0.7, duration: 0.8 }}
-        className="absolute bottom-40 left-[10%] hidden lg:block"
-      >
-        <div className="sticker px-5 py-2 bg-mint">
-          <span className="font-bold text-sm">ML/DL Engineer</span>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-        className="absolute top-[45%] right-[8%] hidden lg:block"
-      >
-        <div className="w-20 h-20 bg-coral blob" />
-      </motion.div>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-6 pt-32 pb-20 min-h-screen flex flex-col justify-center items-center text-center">
-        <div className="max-w-5xl">
-          {/* Name with mixed typography */}
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 className="text-[clamp(3rem,15vw,12rem)] font-black leading-[0.85] tracking-tighter mb-6">
-              <span className="block">Aditya</span>
-              <span className="block text-stroke">Mer</span>
+          <Reveal delay={0.05}>
+            <h1 className="display text-[clamp(2.75rem,7vw,5.25rem)] text-balance">
+              Data, AI and software,{" "}
+              <em className="text-accent">built to ship.</em>
             </h1>
-          </motion.div>
+          </Reveal>
 
-          {/* Tagline with highlight */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-xl md:text-2xl max-w-2xl mb-12 leading-relaxed"
-          >
-            Building <span className="funky-underline font-bold">scalable ML & GenAI systems</span> from research to production.
-          </motion.p>
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted text-pretty">
+              I&apos;m {profile.name}, a freelance engineer. I help businesses and teams turn data into
+              decisions, models into products, and ideas into working software.
+            </p>
+          </Reveal>
 
-          {/* CTA Buttons - Asymmetric layout */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-wrap gap-4 mb-16 justify-center"
-          >
-            <a
-              href="#projects"
-              className="group px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-coral transition-all border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-            >
-              See my work
-              <ArrowDown size={20} className="group-hover:translate-y-1 transition-transform" />
-            </a>
-            <Link
-              href="/resume"
-              className="px-6 py-3 md:px-8 md:py-4 bg-white border-3 border-black font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-yellow transition-all shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-            >
-              <FileText size={20} />
-              Interactive Resume
-            </Link>
-          </motion.div>
+          <Reveal delay={0.15} className="mt-9 flex flex-wrap gap-3">
+            {site.bookingUrl ? (
+              <ButtonLink href={site.bookingUrl} external>
+                <CalendarDays size={16} />
+                Book a free call
+              </ButtonLink>
+            ) : (
+              <ButtonLink href="/#contact">
+                Start a project
+                <ArrowRight size={16} />
+              </ButtonLink>
+            )}
+            <ButtonLink href="/#work" variant="secondary">
+              See client work
+            </ButtonLink>
+          </Reveal>
 
-          {/* Social Links - Horizontal strip */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex items-center gap-6 justify-center"
-          >
-            <span className="text-sm font-bold uppercase tracking-widest text-black/50">Connect</span>
-            <div className="flex gap-3 items-center">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="GitHub Profile"
-              >
-                <Github size={22} />
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="LinkedIn Profile"
-              >
-                <Linkedin size={22} />
-              </a>
-              <a
-                href={`mailto:${profile.email}`}
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-mint transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="Email Me"
-              >
-                <Mail size={22} />
-              </a>
-            </div>
-          </motion.div>
+          <Reveal delay={0.2}>
+            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="display text-3xl md:text-4xl">{s.value}</dd>
+                  <dd className="mt-1 text-xs leading-snug text-muted">{s.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
         </div>
+
+        <Reveal delay={0.15} className="hidden sm:block">
+          <HeroChart />
+        </Reveal>
       </div>
 
-      {/* Marquee at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black text-white py-4 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap flex">
-          {[...Array(10)].map((_, i) => (
-            <span key={i} className="mx-8 text-lg font-bold uppercase tracking-widest">
-              • ML Engineer • GenAI Developer • Research • Full Stack •
-            </span>
-          ))}
+      <div className="container-page relative mt-16 md:mt-20">
+        <div className="flex flex-col gap-4 border-y border-line py-5 sm:flex-row sm:items-center sm:gap-8">
+          <p className="eyebrow shrink-0">Recent clients</p>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-2">
+            {clientWork.map((c) => (
+              <li key={c.slug} className="text-base font-medium tracking-tight text-ink/80">
+                {c.client}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

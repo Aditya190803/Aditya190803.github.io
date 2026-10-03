@@ -56,16 +56,30 @@ export interface ResearchPaper {
 
 export const profile = {
   name: "Aditya Mer",
-  title: "ML/DL Engineer & Gen AI Developer",
+  title: "Freelance Data, AI & Software Engineer",
   location: "Mumbai, India",
   email: "adityamer.work@gmail.com",
   portfolio: "https://adityamer.dev",
   resumeUrl: "/Aditya_Mer_Resume.pdf",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
-  tagline: "Building scalable ML & GenAI systems from research to production",
-  bio: "I am an ML/DL Engineer and Gen AI Developer passionate about building intelligent systems that solve real-world problems. With a strong foundation in AI research and full-stack development, I bridge the gap between cutting-edge research and production-ready applications.",
+  tagline: "Data, AI and software, built to ship.",
+  bio: "I help businesses and teams turn raw data into decisions, models into products, and ideas into working software — from analytics and machine learning to LLM apps and full-stack web platforms.",
 };
+
+/**
+ * Site-wide settings for the freelance site.
+ * - `brand`: change this once you settle on a studio/brand name.
+ * - `bookingUrl`: paste your Cal.com / Calendly link here to enable "Book a call" buttons.
+ * - `availability`: shown in the hero and contact section.
+ */
+export const site = {
+  brand: "Aditya Mer",
+  bookingUrl: "",
+  availability: "Available for new projects",
+  responseTime: "I usually reply within 24 hours.",
+};
+
 
 export const education: Education[] = [
   {
@@ -90,7 +104,7 @@ export const experience: Experience[] = [
     role: "Web Developer Intern",
     company: "IASCC",
     period: "June 2025 – Sept 2025",
-    location: "Hydrid",
+    location: "Hybrid",
     highlights: [
       "Designed and developed IASCC's main website from scratch",
       "Built custom CMS for blogs, newsletters, and research publications",
@@ -179,8 +193,7 @@ export const projects: Project[] = [
   },
   {
     title: "EchoMail",
-    featured: true,
-    description: "Modern email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
+    description: "The open-source prototype behind SendFlier. Email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
     technologies: ["Next.js", "TypeScript", "Gmail API", "React"],
     github: "https://github.com/Aditya190803/EchoMail",
     demo: "https://echomail.adityamer.dev",
@@ -258,6 +271,7 @@ export const projects: Project[] = [
   },
   {
     title: "Chat With PDF",
+    featured: true,
     description: "Intelligent PDF interaction system combining Gemini AI and Langchain for natural document conversations.",
     technologies: ["Gemini", "Langchain", "Streamlit", "RAG"],
     github: "https://github.com/Aditya190803/Chat-with-PDF",
@@ -307,29 +321,6 @@ export const skills = {
   "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
   "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
 };
-export interface Testimonial {
-  name: string;
-  role: string;
-  company: string;
-  content: string;
-  avatar?: string;
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    name: "Dr. Jane Smith",
-    role: "Senior Research Scientist",
-    company: "AI Research Lab",
-    content: "Aditya is an exceptional engineer with a deep understanding of ML fundamentals. His work on LLM inference optimization was truly impressive.",
-  },
-  {
-    name: "John Doe",
-    role: "Lead Developer",
-    company: "Tech Solutions Inc.",
-    content: "Working with Aditya was a pleasure. He bridges the gap between research and production seamlessly.",
-  },
-];
-
 export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
@@ -436,5 +427,201 @@ export const certifications: Certification[] = [
     credentialId: "ZWQ647BYRZL9",
     url: "https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9",
     skills: ["Git", "GitHub"],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Freelance content                                                   */
+/* ------------------------------------------------------------------ */
+
+export interface Service {
+  id: string;
+  title: string;
+  summary: string;
+  deliverables: string[];
+  stack: string[];
+}
+
+export const services: Service[] = [
+  {
+    id: "analytics",
+    title: "Data Analytics & Dashboards",
+    summary:
+      "Make sense of the data you already have. Clean it, analyse it, and turn it into reports and dashboards your team actually uses.",
+    deliverables: [
+      "Data cleaning & exploratory analysis",
+      "KPI dashboards and automated reports",
+      "SQL pipelines and data modelling",
+      "Clear write-ups with recommendations",
+    ],
+    stack: ["Python", "Pandas", "SQL", "PostgreSQL", "Power BI / Streamlit"],
+  },
+  {
+    id: "ml",
+    title: "Machine Learning & Deep Learning",
+    summary:
+      "Prediction, classification, NLP and computer vision models — built, evaluated honestly, and deployed where they can do real work.",
+    deliverables: [
+      "Problem framing & feasibility check",
+      "Model training, tuning and evaluation",
+      "NLP, vision and time-series models",
+      "Deployment as an API or app",
+    ],
+    stack: ["PyTorch", "TensorFlow", "Scikit-learn", "Transformers", "Docker"],
+  },
+  {
+    id: "genai",
+    title: "Generative AI & LLM Apps",
+    summary:
+      "Chatbots over your documents, AI assistants, agents and automations — grounded in your data and built to be reliable.",
+    deliverables: [
+      "RAG chatbots over docs, sites and databases",
+      "AI agents and workflow automation",
+      "LLM integration into existing products",
+      "Evaluation, guardrails and cost control",
+    ],
+    stack: ["OpenAI / Gemini / Groq", "LangChain", "CrewAI", "Vector DBs", "FastAPI"],
+  },
+  {
+    id: "software",
+    title: "Software & Web Development",
+    summary:
+      "Websites, web apps, internal tools and MVPs — designed, built and shipped end to end, with a CMS when you need one.",
+    deliverables: [
+      "Business websites with custom CMS",
+      "Full-stack web apps and dashboards",
+      "Internal tools and automations",
+      "APIs, integrations and hosting setup",
+    ],
+    stack: ["Next.js", "React", "TypeScript", "Node.js", "Python"],
+  },
+];
+
+export interface ClientWork {
+  slug: string;
+  client: string;
+  url?: string;
+  /** Short label shown above the title, e.g. "Website + CMS". */
+  type: string;
+  year: string;
+  summary: string;
+  highlights: string[];
+  services: Service["id"][];
+  /** Optional proof line shown as a badge, e.g. who uses it. */
+  badge?: string;
+  /** Internal tools have no public URL. */
+  internal?: boolean;
+}
+
+// TODO(Aditya): add the year and any numbers you can share (users, emails sent,
+// orders, page speed, etc.) — specifics sell better than adjectives.
+export const clientWork: ClientWork[] = [
+  {
+    slug: "sendflier",
+    client: "SendFlier",
+    url: "https://sendflier.tech",
+    type: "SaaS product",
+    year: "2025",
+    badge: "Used at Tata Memorial Hospital",
+    summary:
+      "An open-source bulk email platform: upload a CSV, write with {{variables}}, and send personalised campaigns through Gmail in three clicks. Teams at Tata Memorial Hospital use it for their outreach.",
+    highlights: [
+      "CSV upload with auto-mapped personalisation variables",
+      "Rich text editor with live per-recipient preview",
+      "Sends via Gmail API with OAuth 2.0, with live progress and analytics",
+    ],
+    services: ["software"],
+  },
+  {
+    slug: "iascc",
+    client: "IASCC",
+    url: "https://iascc.in",
+    type: "Nonprofit website + custom CMS",
+    year: "2025",
+    summary:
+      "Website for the Integrated Association of Supportive Care in Cancer, India's national affiliate of MASCC. Designed and built from scratch, with a custom CMS so the team can publish events, announcements, research grants and newsletters on their own.",
+    highlights: [
+      "Custom CMS for events, announcements, grants and publications",
+      "Membership and contact flows",
+      "Designed for performance and accessibility",
+    ],
+    services: ["software"],
+  },
+  {
+    slug: "younique-india",
+    client: "Younique India",
+    url: "https://youniqueindia.co.in",
+    type: "E-commerce store",
+    year: "2025",
+    summary:
+      "Online store for an 18k gold-plated jewellery brand: product catalogue, featured collections, offers and a shopping experience that ships across India.",
+    highlights: [
+      "Shop, product catalogue and featured collections",
+      "Promotions and free-shipping offers",
+      "Mobile-first, brand-led design",
+    ],
+    services: ["software"],
+  },
+  {
+    slug: "theska",
+    client: "Theska",
+    url: "https://theska.in",
+    type: "Internal software",
+    year: "2025",
+    internal: true,
+    summary:
+      "Internal software that supports Theska's day-to-day operations, built around how the team actually works.",
+    highlights: [
+      "Custom internal tooling",
+      "Built around existing workflows",
+      "Private — details available on request",
+    ],
+    services: ["software", "analytics"],
+  },
+];
+
+export const processSteps = [
+  {
+    title: "Discovery call",
+    body: "A short call to understand the problem, your data and what success looks like. No commitment.",
+  },
+  {
+    title: "Scope & proposal",
+    body: "A written plan with deliverables, milestones and timeline, so we both know exactly what's being built.",
+  },
+  {
+    title: "Build in milestones",
+    body: "Regular updates and working demos. You see progress early and can steer as we go.",
+  },
+  {
+    title: "Handoff & support",
+    body: "Deployment, documentation and a walkthrough — plus support after launch so nothing is left hanging.",
+  },
+];
+
+export const faqs = [
+  {
+    q: "How do you price projects?",
+    a: "Every project is different, so pricing is based on the scope and complexity of the work. After a short call I'll send a written proposal with a clear quote and timeline — no surprises.",
+  },
+  {
+    q: "What kind of projects do you take on?",
+    a: "Data analysis and dashboards, machine learning and deep learning models, generative AI and LLM apps, and general software — websites, web apps, internal tools and MVPs.",
+  },
+  {
+    q: "Do you work with clients outside India?",
+    a: "Yes. I work remotely and can overlap with most time zones for calls and updates.",
+  },
+  {
+    q: "Who owns the code and the data?",
+    a: "You do. Once the project is delivered, the code, models and documentation are yours. I'm happy to sign an NDA before we discuss details.",
+  },
+  {
+    q: "What do you need from me to get started?",
+    a: "A rough description of the problem, any existing data or systems I'd be working with, and who the end users are. If you're not sure yet, that's what the first call is for.",
+  },
+  {
+    q: "Do you offer support after launch?",
+    a: "Yes. Every project includes a support window after handoff, and ongoing maintenance can be arranged if you need it.",
   },
 ];
