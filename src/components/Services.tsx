@@ -6,7 +6,7 @@ export default function Services() {
       <div className="wrap grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
-            <h2 id="services-title" data-reveal className="display mb-6 text-[clamp(3rem,6.5vw,6rem)]">
+            <h2 id="services-title" data-reveal="split" className="display mb-6 text-[clamp(3rem,6.5vw,6rem)]">
               What I can build for you
             </h2>
             <p data-reveal className="measure text-[1.1rem] text-ink-2">

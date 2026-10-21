@@ -58,7 +58,7 @@ export default function Featured() {
           <p data-reveal className="mb-6 text-ink-2">
             Featured product, in use at <strong className="font-medium text-ink">{featured.usedBy}</strong>
           </p>
-          <h2 id="flier-title" data-reveal className="display mb-8 text-[clamp(2.75rem,6vw,5.5rem)]">
+          <h2 id="flier-title" data-reveal="split" className="display mb-8 text-[clamp(2.75rem,6vw,5.5rem)]">
             {featured.headline}
           </h2>
           <p data-reveal className="measure mb-12 text-[1.15rem] leading-relaxed text-ink-2">

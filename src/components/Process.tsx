@@ -29,7 +29,7 @@ export default function Process() {
     <section id="process" className="section" aria-labelledby="process-title">
       <div className="wrap">
         <div className="mb-16 grid gap-6 md:mb-24 md:grid-cols-12 md:items-end">
-          <h2 id="process-title" data-reveal className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
+          <h2 id="process-title" data-reveal="split" className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
             How a project runs
           </h2>
           <p data-reveal className="measure text-[1.1rem] text-ink-2 md:col-span-5">

@@ -210,6 +210,24 @@ html.js-motion [data-hero] {
   opacity: 0;
 }
 
+/* ---------- Cursor label (work list) ---------- */
+
+.cursor-chip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  pointer-events: none;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+}
+
 /* ---------- Details / FAQ ---------- */
 
 details > summary {
@@ -225,13 +243,14 @@ details[open] .faq-icon {
 
 /* ---------- Reduced motion ---------- */
 
+/* Reduced motion: stop looping animations and smooth scrolling. Short hover
+   transitions (colour, underline, fills) stay, since they don't move the page. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }

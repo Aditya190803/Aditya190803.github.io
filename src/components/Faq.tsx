@@ -4,7 +4,7 @@ export default function Faq() {
   return (
     <section id="faq" className="section pt-0" aria-labelledby="faq-title">
       <div className="wrap grid gap-12 lg:grid-cols-12 lg:gap-10">
-        <h2 id="faq-title" data-reveal className="display text-[clamp(2.75rem,6vw,5.5rem)] lg:col-span-4">
+        <h2 id="faq-title" data-reveal="split" className="display text-[clamp(2.75rem,6vw,5.5rem)] lg:col-span-4">
           Questions clients ask
         </h2>
         <div className="lg:col-span-7 lg:col-start-6">

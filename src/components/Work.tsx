@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { work } from "@/lib/data";
 import Shots from "@/components/Shots";
@@ -8,6 +9,36 @@ import Cover from "@/components/Cover";
 
 export default function Work() {
   const [open, setOpen] = useState<string | null>(null);
+  // Row under the mouse, for the "View project" label that follows it.
+  const [hovered, setHovered] = useState<string | null>(null);
+  const chip = useRef<HTMLDivElement>(null);
+  const moveChip = useRef<(x: number, y: number, instant?: boolean) => void>(() => {});
+
+  useEffect(() => {
+    const c = chip.current;
+    if (!c) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gsap.set(c, { xPercent: -50, yPercent: -50, scale: 0.6, opacity: 0 });
+    const xTo = gsap.quickTo(c, "x", { duration: reduce ? 0 : 0.45, ease: "power3.out" });
+    const yTo = gsap.quickTo(c, "y", { duration: reduce ? 0 : 0.45, ease: "power3.out" });
+    moveChip.current = (x, y, instant) => {
+      if (instant) {
+        gsap.set(c, { x: x + 18, y: y + 18 });
+        xTo(x + 18, x + 18);
+        yTo(y + 18, y + 18);
+      } else {
+        xTo(x + 18);
+        yTo(y + 18);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!chip.current) return;
+    gsap.to(chip.current, { opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.6, duration: 0.3, ease: "power3.out" });
+  }, [hovered]);
+
+  const isMouse = (e: React.PointerEvent) => e.pointerType === "mouse" || e.pointerType === "pen";
 
   const toggle = (slug: string) => {
     setOpen((cur) => (cur === slug ? null : slug));
@@ -18,7 +49,7 @@ export default function Work() {
     <section id="work" className="section" aria-labelledby="work-title">
       <div className="wrap">
         <div className="mb-14 grid gap-6 md:mb-20 md:grid-cols-12 md:items-end">
-          <h2 id="work-title" data-reveal className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
+          <h2 id="work-title" data-reveal="split" className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
             Client work
           </h2>
           <p data-reveal className="measure text-[1.1rem] text-ink-2 md:col-span-5">
@@ -27,7 +58,11 @@ export default function Work() {
           </p>
         </div>
 
-        <ul className="border-b border-rule">
+        <ul
+          className="border-b border-rule"
+          onPointerLeave={() => setHovered(null)}
+          onPointerMove={(e) => isMouse(e) && moveChip.current(e.clientX, e.clientY)}
+        >
           {work.map((w) => {
             const isOpen = open === w.slug;
             return (
@@ -39,6 +74,11 @@ export default function Work() {
                     aria-expanded={isOpen}
                     aria-controls={`work-${w.slug}`}
                     onClick={() => toggle(w.slug)}
+                    onPointerEnter={(e) => {
+                      if (!isMouse(e)) return;
+                      moveChip.current(e.clientX, e.clientY, hovered === null);
+                      setHovered(w.slug);
+                    }}
                   >
                     <span
                       aria-hidden="true"
@@ -73,6 +113,7 @@ export default function Work() {
                   className="grid transition-[grid-template-rows] duration-700 ease-[var(--ease-out)]"
                   style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                   inert={!isOpen}
+                  onPointerEnter={() => setHovered(null)}
                 >
                   <div className="overflow-hidden">
                     <div className="grid gap-10 pb-12 pt-2 md:grid-cols-12 md:pb-16">
@@ -120,6 +161,10 @@ export default function Work() {
             );
           })}
         </ul>
+      </div>
+
+      <div ref={chip} className="cursor-chip" aria-hidden="true">
+        {hovered && open === hovered ? "Close" : "View project"}
       </div>
     </section>
   );

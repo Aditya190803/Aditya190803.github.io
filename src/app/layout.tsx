@@ -86,9 +86,9 @@ const jsonLd = {
   subjectOf: [...work.map((w) => w.url), featured.url],
 };
 
-// Runs before first paint: hide reveal targets only when motion will play,
+// Runs before first paint: hide reveal targets until they animate in,
 // and un-hide them if scripts fail to start.
-const motionBoot = `(function(){try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('js-motion');setTimeout(function(){if(!d.classList.contains('motion-ready'))d.classList.remove('js-motion')},3500)}}catch(e){}})();`;
+const motionBoot = `(function(){try{var d=document.documentElement;d.classList.add('js-motion');setTimeout(function(){if(!d.classList.contains('motion-ready'))d.classList.remove('js-motion')},3500)}catch(e){}})();`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

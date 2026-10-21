@@ -162,27 +162,25 @@ export default function Hero() {
       if (disposed) return;
       fit();
       ro.observe(h.parentElement!);
+      const done = () => {
+        // Unmask so heavier letters aren't clipped at the edges.
+        boxes.forEach((b) => (b.style.overflow = "visible"));
+        measure();
+      };
+      const rest = el.querySelectorAll("[data-hero]");
       if (reduce) {
+        // Reduced motion: a soft fade instead of letters rising.
+        tl = gsap
+          .timeline({ defaults: { ease: "power1.out" }, onComplete: done })
+          .fromTo(h, { opacity: 0 }, { opacity: 1, duration: 0.8 })
+          .fromTo(rest, { opacity: 0 }, { opacity: 1, duration: 0.6, stagger: 0.05 }, "-=0.4");
+      } else {
         gsap.set(h, { opacity: 1 });
-        return;
+        tl = gsap
+          .timeline({ defaults: { ease: "expo.out" }, onComplete: done })
+          .from(chars, { yPercent: 170, duration: 1.4, stagger: 0.045 })
+          .fromTo(rest, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 }, "-=1.0");
       }
-      gsap.set(h, { opacity: 1 });
-      tl = gsap
-        .timeline({
-          defaults: { ease: "expo.out" },
-          onComplete: () => {
-            // Unmask so heavier letters aren't clipped at the edges.
-            boxes.forEach((b) => (b.style.overflow = "visible"));
-            measure();
-          },
-        })
-        .from(chars, { yPercent: 170, duration: 1.4, stagger: 0.045 })
-        .fromTo(
-          el.querySelectorAll("[data-hero]"),
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 },
-          "-=1.0",
-        );
       el.addEventListener("pointermove", onMove);
       el.addEventListener("pointerleave", onLeave);
     });
@@ -330,7 +328,10 @@ export default function Hero() {
             {profile.location.split(",")[0]}, <MumbaiTime />
           </span>
           <span className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-cobalt" />
+            <span aria-hidden="true" className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cobalt opacity-50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-cobalt" />
+            </span>
             {profile.availability}
           </span>
         </div>

@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-paper">
       <div className="wrap py-14 md:py-20">
-        <p className="display mb-14 text-[clamp(3.5rem,13vw,13rem)] leading-[0.85]" aria-hidden="true">
+        <p data-reveal="split" className="display mb-14 text-[clamp(3.5rem,13vw,13rem)] leading-[0.85]" aria-hidden="true">
           Aditya Mer
         </p>
         <div className="flex flex-col gap-8 border-t border-paper/15 pt-8 text-paper/70 md:flex-row md:items-center md:justify-between">

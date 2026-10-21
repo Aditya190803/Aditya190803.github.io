@@ -16,7 +16,7 @@ export default function About() {
       <div className="wrap">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
-            <h2 id="about-title" data-reveal className="display mb-10 text-[clamp(2.75rem,6vw,5.75rem)]">
+            <h2 id="about-title" data-reveal="split" className="display mb-10 text-[clamp(2.75rem,6vw,5.75rem)]">
               You work with me, start to finish.
             </h2>
             <div data-reveal className="measure space-y-5 text-[1.15rem] leading-relaxed text-ink-2">

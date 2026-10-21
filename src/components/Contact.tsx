@@ -64,7 +64,7 @@ export default function Contact() {
     <section id="contact" className="relative overflow-hidden bg-cobalt text-on-cobalt" aria-labelledby="contact-title">
       <div className="wrap section grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <h2 id="contact-title" data-reveal className="display mb-8 text-[clamp(3.25rem,8vw,7.5rem)]">
+          <h2 id="contact-title" data-reveal="split" className="display mb-8 text-[clamp(3.25rem,8vw,7.5rem)]">
             Tell me what you&apos;re building.
           </h2>
           <p data-reveal className="measure mb-10 text-[1.15rem] leading-relaxed text-on-cobalt-2">
@@ -142,7 +142,7 @@ export default function Contact() {
               </label>
 
               <div className="flex flex-wrap items-center gap-6">
-                <button type="submit" disabled={status === "sending"} className="btn btn-ink disabled:opacity-60">
+                <button type="submit" disabled={status === "sending"} className="btn btn-ink disabled:opacity-60" data-magnetic>
                   {status === "sending" ? "Sending…" : "Send enquiry"}
                 </button>
                 {status === "error" && (
