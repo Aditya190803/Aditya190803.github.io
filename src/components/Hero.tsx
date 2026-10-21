@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { featured, profile, work } from "@/lib/data";
+import Shots from "@/components/Shots";
+import Cover from "@/components/Cover";
 
 const NAME = "Aditya Mer";
 
-type Entry = { name: string; kind: string; year?: string; href: string; tone: string; domain: string; ink?: boolean };
+type Entry = { name: string; kind: string; year?: string; href: string; tone: string; domain: string; sector: string; image?: string };
 
 const entries: Entry[] = [
   {
@@ -14,11 +16,21 @@ const entries: Entry[] = [
     kind: `Product, used at ${featured.usedBy}`,
     year: "2025",
     href: "#flier",
-    tone: "var(--cobalt)",
+    tone: "#D9DCFB",
     domain: featured.domain,
-    ink: true,
+    sector: "Product",
+    image: featured.image,
   },
-  ...work.map((w) => ({ name: w.client, kind: w.kind, year: w.year, href: "#work", tone: w.tone, domain: w.domain })),
+  ...work.map((w) => ({
+    name: w.client,
+    kind: w.kind,
+    year: w.year,
+    href: "#work",
+    tone: w.tone,
+    domain: w.domain,
+    sector: w.sector,
+    image: w.image,
+  })),
 ];
 
 function MumbaiTime() {
@@ -31,31 +43,6 @@ function MumbaiTime() {
     return () => window.clearInterval(id);
   }, []);
   return <span>{time ?? "--:--"} IST</span>;
-}
-
-/** Small "website" drawing used in the hover preview. */
-function Preview({ e }: { e: Entry }) {
-  return (
-    <div
-      className="flex h-full w-full flex-col justify-between rounded-xl p-5"
-      style={{ background: e.tone, color: e.ink ? "var(--on-cobalt)" : "var(--ink)" }}
-    >
-      <div className="flex items-center gap-1.5 opacity-60">
-        <span className="h-1.5 w-1.5 rounded-full bg-current" />
-        <span className="h-1.5 w-1.5 rounded-full bg-current" />
-        <span className="h-1.5 w-1.5 rounded-full bg-current" />
-        <span className="ml-2 text-xs">{e.domain}</span>
-      </div>
-      <div className="space-y-2">
-        <p className="title text-[2.1rem] leading-none">{e.name}</p>
-        <div className="space-y-1.5 opacity-40">
-          <span className="block h-1.5 w-4/5 rounded-full bg-current" />
-          <span className="block h-1.5 w-3/5 rounded-full bg-current" />
-        </div>
-      </div>
-      <p className="text-sm opacity-75">{e.kind}</p>
-    </div>
-  );
 }
 
 export default function Hero() {
@@ -277,10 +264,22 @@ export default function Hero() {
       <div
         ref={preview}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-40 hidden h-[15rem] w-[21rem] rounded-xl shadow-[0_30px_60px_-20px_rgba(21,22,27,0.35)] md:block"
+        className="pointer-events-none fixed left-0 top-0 z-40 hidden h-[17.25rem] w-[24rem] rounded-2xl shadow-[0_30px_60px_-20px_rgba(21,22,27,0.35)] md:block"
         style={{ opacity: 0 }}
       >
-        {active !== null && <Preview e={entries[active]} />}
+        {entries.map((e, i) => (
+          <div
+            key={e.name}
+            className="absolute inset-0 transition-opacity duration-300"
+            style={{ opacity: active === i ? 1 : 0 }}
+          >
+            {e.image ? (
+              <Shots domain={e.domain} image={e.image} tone={e.tone} compact />
+            ) : (
+              <Cover name={e.name} domain={e.domain} sector={e.sector} tone={e.tone} compact />
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );

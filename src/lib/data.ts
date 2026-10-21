@@ -435,8 +435,11 @@ export interface ClientWork {
   kind: string;
   summary: string;
   scope: string[];
-  /** Background colour of the project's cover tile. */
+  /** Background colour behind the project's screenshots. */
   tone: string;
+  /** Screenshots in /public/work (desktop 16:10, mobile portrait). */
+  image?: string;
+  imageMobile?: string;
 }
 
 export const work: ClientWork[] = [
@@ -449,14 +452,16 @@ export const work: ClientWork[] = [
     year: "2025",
     kind: "Website + custom CMS",
     summary:
-      "The Integrated Association of Supportive Care in Cancer is India's national affiliate of MASCC. I designed and built their site from scratch, with a CMS their team uses to publish events, news, newsletters and research without a developer.",
+      "The Integrated Association of Supportive Care in Cancer is India's national affiliate of MASCC, bringing together clinicians, researchers, nurses and advocates. I designed and built their site from scratch, with a CMS their team uses to publish events, news, newsletters and research without a developer.",
     scope: [
       "Visual design and information architecture",
       "Custom CMS for events, news, newsletters and research",
-      "Membership and join flow",
+      "Leadership, membership and resources sections",
       "Performance and accessibility work",
     ],
     tone: "#DCE6E1",
+    image: "/work/iascc.webp",
+    imageMobile: "/work/iascc-mobile.webp",
   },
   {
     slug: "younique",
@@ -466,12 +471,12 @@ export const work: ClientWork[] = [
     sector: "Jewellery retail",
     kind: "E-commerce store + admin",
     summary:
-      "A jewellery storefront built to make the pieces look as good on screen as they do in hand, plus an admin panel so the owners can manage products, stock and orders themselves.",
+      "An online store for 18k gold-plated, anti-tarnish jewellery, shipping across India. Shoppers can search, browse by collection, sign in and track their orders, and the owners run the whole catalogue from their own admin panel.",
     scope: [
       "Storefront design and development",
-      "Product catalogue and checkout",
+      "Collections, search, cart and checkout",
+      "Customer accounts and order tracking",
       "Admin panel for products, stock and orders",
-      "Mobile-first product pages",
     ],
     tone: "#EADFD6",
   },
@@ -483,14 +488,16 @@ export const work: ClientWork[] = [
     sector: "Chartered accountants",
     kind: "Firm website",
     summary:
-      "SKA is a fast-growing firm of chartered accountants covering audit, tax, compliance and business set-up. Their site had to read as established and trustworthy, and make six service lines easy to scan.",
+      "Shah Kapadia & Associates is a chartered accountancy firm with over 15 years of practice and 300+ corporate clients across 10+ sectors. Their site had to read as established and trustworthy, and make audit, tax, compliance and advisory services easy to scan.",
     scope: [
       "Website design and build",
-      "Service pages for audit, tax, compliance and set-up",
-      "Partner and team profiles",
+      "Service and industry pages",
+      "Partner profiles, careers and brochure download",
       "Mobile-friendly layout",
     ],
     tone: "#E1E2EA",
+    image: "/work/theska.webp",
+    imageMobile: "/work/theska-mobile.webp",
   },
 ];
 
@@ -500,6 +507,8 @@ export const featured = {
   url: "https://sendflier.tech",
   github: "https://github.com/Aditya190803/EchoMail",
   usedBy: "Tata Memorial Hospital",
+  image: "/work/flier.webp",
+  imageMobile: "/work/flier-mobile.webp",
   headline: "Personalised email campaigns, sent from your own Gmail.",
   summary:
     "Flier is a mail-merge product I designed and built end to end. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent through Google's official Gmail API. It is in use at Tata Memorial Hospital.",

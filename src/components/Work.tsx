@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { work } from "@/lib/data";
+import Shots from "@/components/Shots";
+import Cover from "@/components/Cover";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,19 +115,19 @@ export default function Work() {
                         href={w.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/cover relative flex aspect-[4/3] flex-col justify-between overflow-hidden rounded-2xl p-6 md:col-span-5 md:p-8"
-                        style={{ background: w.tone }}
+                        className="group/cover block pb-[8%] md:col-span-7"
+                        tabIndex={-1}
+                        aria-hidden="true"
                       >
-                        <span className="text-[0.95rem] text-ink-2">{w.sector}</span>
-                        <span className="title break-words text-[clamp(1.9rem,4vw,3.4rem)] transition-transform duration-700 ease-[var(--ease-out)] group-hover/cover:-translate-y-1">
-                          {w.domain}
-                        </span>
-                        <span className="flex items-center justify-between text-[0.95rem]">
-                          <span className="link">Visit the live site</span>
-                          <span aria-hidden="true">↗</span>
-                        </span>
+                        <div className="transition-transform duration-700 ease-[var(--ease-out)] group-hover/cover:-translate-y-1">
+                          {w.image ? (
+                            <Shots domain={w.domain} image={w.image} imageMobile={w.imageMobile} tone={w.tone} />
+                          ) : (
+                            <Cover name={w.client} domain={w.domain} sector={w.sector} tone={w.tone} />
+                          )}
+                        </div>
                       </a>
-                      <div className="md:col-span-6 md:col-start-7">
+                      <div className="md:col-span-5">
                         <p className="measure mb-8 text-[1.15rem] leading-relaxed">{w.summary}</p>
                         <p className="mb-3 text-ink-3">What I did</p>
                         <ul className="space-y-2.5">
@@ -136,6 +138,15 @@ export default function Work() {
                             </li>
                           ))}
                         </ul>
+                        <a
+                          href={w.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-ghost mt-10"
+                        >
+                          Visit {w.domain}
+                          <span aria-hidden="true">↗</span>
+                        </a>
                       </div>
                     </div>
                   </div>
