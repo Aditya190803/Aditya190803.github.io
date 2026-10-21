@@ -51,71 +51,66 @@ export default function Hero() {
   const preview = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<number | null>(null);
 
-  // Fit the name to the full width of the layout.
-  useEffect(() => {
-    const h = nameRef.current;
-    if (!h) return;
-    const fit = () => {
-      const parent = h.parentElement!;
-      const styles = getComputedStyle(parent);
-      const width = parent.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
-      h.style.fontSize = "100px";
-      // Leave room for letters to thicken under the cursor.
-      h.style.fontSize = `${Math.floor((100 * width * 0.955) / h.scrollWidth)}px`;
-    };
-    fit();
-    document.fonts?.ready.then(fit);
-    const ro = new ResizeObserver(fit);
-    ro.observe(h.parentElement!);
-    return () => ro.disconnect();
-  }, []);
-
-  // Intro, then letters that thicken near the cursor.
+  // Name: wait for the real font, size it to the layout width, reveal it,
+  // then let letters thicken near the cursor.
   useEffect(() => {
     const el = root.current;
     const h = nameRef.current;
     if (!el || !h) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const chars = Array.from(h.querySelectorAll<HTMLElement>("[data-char]"));
-
-    let tl: gsap.core.Timeline | undefined;
-    if (!reduce) {
-      gsap.set(h, { opacity: 1 });
-      tl = gsap
-        .timeline({ defaults: { ease: "expo.out" }, delay: 0.15 })
-        .from(chars, { yPercent: 110, duration: 1.5, stagger: 0.045 })
-        .fromTo(
-          el.querySelectorAll("[data-hero]"),
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 },
-          "-=1.1",
-        );
-    }
-
-    if (reduce || !window.matchMedia("(pointer: fine)").matches) return () => tl?.kill();
+    const boxes = chars.map((c) => c.parentElement as HTMLElement);
 
     const base = 380;
     const weights = chars.map(() => base);
-    let px = -9999;
-    let py = -9999;
+    let centers: { x: number; y: number }[] = [];
+    let lastWidth = -1;
+    let disposed = false;
+    let tl: gsap.core.Timeline | undefined;
     let raf = 0;
     let running = false;
+    let px = -1e5;
+    let py = -1e5;
+
+    // Size the name and lock each letter's box at the base weight, so bolder
+    // letters never push their neighbours around (that caused the jitter).
+    const fit = () => {
+      const parent = h.parentElement!;
+      const cs = getComputedStyle(parent);
+      const width = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      if (width === lastWidth) return;
+      lastWidth = width;
+      boxes.forEach((b) => (b.style.width = ""));
+      chars.forEach((c, i) => {
+        weights[i] = base;
+        c.style.fontVariationSettings = `"wght" ${base}, "opsz" 72`;
+      });
+      h.style.fontSize = "100px";
+      h.style.fontSize = `${Math.floor((100 * width * 0.97) / h.scrollWidth)}px`;
+      const widths = boxes.map((b) => b.getBoundingClientRect().width);
+      boxes.forEach((b, i) => (b.style.width = `${widths[i]}px`));
+      measure();
+    };
+    // Letter centres in page coordinates; only changes on resize.
+    const measure = () => {
+      centers = boxes.map((b) => {
+        const r = b.getBoundingClientRect();
+        return { x: r.left + scrollX + r.width / 2, y: r.top + scrollY + r.height / 2 };
+      });
+    };
 
     const loop = () => {
-      const fontSize = parseFloat(h.style.fontSize) || 200;
-      const reach = fontSize * 1.1;
+      const reach = (parseFloat(h.style.fontSize) || 200) * 1.1;
       let moving = false;
       chars.forEach((c, i) => {
-        const r = c.getBoundingClientRect();
-        const d = Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2));
+        const d = Math.hypot(px - centers[i].x, py - centers[i].y);
         const t = Math.max(0, 1 - d / reach);
         const target = base + t * t * 340;
-        const next = weights[i] + (target - weights[i]) * 0.12;
-        if (Math.abs(next - weights[i]) > 0.2) moving = true;
-        weights[i] = next;
-        c.style.fontVariationSettings = `"wght" ${next.toFixed(1)}, "opsz" 72`;
+        const next = weights[i] + (target - weights[i]) * 0.14;
+        if (Math.abs(target - next) > 0.5) moving = true;
+        weights[i] = Math.abs(target - next) > 0.5 ? next : target;
+        c.style.fontVariationSettings = `"wght" ${weights[i].toFixed(0)}, "opsz" 72`;
       });
-      // Idle when settled so nothing runs in the background.
       if (moving) raf = requestAnimationFrame(loop);
       else running = false;
     };
@@ -126,19 +121,64 @@ export default function Hero() {
       }
     };
     const onMove = (e: PointerEvent) => {
-      px = e.clientX;
-      py = e.clientY;
+      px = e.pageX;
+      py = e.pageY;
       kick();
     };
     const onLeave = () => {
-      px = -9999;
-      py = -9999;
+      px = py = -1e5;
       kick();
     };
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerleave", onLeave);
+
+    const ro = new ResizeObserver(fit);
+    // Wait for the display font (never longer than 2.5s, and never fail).
+    const fontLoad = (async () => {
+      try {
+        const family = getComputedStyle(h).fontFamily;
+        await Promise.race([
+          document.fonts.load(`100px ${family}`).then(() => document.fonts.ready),
+          new Promise((r) => setTimeout(r, 2500)),
+        ]);
+      } catch {
+        /* fall through and show the name anyway */
+      }
+    })();
+
+    fontLoad.then(() => {
+      if (disposed) return;
+      fit();
+      ro.observe(h.parentElement!);
+      if (reduce) {
+        gsap.set(h, { opacity: 1 });
+        return;
+      }
+      gsap.set(h, { opacity: 1 });
+      tl = gsap
+        .timeline({
+          defaults: { ease: "expo.out" },
+          onComplete: () => {
+            // Unmask so heavier letters aren't clipped at the edges.
+            boxes.forEach((b) => (b.style.overflow = "visible"));
+            measure();
+          },
+        })
+        .from(chars, { yPercent: 110, duration: 1.4, stagger: 0.045 })
+        .fromTo(
+          el.querySelectorAll("[data-hero]"),
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 },
+          "-=1.0",
+        );
+      if (window.matchMedia("(pointer: fine)").matches) {
+        el.addEventListener("pointermove", onMove);
+        el.addEventListener("pointerleave", onLeave);
+      }
+    });
+
     return () => {
+      disposed = true;
       tl?.kill();
+      ro.disconnect();
       cancelAnimationFrame(raf);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
@@ -234,7 +274,7 @@ export default function Hero() {
             <span key={word} className="block md:inline" aria-hidden="true">
               {w > 0 && <span className="hidden md:inline-block">{"\u00a0"}</span>}
               {word.split("").map((c, i) => (
-                <span key={i} className="inline-block overflow-hidden pb-[0.07em] align-bottom">
+                <span key={i} className="inline-flex justify-center overflow-hidden pb-[0.07em] align-bottom">
                   <span data-char className="inline-block" style={{ fontVariationSettings: '"wght" 380, "opsz" 72' }}>
                     {c}
                   </span>
