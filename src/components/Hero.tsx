@@ -49,6 +49,7 @@ export default function Hero() {
   const root = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const preview = useRef<HTMLDivElement>(null);
+  const list = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState<number | null>(null);
 
   // Name: wait for the real font, size it to the layout width, reveal it,
@@ -121,6 +122,7 @@ export default function Hero() {
       }
     };
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse" && e.pointerType !== "pen") return;
       px = e.pageX;
       py = e.pageY;
       kick();
@@ -134,15 +136,27 @@ export default function Hero() {
     // Wait for the display font (never longer than 2.5s, and never fail).
     const fontLoad = (async () => {
       try {
-        const family = getComputedStyle(h).fontFamily;
+        // Only the real face (first in the stack); loading the whole stack
+        // can reject on fallback faces and resolve before Newsreader arrives.
+        const family = getComputedStyle(h).fontFamily.split(",")[0].trim();
         await Promise.race([
-          document.fonts.load(`100px ${family}`).then(() => document.fonts.ready),
+          document.fonts.load(`380 100px ${family}`).then(() => document.fonts.ready),
           new Promise((r) => setTimeout(r, 2500)),
         ]);
       } catch {
         /* fall through and show the name anyway */
       }
     })();
+
+    // If any font lands later, re-measure so letter slots match the font
+    // actually on screen (stale slots spread the letters apart).
+    const refit = () => {
+      if (disposed) return;
+      lastWidth = -1;
+      fit();
+    };
+    document.fonts?.addEventListener?.("loadingdone", refit);
+    document.fonts?.ready.then(refit);
 
     fontLoad.then(() => {
       if (disposed) return;
@@ -169,42 +183,56 @@ export default function Hero() {
           { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 },
           "-=1.0",
         );
-      if (window.matchMedia("(pointer: fine)").matches) {
-        el.addEventListener("pointermove", onMove);
-        el.addEventListener("pointerleave", onLeave);
-      }
+      el.addEventListener("pointermove", onMove);
+      el.addEventListener("pointerleave", onLeave);
     });
 
     return () => {
       disposed = true;
       tl?.kill();
       ro.disconnect();
+      document.fonts?.removeEventListener?.("loadingdone", refit);
       cancelAnimationFrame(raf);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 
-  // Floating preview that trails the cursor over the work index.
+  // Floating preview that trails the cursor over the work index. It is
+  // placed from the pointer event itself, so it never starts in a corner.
+  const place = useRef<(x: number, y: number, instant?: boolean) => void>(() => {});
   useEffect(() => {
     const p = preview.current;
-    if (!p || !window.matchMedia("(pointer: fine)").matches) return;
+    if (!p) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     gsap.set(p, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
-    const xTo = gsap.quickTo(p, "x", { duration: reduce ? 0 : 0.7, ease: "power3.out" });
-    const yTo = gsap.quickTo(p, "y", { duration: reduce ? 0 : 0.7, ease: "power3.out" });
+    const xTo = gsap.quickTo(p, "x", { duration: reduce ? 0 : 0.6, ease: "power3.out" });
+    const yTo = gsap.quickTo(p, "y", { duration: reduce ? 0 : 0.6, ease: "power3.out" });
     const rTo = gsap.quickTo(p, "rotation", { duration: 0.8, ease: "power3.out" });
-    let lastX = 0;
-    const move = (e: PointerEvent) => {
-      // Sit to the left of the cursor so the list stays readable.
-      xTo(e.clientX - p.offsetWidth * 0.5 - 56);
-      yTo(e.clientY);
-      if (!reduce) rTo(Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.6)));
-      lastX = e.clientX;
+    let lastX: number | null = null;
+    place.current = (cx, cy, instant = false) => {
+      // Sit just left of the list so the hovered name is never covered;
+      // fall back to beside the cursor if there isn't room.
+      const listLeft = list.current?.getBoundingClientRect().left ?? cx;
+      const room = listLeft - p.offsetWidth - 40;
+      const x = room >= 16 ? listLeft - 40 - p.offsetWidth * 0.5 : cx - p.offsetWidth * 0.5 - 56;
+      // Keep the card below the header and inside the viewport.
+      const half = p.offsetHeight / 2;
+      cy = Math.min(Math.max(cy, 88 + half), window.innerHeight - 16 - half);
+      if (instant || lastX === null) {
+        gsap.set(p, { x, y: cy, rotation: 0 });
+        xTo(x, x);
+        yTo(cy, cy);
+      } else {
+        xTo(x);
+        yTo(cy);
+        if (!reduce) rTo(Math.max(-12, Math.min(12, (cx - lastX) * 0.6)));
+      }
+      lastX = cx;
     };
-    window.addEventListener("pointermove", move);
-    return () => window.removeEventListener("pointermove", move);
   }, []);
+
+  const isMouse = (e: React.PointerEvent) => e.pointerType === "mouse" || e.pointerType === "pen";
 
   useEffect(() => {
     if (!preview.current) return;
@@ -238,13 +266,25 @@ export default function Hero() {
           <p data-hero className="mb-3 text-[0.95rem] text-ink-3">
             Selected work
           </p>
-          <ul onPointerLeave={() => setActive(null)}>
+          <ul
+            ref={list}
+            onPointerLeave={() => setActive(null)}
+            onPointerMove={(e) => isMouse(e) && active !== null && place.current(e.clientX, e.clientY)}
+          >
             {entries.map((e, i) => (
               <li key={e.name} data-hero className="border-t border-rule last:border-b">
                 <a
                   href={e.href}
-                  onPointerEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
+                  onPointerEnter={(e) => {
+                    if (!isMouse(e)) return;
+                    place.current(e.clientX, e.clientY, active === null);
+                    setActive(i);
+                  }}
+                  onFocus={(e) => {
+                    const r = e.currentTarget.getBoundingClientRect();
+                    place.current(r.left, r.top + r.height / 2, true);
+                    setActive(i);
+                  }}
                   onBlur={() => setActive(null)}
                   className={`group grid grid-cols-[1fr_auto] items-baseline gap-4 py-3.5 transition-colors duration-300 md:py-4 ${
                     active !== null && active !== i ? "text-ink-3" : ""
