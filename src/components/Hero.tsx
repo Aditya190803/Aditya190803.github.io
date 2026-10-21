@@ -1,142 +1,286 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail, FileText } from "lucide-react";
-import { profile } from "@/lib/data";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { featured, profile, work } from "@/lib/data";
+
+const NAME = "Aditya Mer";
+
+type Entry = { name: string; kind: string; year?: string; href: string; tone: string; domain: string; ink?: boolean };
+
+const entries: Entry[] = [
+  {
+    name: featured.name,
+    kind: `Product, used at ${featured.usedBy}`,
+    year: "2025",
+    href: "#flier",
+    tone: "var(--cobalt)",
+    domain: featured.domain,
+    ink: true,
+  },
+  ...work.map((w) => ({ name: w.client, kind: w.kind, year: w.year, href: "#work", tone: w.tone, domain: w.domain })),
+];
+
+function MumbaiTime() {
+  const [time, setTime] = useState<string | null>(null);
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
+    const tick = () => setTime(fmt.format(new Date()));
+    tick();
+    const id = window.setInterval(tick, 15_000);
+    return () => window.clearInterval(id);
+  }, []);
+  return <span>{time ?? "--:--"} IST</span>;
+}
+
+/** Small "website" drawing used in the hover preview. */
+function Preview({ e }: { e: Entry }) {
+  return (
+    <div
+      className="flex h-full w-full flex-col justify-between rounded-xl p-5"
+      style={{ background: e.tone, color: e.ink ? "var(--on-cobalt)" : "var(--ink)" }}
+    >
+      <div className="flex items-center gap-1.5 opacity-60">
+        <span className="h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="ml-2 text-xs">{e.domain}</span>
+      </div>
+      <div className="space-y-2">
+        <p className="title text-[2.1rem] leading-none">{e.name}</p>
+        <div className="space-y-1.5 opacity-40">
+          <span className="block h-1.5 w-4/5 rounded-full bg-current" />
+          <span className="block h-1.5 w-3/5 rounded-full bg-current" />
+        </div>
+      </div>
+      <p className="text-sm opacity-75">{e.kind}</p>
+    </div>
+  );
+}
 
 export default function Hero() {
+  const root = useRef<HTMLElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const preview = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState<number | null>(null);
+
+  // Fit the name to the full width of the layout.
+  useEffect(() => {
+    const h = nameRef.current;
+    if (!h) return;
+    const fit = () => {
+      const parent = h.parentElement!;
+      const styles = getComputedStyle(parent);
+      const width = parent.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
+      h.style.fontSize = "100px";
+      // Leave room for letters to thicken under the cursor.
+      h.style.fontSize = `${Math.floor((100 * width * 0.955) / h.scrollWidth)}px`;
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    const ro = new ResizeObserver(fit);
+    ro.observe(h.parentElement!);
+    return () => ro.disconnect();
+  }, []);
+
+  // Intro, then letters that thicken near the cursor.
+  useEffect(() => {
+    const el = root.current;
+    const h = nameRef.current;
+    if (!el || !h) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const chars = Array.from(h.querySelectorAll<HTMLElement>("[data-char]"));
+
+    let tl: gsap.core.Timeline | undefined;
+    if (!reduce) {
+      gsap.set(h, { opacity: 1 });
+      tl = gsap
+        .timeline({ defaults: { ease: "expo.out" }, delay: 0.15 })
+        .from(chars, { yPercent: 110, duration: 1.5, stagger: 0.045 })
+        .fromTo(
+          el.querySelectorAll("[data-hero]"),
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1.1, stagger: 0.06 },
+          "-=1.1",
+        );
+    }
+
+    if (reduce || !window.matchMedia("(pointer: fine)").matches) return () => tl?.kill();
+
+    const base = 380;
+    const weights = chars.map(() => base);
+    let px = -9999;
+    let py = -9999;
+    let raf = 0;
+    let running = false;
+
+    const loop = () => {
+      const fontSize = parseFloat(h.style.fontSize) || 200;
+      const reach = fontSize * 1.1;
+      let moving = false;
+      chars.forEach((c, i) => {
+        const r = c.getBoundingClientRect();
+        const d = Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2));
+        const t = Math.max(0, 1 - d / reach);
+        const target = base + t * t * 340;
+        const next = weights[i] + (target - weights[i]) * 0.12;
+        if (Math.abs(next - weights[i]) > 0.2) moving = true;
+        weights[i] = next;
+        c.style.fontVariationSettings = `"wght" ${next.toFixed(1)}, "opsz" 72`;
+      });
+      // Idle when settled so nothing runs in the background.
+      if (moving) raf = requestAnimationFrame(loop);
+      else running = false;
+    };
+    const kick = () => {
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(loop);
+      }
+    };
+    const onMove = (e: PointerEvent) => {
+      px = e.clientX;
+      py = e.clientY;
+      kick();
+    };
+    const onLeave = () => {
+      px = -9999;
+      py = -9999;
+      kick();
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      tl?.kill();
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
+  }, []);
+
+  // Floating preview that trails the cursor over the work index.
+  useEffect(() => {
+    const p = preview.current;
+    if (!p || !window.matchMedia("(pointer: fine)").matches) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gsap.set(p, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
+    const xTo = gsap.quickTo(p, "x", { duration: reduce ? 0 : 0.7, ease: "power3.out" });
+    const yTo = gsap.quickTo(p, "y", { duration: reduce ? 0 : 0.7, ease: "power3.out" });
+    const rTo = gsap.quickTo(p, "rotation", { duration: 0.8, ease: "power3.out" });
+    let lastX = 0;
+    const move = (e: PointerEvent) => {
+      // Sit to the left of the cursor so the list stays readable.
+      xTo(e.clientX - p.offsetWidth * 0.5 - 56);
+      yTo(e.clientY);
+      if (!reduce) rTo(Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.6)));
+      lastX = e.clientX;
+    };
+    window.addEventListener("pointermove", move);
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+
+  useEffect(() => {
+    if (!preview.current) return;
+    gsap.to(preview.current, {
+      opacity: active === null ? 0 : 1,
+      scale: active === null ? 0.85 : 1,
+      duration: 0.4,
+      ease: "power3.out",
+    });
+  }, [active]);
+
   return (
-    <section className="min-h-screen bg-cream relative overflow-hidden">
-
-      {/* Floating Stickers */}
-      <motion.div
-        initial={{ opacity: 0, rotate: -15 }}
-        animate={{ opacity: 1, rotate: -8 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute top-32 right-[15%] hidden lg:block"
-      >
-        <div className="sticker px-6 py-3 bg-yellow">
-          <span className="font-black text-sm uppercase tracking-wider">Open to Work</span>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, rotate: 10 }}
-        animate={{ opacity: 1, rotate: 5 }}
-        transition={{ delay: 0.7, duration: 0.8 }}
-        className="absolute bottom-40 left-[10%] hidden lg:block"
-      >
-        <div className="sticker px-5 py-2 bg-mint">
-          <span className="font-bold text-sm">ML/DL Engineer</span>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-        className="absolute top-[45%] right-[8%] hidden lg:block"
-      >
-        <div className="w-20 h-20 bg-coral blob" />
-      </motion.div>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-6 pt-32 pb-20 min-h-screen flex flex-col justify-center items-center text-center">
-        <div className="max-w-5xl">
-          {/* Name with mixed typography */}
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 className="text-[clamp(3rem,15vw,12rem)] font-black leading-[0.85] tracking-tighter mb-6">
-              <span className="block">Aditya</span>
-              <span className="block text-stroke">Mer</span>
-            </h1>
-          </motion.div>
-
-          {/* Tagline with highlight */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-xl md:text-2xl max-w-2xl mb-12 leading-relaxed"
-          >
-            Building <span className="funky-underline font-bold">scalable ML & GenAI systems</span> from research to production.
-          </motion.p>
-
-          {/* CTA Buttons - Asymmetric layout */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-wrap gap-4 mb-16 justify-center"
-          >
-            <a
-              href="#projects"
-              className="group px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-coral transition-all border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-            >
-              See my work
-              <ArrowDown size={20} className="group-hover:translate-y-1 transition-transform" />
+    <section
+      ref={root}
+      className="relative flex min-h-[100svh] flex-col overflow-hidden pt-[6.5rem] md:pt-[7.5rem]"
+      aria-labelledby="hero-name"
+    >
+      <div className="wrap grid flex-1 content-start gap-10 md:grid-cols-12 md:gap-8">
+        <div data-hero className="md:col-span-4">
+          <p className="measure text-[1.15rem] leading-relaxed text-ink-2 md:text-[1.2rem]">
+            Designer and developer in Mumbai. I make websites, online stores and web apps for organisations and brands,
+            and built{" "}
+            <a href="#flier" className="link-static text-ink">
+              Flier
             </a>
-            <Link
-              href="/resume"
-              className="px-6 py-3 md:px-8 md:py-4 bg-white border-3 border-black font-bold text-base md:text-lg inline-flex items-center gap-3 hover:bg-yellow transition-all shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-            >
-              <FileText size={20} />
-              Interactive Resume
-            </Link>
-          </motion.div>
+            , the email tool in use at {featured.usedBy}.
+          </p>
+        </div>
 
-          {/* Social Links - Horizontal strip */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex items-center gap-6 justify-center"
-          >
-            <span className="text-sm font-bold uppercase tracking-widest text-black/50">Connect</span>
-            <div className="flex gap-3 items-center">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="GitHub Profile"
-              >
-                <Github size={22} />
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="LinkedIn Profile"
-              >
-                <Linkedin size={22} />
-              </a>
-              <a
-                href={`mailto:${profile.email}`}
-                className="w-12 h-12 border-3 border-black flex items-center justify-center bg-white hover:bg-mint transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                aria-label="Email Me"
-              >
-                <Mail size={22} />
-              </a>
-            </div>
-          </motion.div>
+        <div className="md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
+          <p data-hero className="mb-3 flex justify-between text-[0.95rem] text-ink-3">
+            <span>Selected work</span>
+            <span className="tabular-nums">{String(entries.length).padStart(2, "0")}</span>
+          </p>
+          <ul onPointerLeave={() => setActive(null)}>
+            {entries.map((e, i) => (
+              <li key={e.name} data-hero className="border-t border-rule last:border-b">
+                <a
+                  href={e.href}
+                  onPointerEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  onBlur={() => setActive(null)}
+                  className={`group grid grid-cols-[2rem_1fr_auto] items-baseline gap-3 py-3.5 transition-colors duration-300 md:py-4 ${
+                    active !== null && active !== i ? "text-ink-3" : ""
+                  }`}
+                >
+                  <span className="text-[0.9rem] tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="title text-[1.5rem] transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-2 md:text-[1.75rem]">
+                    {e.name}
+                  </span>
+                  <span className="hidden text-right text-[0.95rem] text-ink-3 sm:block">{e.kind}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      {/* Marquee at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black text-white py-4 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap flex">
-          {[...Array(10)].map((_, i) => (
-            <span key={i} className="mx-8 text-lg font-bold uppercase tracking-widest">
-              • ML Engineer • GenAI Developer • Research • Full Stack •
+      <div className="wrap order-first mb-10 mt-2 md:order-none md:mb-0 md:mt-12">
+        <h1
+          id="hero-name"
+          ref={nameRef}
+          className="display inline-block !leading-[0.8] [font-size:18vw] md:whitespace-nowrap [html.js-motion_&]:opacity-0"
+          aria-label={NAME}
+        >
+          {NAME.split(" ").map((word, w) => (
+            <span key={word} className="block md:inline" aria-hidden="true">
+              {w > 0 && <span className="hidden md:inline-block">{"\u00a0"}</span>}
+              {word.split("").map((c, i) => (
+                <span key={i} className="inline-block overflow-hidden pb-[0.07em] align-bottom">
+                  <span data-char className="inline-block" style={{ fontVariationSettings: '"wght" 380, "opsz" 72' }}>
+                    {c}
+                  </span>
+                </span>
+              ))}
             </span>
           ))}
+        </h1>
+      </div>
+
+      <div data-hero className="wrap">
+        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 border-t border-ink py-5 text-[0.95rem] text-ink-2">
+          <span>Independent designer &amp; developer</span>
+          <span className="hidden sm:inline">
+            {profile.location.split(",")[0]}, <MumbaiTime />
+          </span>
+          <span className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cobalt opacity-50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-cobalt" />
+            </span>
+            {profile.availability}
+          </span>
         </div>
+      </div>
+
+      <div
+        ref={preview}
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-40 hidden h-[15rem] w-[21rem] rounded-xl shadow-[0_30px_60px_-20px_rgba(21,22,27,0.35)] md:block"
+        style={{ opacity: 0 }}
+      >
+        {active !== null && <Preview e={entries[active]} />}
       </div>
     </section>
   );

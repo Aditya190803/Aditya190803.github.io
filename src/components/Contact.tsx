@@ -1,220 +1,162 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, ArrowUpRight, CheckCircle, Loader2 } from "lucide-react";
 import { profile } from "@/lib/data";
 
+const needs = ["New website", "Redesign", "Online store", "Web app", "AI feature", "Not sure yet"];
+const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+
+type Status = "idle" | "sending" | "sent" | "error";
+
+const field =
+  "w-full border-0 border-b border-on-cobalt/35 bg-transparent px-0 py-3 text-[1.15rem] text-on-cobalt placeholder:text-on-cobalt-2/70 focus:border-on-cobalt focus:outline-none focus:ring-0 focus-visible:outline-none transition-colors";
+
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [picked, setPicked] = useState<string[]>([]);
+  const [status, setStatus] = useState<Status>("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const toggle = (n: string) => setPicked((p) => (p.includes(n) ? p.filter((x) => x !== n) : [...p, n]));
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("loading");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "");
+    const email = String(data.get("email") ?? "");
+    const company = String(data.get("company") ?? "");
+    const message = String(data.get("message") ?? "");
+    const need = picked.join(", ") || "Not specified";
 
+    // Without a form key, fall back to the visitor's email app.
+    if (!accessKey) {
+      const body = `${message}\n\nLooking for: ${need}\nCompany / website: ${company || "-"}\n\n${name}\n${email}`;
+      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(`Project enquiry from ${name}`)}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
+    setStatus("sending");
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_ACCESS_KEY",
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          from_name: "Portfolio Contact Form",
+          access_key: accessKey,
+          subject: `Project enquiry from ${name}`,
+          from_name: "adityamer.dev",
+          name,
+          email,
+          company,
+          looking_for: need,
+          message,
         }),
       });
-
-      const data = await response.json();
-      if (data.success) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setStatus("idle"), 5000);
-      } else {
-        setStatus("error");
-      }
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message);
+      setStatus("sent");
+      form.reset();
+      setPicked([]);
     } catch {
       setStatus("error");
     }
   };
 
   return (
-    <section id="contact" className="section-padding bg-white relative overflow-hidden">
-      {/* Subtle Background */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #0a0a0a 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <span className="w-12 h-12 bg-coral text-white flex items-center justify-center">
-              <Mail size={24} />
-            </span>
-            <span className="text-sm font-bold uppercase tracking-widest">Get in Touch</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-8 leading-[0.9] tracking-tight">
-            Let's
-            <br />
-            <span className="text-stroke-thin"> Connect</span>
+    <section id="contact" className="relative overflow-hidden bg-cobalt text-on-cobalt" aria-labelledby="contact-title">
+      <div className="wrap section grid gap-16 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-5">
+          <h2 id="contact-title" data-reveal="split" className="display mb-8 text-[clamp(3.25rem,8vw,7.5rem)]">
+            Tell me what you&apos;re building.
           </h2>
-        </motion.div>
+          <p data-reveal className="measure mb-10 text-[1.15rem] leading-relaxed text-on-cobalt-2">
+            A few lines is plenty. {profile.responseTime} If it&apos;s a good fit, we&apos;ll set up a short call; if
+            it isn&apos;t, I&apos;ll point you to someone who can help.
+          </p>
+          <div data-reveal className="space-y-2">
+            <p className="text-on-cobalt-2">Rather email?</p>
+            <a href={`mailto:${profile.email}`} className="title link text-[clamp(1.5rem,2.6vw,2.2rem)]">
+              {profile.email}
+            </a>
+          </div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 max-w-6xl">
-          {/* Left Column - Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="p-8 bg-white border-3 border-black shadow-brutal">
-              <h3 className="text-2xl font-black mb-6">Send Me a Message</h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Email</label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
-                    />
-                  </div>
+        <div className="lg:col-span-6 lg:col-start-7">
+          {status === "sent" ? (
+            <div role="status" className="flex h-full flex-col justify-center">
+              <p className="display mb-5 text-[clamp(2.5rem,5vw,4rem)]">Thanks, it&apos;s with me.</p>
+              <p className="measure mb-8 text-[1.15rem] text-on-cobalt-2">
+                I&apos;ll read it properly and reply within one working day.
+              </p>
+              <button type="button" className="link self-start" onClick={() => setStatus("idle")}>
+                Send another message
+              </button>
+            </div>
+          ) : (
+            <form data-reveal onSubmit={onSubmit} className="space-y-10">
+              <fieldset>
+                <legend className="mb-4 text-on-cobalt-2">What do you need?</legend>
+                <div className="flex flex-wrap gap-2">
+                  {needs.map((n) => {
+                    const on = picked.includes(n);
+                    return (
+                      <button
+                        key={n}
+                        type="button"
+                        aria-pressed={on}
+                        onClick={() => toggle(n)}
+                        className={`min-h-11 rounded-full border px-4 text-[0.95rem] transition-colors duration-300 ${
+                          on
+                            ? "border-on-cobalt bg-on-cobalt text-cobalt"
+                            : "border-on-cobalt/35 hover:border-on-cobalt"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    );
+                  })}
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-bold mb-2">Message</label>
-                  <textarea
-                    rows={5}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell me about your project..."
-                    className="w-full px-4 py-3 border-3 border-black bg-white focus:outline-none focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200 resize-none"
-                  />
-                </div>
+              </fieldset>
 
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="group w-full px-6 py-3 md:px-8 md:py-4 bg-black text-white font-bold text-base md:text-lg flex items-center justify-center gap-3 hover:bg-coral transition-all disabled:opacity-50 disabled:cursor-not-allowed border-3 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px]"
-                  aria-label={status === "loading" ? "Sending message" : "Send message"}
-                >
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" />
-                      Sending...
-                    </>
-                  ) : status === "success" ? (
-                    <>
-                      <CheckCircle size={20} />
-                      Message Sent!
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </>
-                  )}
+              <div className="grid gap-8 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-on-cobalt-2">Your name</span>
+                  <input name="name" required autoComplete="name" className={field} />
+                </label>
+                <label className="block">
+                  <span className="text-on-cobalt-2">Email</span>
+                  <input name="email" type="email" required autoComplete="email" className={field} />
+                </label>
+              </div>
+              <label className="block">
+                <span className="text-on-cobalt-2">Company or current website (optional)</span>
+                <input name="company" autoComplete="organization" className={field} />
+              </label>
+              <label className="block">
+                <span className="text-on-cobalt-2">About the project</span>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  placeholder="What it's for, who it's for, and any deadline"
+                  className={`${field} resize-none`}
+                />
+              </label>
+
+              <div className="flex flex-wrap items-center gap-6">
+                <button type="submit" disabled={status === "sending"} className="btn btn-ink disabled:opacity-60" data-magnetic>
+                  {status === "sending" ? "Sending…" : "Send enquiry"}
                 </button>
-
                 {status === "error" && (
-                  <p className="text-danger text-sm text-center">Something went wrong. Please try again or email directly.</p>
+                  <p role="alert" className="text-on-cobalt">
+                    That didn&apos;t send. Please try again, or email{" "}
+                    <a className="link-static" href={`mailto:${profile.email}`}>
+                      {profile.email}
+                    </a>
+                    .
+                  </p>
                 )}
-              </form>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Links & Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
-          >
-            {/* Direct Email */}
-            <div className="p-8 bg-coral text-white border-3 border-black shadow-brutal">
-              <h3 className="text-xl font-black mb-4">Prefer Email?</h3>
-              <a
-                href={`mailto:${profile.email}`}
-                className="group inline-flex items-center gap-3 text-lg font-bold hover:underline"
-              >
-                {profile.email}
-                <ArrowUpRight size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
-            </div>
-
-            {/* Social Links */}
-            <div className="p-8 bg-white border-3 border-black shadow-brutal">
-              <h3 className="text-xl font-black mb-6">Find Me Online</h3>
-              <div className="space-y-4">
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                >
-                  <Github size={24} />
-                  <div className="flex-1">
-                    <span className="font-bold block">GitHub</span>
-                    <span className="text-xs opacity-60">Check out my code</span>
-                  </div>
-                  <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-4 border-3 border-black bg-white hover:bg-mint hover:text-black transition-all shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-                >
-                  <Linkedin size={24} />
-                  <div className="flex-1">
-                    <span className="font-bold block">LinkedIn</span>
-                    <span className="text-xs opacity-60">Let's connect professionally</span>
-                  </div>
-                  <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
               </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 bg-yellow border-3 border-black text-center">
-                <span className="text-3xl font-black block">24h</span>
-                <span className="text-xs font-bold opacity-70">Response Time</span>
-              </div>
-              <div className="p-6 bg-mint border-3 border-black text-center">
-                <span className="text-3xl font-black block">100%</span>
-                <span className="text-xs font-bold opacity-70">Commitment</span>
-              </div>
-            </div>
-          </motion.div>
+            </form>
+          )}
         </div>
       </div>
     </section>

@@ -56,15 +56,20 @@ export interface ResearchPaper {
 
 export const profile = {
   name: "Aditya Mer",
-  title: "ML/DL Engineer & Gen AI Developer",
+  title: "Independent web designer & developer",
+  resumeTitle: "Full-stack Developer & ML Engineer",
   location: "Mumbai, India",
   email: "adityamer.work@gmail.com",
   portfolio: "https://adityamer.dev",
   resumeUrl: "/Aditya_Mer_Resume.pdf",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
-  tagline: "Building scalable ML & GenAI systems from research to production",
-  bio: "I am an ML/DL Engineer and Gen AI Developer passionate about building intelligent systems that solve real-world problems. With a strong foundation in AI research and full-stack development, I bridge the gap between cutting-edge research and production-ready applications.",
+  availability: "Taking on new projects",
+  responseTime: "I reply within one working day.",
+  tagline: "Websites people trust. Software a hospital relies on.",
+  intro:
+    "I'm Aditya, an independent designer and developer in Mumbai. I design, build and look after fast, custom websites and web apps for organisations and brands, and add AI where it saves you real time.",
+  bio: "Full-stack developer and ML engineer who designs and ships websites, e-commerce stores and web apps for organisations and businesses, with a background in applied AI research published at IEEE and Taylor & Francis.",
 };
 
 export const education: Education[] = [
@@ -90,7 +95,7 @@ export const experience: Experience[] = [
     role: "Web Developer Intern",
     company: "IASCC",
     period: "June 2025 – Sept 2025",
-    location: "Hydrid",
+    location: "Hybrid",
     highlights: [
       "Designed and developed IASCC's main website from scratch",
       "Built custom CMS for blogs, newsletters, and research publications",
@@ -307,29 +312,6 @@ export const skills = {
   "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
   "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
 };
-export interface Testimonial {
-  name: string;
-  role: string;
-  company: string;
-  content: string;
-  avatar?: string;
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    name: "Dr. Jane Smith",
-    role: "Senior Research Scientist",
-    company: "AI Research Lab",
-    content: "Aditya is an exceptional engineer with a deep understanding of ML fundamentals. His work on LLM inference optimization was truly impressive.",
-  },
-  {
-    name: "John Doe",
-    role: "Lead Developer",
-    company: "Tech Solutions Inc.",
-    content: "Working with Aditya was a pleasure. He bridges the gap between research and production seamlessly.",
-  },
-];
-
 export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
@@ -436,5 +418,180 @@ export const certifications: Certification[] = [
     credentialId: "ZWQ647BYRZL9",
     url: "https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9",
     skills: ["Git", "GitHub"],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Freelance work                                                      */
+/* ------------------------------------------------------------------ */
+
+export interface ClientWork {
+  slug: string;
+  client: string;
+  domain: string;
+  url: string;
+  sector: string;
+  year?: string;
+  kind: string;
+  summary: string;
+  scope: string[];
+  /** Background colour of the project's cover tile. */
+  tone: string;
+}
+
+export const work: ClientWork[] = [
+  {
+    slug: "iascc",
+    client: "IASCC",
+    domain: "iascc.in",
+    url: "https://iascc.in",
+    sector: "Cancer care nonprofit",
+    year: "2025",
+    kind: "Website + custom CMS",
+    summary:
+      "The Integrated Association of Supportive Care in Cancer is India's national affiliate of MASCC. I designed and built their site from scratch, with a CMS their team uses to publish events, news, newsletters and research without a developer.",
+    scope: [
+      "Visual design and information architecture",
+      "Custom CMS for events, news, newsletters and research",
+      "Membership and join flow",
+      "Performance and accessibility work",
+    ],
+    tone: "#DCE6E1",
+  },
+  {
+    slug: "younique",
+    client: "Younique India",
+    domain: "youniqueindia.co.in",
+    url: "https://www.youniqueindia.co.in",
+    sector: "Jewellery retail",
+    kind: "E-commerce store + admin",
+    summary:
+      "A jewellery storefront built to make the pieces look as good on screen as they do in hand, plus an admin panel so the owners can manage products, stock and orders themselves.",
+    scope: [
+      "Storefront design and development",
+      "Product catalogue and checkout",
+      "Admin panel for products, stock and orders",
+      "Mobile-first product pages",
+    ],
+    tone: "#EADFD6",
+  },
+  {
+    slug: "theska",
+    client: "Shah Kapadia & Associates",
+    domain: "theska.in",
+    url: "https://theska.in",
+    sector: "Chartered accountants",
+    kind: "Firm website",
+    summary:
+      "SKA is a fast-growing firm of chartered accountants covering audit, tax, compliance and business set-up. Their site had to read as established and trustworthy, and make six service lines easy to scan.",
+    scope: [
+      "Website design and build",
+      "Service pages for audit, tax, compliance and set-up",
+      "Partner and team profiles",
+      "Mobile-friendly layout",
+    ],
+    tone: "#E1E2EA",
+  },
+];
+
+export const featured = {
+  name: "Flier",
+  domain: "sendflier.tech",
+  url: "https://sendflier.tech",
+  github: "https://github.com/Aditya190803/EchoMail",
+  usedBy: "Tata Memorial Hospital",
+  headline: "Personalised email campaigns, sent from your own Gmail.",
+  summary:
+    "Flier is a mail-merge product I designed and built end to end. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent through Google's official Gmail API. It is in use at Tata Memorial Hospital.",
+  points: [
+    { title: "Spreadsheet in, personal emails out", body: "Columns in a CSV become {{variables}} automatically, and every email can be previewed before it goes." },
+    { title: "Sent from the sender's own Gmail", body: "Google OAuth and the official Gmail API, so messages land like normal email and sender reputation stays intact." },
+    { title: "Built for teams", body: "Shared workspaces with roles, scheduled sending, open and click tracking, audit logs and GDPR tools." },
+  ],
+  stack: ["Next.js", "TypeScript", "Gmail API", "PostgreSQL", "Appwrite", "Playwright"],
+  demoRecipients: [
+    { name: "Priya", event: "the workshop on 14 Nov" },
+    { name: "Rahul", event: "next week's webinar" },
+    { name: "Meera", event: "the annual meet-up" },
+    { name: "Arjun", event: "Saturday's session" },
+  ],
+};
+
+export interface Service {
+  title: string;
+  pitch: string;
+  includes: string[];
+}
+
+export const services: Service[] = [
+  {
+    title: "Websites for organisations and firms",
+    pitch:
+      "A site that explains what you do in seconds, looks credible to the people you want to reach, and that your team can update without calling me.",
+    includes: ["Design and copy structure", "Content management you can edit", "SEO and analytics set-up", "Hosting and launch"],
+  },
+  {
+    title: "Online stores",
+    pitch:
+      "Product pages that sell, a checkout that doesn't get in the way, and an admin panel that matches how you actually run the shop.",
+    includes: ["Catalogue and checkout", "Payments and shipping", "Order and stock admin", "Mobile-first design"],
+  },
+  {
+    title: "Web apps and internal tools",
+    pitch:
+      "When a spreadsheet and a lot of copy-pasting is holding your team back, I build the tool that replaces it, the way Flier did for email.",
+    includes: ["Dashboards and portals", "Logins, roles and permissions", "Integrations with Google, payments, CRMs", "Automated tests"],
+  },
+  {
+    title: "Useful AI, not gimmicks",
+    pitch:
+      "Assistants that answer from your own documents, automatic data extraction from PDFs and forms, and workflows that run themselves. I've published research in this area, so I'll tell you honestly when AI isn't the answer.",
+    includes: ["Chat over your documents", "Document and form processing", "Workflow automation", "Model evaluation"],
+  },
+];
+
+export const steps = [
+  {
+    title: "A short call",
+    body: "We talk through what you need, who it's for and what success looks like. No cost, no obligation.",
+  },
+  {
+    title: "A clear proposal",
+    body: "You get a written scope, timeline and fixed price, so there are no surprises later.",
+  },
+  {
+    title: "Design you can react to",
+    body: "I design the key pages first and we refine them together before anything is built.",
+  },
+  {
+    title: "Build and review",
+    body: "I build in small steps on a private preview link, so you see progress every week.",
+  },
+  {
+    title: "Launch and handover",
+    body: "I launch, show your team how to update everything, and stay on hand for fixes and new features.",
+  },
+];
+
+export const faqs = [
+  {
+    q: "How much does a website cost?",
+    a: "It depends on the number of pages, features and how much content needs writing. After a short call I send a fixed price, so you know the full cost before we start.",
+  },
+  {
+    q: "Can my team update the site after launch?",
+    a: "Yes. Every site comes with an editor for the content you change often, like news, events, products or team members, and I'll walk your team through it.",
+  },
+  {
+    q: "Do you work with clients outside Mumbai?",
+    a: "Yes. Most of the work happens over calls and shared previews, so location doesn't matter.",
+  },
+  {
+    q: "What do you need from me to get started?",
+    a: "A short description of your business and goals, any branding you have, and examples of sites you like. If you don't have copy or photos yet, we can plan those together.",
+  },
+  {
+    q: "Do you look after the site once it's live?",
+    a: "If you'd like me to. I can handle hosting, updates, backups and small changes on a monthly basis, or you can take it over completely.",
   },
 ];
