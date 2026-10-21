@@ -64,7 +64,7 @@ export default function Contact() {
     <section id="contact" className="relative overflow-hidden bg-cobalt text-on-cobalt" aria-labelledby="contact-title">
       <div className="wrap section grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <h2 id="contact-title" data-reveal="split" className="display mb-8 text-[clamp(3.25rem,8vw,7.5rem)]">
+          <h2 id="contact-title" data-reveal className="display mb-8 text-[clamp(3.25rem,8vw,7.5rem)]">
             Tell me what you&apos;re building.
           </h2>
           <p data-reveal className="measure mb-10 text-[1.15rem] leading-relaxed text-on-cobalt-2">
@@ -82,12 +82,12 @@ export default function Contact() {
         <div className="lg:col-span-6 lg:col-start-7">
           {status === "sent" ? (
             <div role="status" className="flex h-full flex-col justify-center">
-              <p className="display mb-5 text-[clamp(2.5rem,5vw,4rem)]">Thanks, it&apos;s with me.</p>
+              <p className="display mb-5 text-[clamp(2.5rem,5vw,4rem)]">Enquiry sent.</p>
               <p className="measure mb-8 text-[1.15rem] text-on-cobalt-2">
-                I&apos;ll read it properly and reply within one working day.
+                I&apos;ll read it and reply within one working day.
               </p>
               <button type="button" className="link self-start" onClick={() => setStatus("idle")}>
-                Send another message
+                Send another enquiry
               </button>
             </div>
           ) : (
@@ -142,12 +142,12 @@ export default function Contact() {
               </label>
 
               <div className="flex flex-wrap items-center gap-6">
-                <button type="submit" disabled={status === "sending"} className="btn btn-ink disabled:opacity-60" data-magnetic>
+                <button type="submit" disabled={status === "sending"} className="btn btn-ink disabled:opacity-60">
                   {status === "sending" ? "Sending…" : "Send enquiry"}
                 </button>
                 {status === "error" && (
                   <p role="alert" className="text-on-cobalt">
-                    That didn&apos;t send. Please try again, or email{" "}
+                    Your enquiry wasn&apos;t sent. Check your connection and try again, or email{" "}
                     <a className="link-static" href={`mailto:${profile.email}`}>
                       {profile.email}
                     </a>

@@ -29,7 +29,7 @@ export default function Process() {
     <section id="process" className="section" aria-labelledby="process-title">
       <div className="wrap">
         <div className="mb-16 grid gap-6 md:mb-24 md:grid-cols-12 md:items-end">
-          <h2 id="process-title" data-reveal="split" className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
+          <h2 id="process-title" data-reveal className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
             How a project runs
           </h2>
           <p data-reveal className="measure text-[1.1rem] text-ink-2 md:col-span-5">
@@ -40,20 +40,21 @@ export default function Process() {
 
         <div className="grid gap-10 md:grid-cols-12">
           <div className="hidden md:col-span-5 md:block" aria-hidden="true">
-            <div className="sticky top-28 flex items-start">
-              <div className="relative h-[clamp(9rem,18vw,17rem)] overflow-hidden">
+            <div className="sticky top-28 flex items-start text-[clamp(8rem,16vw,15rem)]">
+              {/* Window is taller than the glyphs so digits are never clipped. */}
+              <div className="relative h-[1.15em] overflow-hidden">
                 <div
-                  className="display text-[clamp(9rem,18vw,17rem)] leading-none text-cobalt transition-transform duration-700 ease-[var(--ease-out)]"
-                  style={{ transform: `translateY(-${(active * 100) / steps.length}%)` }}
+                  className="display !leading-[1.15em] text-cobalt transition-transform duration-700 ease-[var(--ease-out)]"
+                  style={{ transform: `translateY(-${active * 1.15}em)` }}
                 >
                   {steps.map((_, i) => (
-                    <div key={i} className="h-[clamp(9rem,18vw,17rem)] tabular-nums">
+                    <div key={i} className="h-[1.15em] tabular-nums">
                       {String(i + 1).padStart(2, "0")}
                     </div>
                   ))}
                 </div>
               </div>
-              <span className="ml-3 mt-4 text-ink-3">/ {String(steps.length).padStart(2, "0")}</span>
+              <span className="ml-3 mt-10 text-base text-ink-3">/ {String(steps.length).padStart(2, "0")}</span>
             </div>
           </div>
 
@@ -62,13 +63,17 @@ export default function Process() {
               <li
                 key={s.title}
                 data-step
-                className={`border-t border-rule py-10 transition-opacity duration-500 md:py-14 ${
-                  i === active ? "md:opacity-100" : "md:opacity-40"
-                }`}
+                className="py-8 md:py-12"
               >
                 <div data-reveal>
                   <p className="mb-3 text-cobalt md:hidden">Step {i + 1}</p>
-                  <h3 className="title mb-4 text-[clamp(2rem,4vw,3.25rem)]">{s.title}</h3>
+                  <h3
+                    className={`title mb-4 text-[clamp(2rem,4vw,3.25rem)] transition-colors duration-500 ${
+                      i === active ? "md:text-cobalt" : ""
+                    }`}
+                  >
+                    {s.title}
+                  </h3>
                   <p className="measure text-[1.15rem] leading-relaxed text-ink-2">{s.body}</p>
                 </div>
               </li>

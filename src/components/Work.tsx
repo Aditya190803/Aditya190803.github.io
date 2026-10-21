@@ -1,46 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { work } from "@/lib/data";
 import Shots from "@/components/Shots";
 import Cover from "@/components/Cover";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Work() {
   const [open, setOpen] = useState<string | null>(null);
-  const [hovered, setHovered] = useState<string | null>(null);
-  const list = useRef<HTMLUListElement>(null);
-  const chip = useRef<HTMLDivElement>(null);
-
-  // Cursor label that follows the pointer over the list (precise pointers only).
-  useEffect(() => {
-    const el = list.current;
-    const c = chip.current;
-    if (!el || !c || !window.matchMedia("(pointer: fine)").matches) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const xTo = gsap.quickTo(c, "x", { duration: reduce ? 0 : 0.45, ease: "power3.out" });
-    const yTo = gsap.quickTo(c, "y", { duration: reduce ? 0 : 0.45, ease: "power3.out" });
-    gsap.set(c, { xPercent: -50, yPercent: -50, scale: 0.6 });
-    const move = (e: PointerEvent) => {
-      xTo(e.clientX + 18);
-      yTo(e.clientY + 18);
-    };
-    el.addEventListener("pointermove", move);
-    return () => el.removeEventListener("pointermove", move);
-  }, []);
-
-  useEffect(() => {
-    if (!chip.current) return;
-    gsap.to(chip.current, {
-      opacity: hovered ? 1 : 0,
-      scale: hovered ? 1 : 0.6,
-      duration: 0.3,
-      ease: "power3.out",
-    });
-  }, [hovered]);
 
   const toggle = (slug: string) => {
     setOpen((cur) => (cur === slug ? null : slug));
@@ -51,7 +18,7 @@ export default function Work() {
     <section id="work" className="section" aria-labelledby="work-title">
       <div className="wrap">
         <div className="mb-14 grid gap-6 md:mb-20 md:grid-cols-12 md:items-end">
-          <h2 id="work-title" data-reveal="split" className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
+          <h2 id="work-title" data-reveal className="display text-[clamp(3rem,8vw,7.5rem)] md:col-span-7">
             Client work
           </h2>
           <p data-reveal className="measure text-[1.1rem] text-ink-2 md:col-span-5">
@@ -60,7 +27,7 @@ export default function Work() {
           </p>
         </div>
 
-        <ul ref={list} className="border-b border-rule" onPointerLeave={() => setHovered(null)}>
+        <ul className="border-b border-rule">
           {work.map((w) => {
             const isOpen = open === w.slug;
             return (
@@ -68,11 +35,10 @@ export default function Work() {
                 <h3>
                   <button
                     type="button"
-                    className="group relative isolate grid w-full grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 py-7 text-left md:grid-cols-12 md:py-10 md:[cursor:none]"
+                    className="group relative isolate grid w-full grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 py-7 text-left md:grid-cols-12 md:py-10"
                     aria-expanded={isOpen}
                     aria-controls={`work-${w.slug}`}
                     onClick={() => toggle(w.slug)}
-                    onPointerEnter={() => setHovered(w.slug)}
                   >
                     <span
                       aria-hidden="true"
@@ -107,7 +73,6 @@ export default function Work() {
                   className="grid transition-[grid-template-rows] duration-700 ease-[var(--ease-out)]"
                   style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                   inert={!isOpen}
-                  onPointerEnter={() => setHovered(null)}
                 >
                   <div className="overflow-hidden">
                     <div className="grid gap-10 pb-12 pt-2 md:grid-cols-12 md:pb-16">
@@ -155,10 +120,6 @@ export default function Work() {
             );
           })}
         </ul>
-      </div>
-
-      <div ref={chip} className="cursor-chip" aria-hidden="true">
-        {hovered && open === hovered ? "Close" : "View project"}
       </div>
     </section>
   );

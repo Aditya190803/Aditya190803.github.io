@@ -162,7 +162,7 @@ export default function Hero() {
             measure();
           },
         })
-        .from(chars, { yPercent: 110, duration: 1.4, stagger: 0.045 })
+        .from(chars, { yPercent: 170, duration: 1.4, stagger: 0.045 })
         .fromTo(
           el.querySelectorAll("[data-hero]"),
           { opacity: 0, y: 20 },
@@ -235,9 +235,8 @@ export default function Hero() {
         </div>
 
         <div className="md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
-          <p data-hero className="mb-3 flex justify-between text-[0.95rem] text-ink-3">
-            <span>Selected work</span>
-            <span className="tabular-nums">{String(entries.length).padStart(2, "0")}</span>
+          <p data-hero className="mb-3 text-[0.95rem] text-ink-3">
+            Selected work
           </p>
           <ul onPointerLeave={() => setActive(null)}>
             {entries.map((e, i) => (
@@ -247,11 +246,10 @@ export default function Hero() {
                   onPointerEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onBlur={() => setActive(null)}
-                  className={`group grid grid-cols-[2rem_1fr_auto] items-baseline gap-3 py-3.5 transition-colors duration-300 md:py-4 ${
+                  className={`group grid grid-cols-[1fr_auto] items-baseline gap-4 py-3.5 transition-colors duration-300 md:py-4 ${
                     active !== null && active !== i ? "text-ink-3" : ""
                   }`}
                 >
-                  <span className="text-[0.9rem] tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
                   <span className="title text-[1.5rem] transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-2 md:text-[1.75rem]">
                     {e.name}
                   </span>
@@ -274,7 +272,7 @@ export default function Hero() {
             <span key={word} className="block md:inline" aria-hidden="true">
               {w > 0 && <span className="hidden md:inline-block">{"\u00a0"}</span>}
               {word.split("").map((c, i) => (
-                <span key={i} className="inline-flex justify-center overflow-hidden pb-[0.07em] align-bottom">
+                <span key={i} className="-my-[0.3em] inline-flex justify-center overflow-hidden py-[0.3em] align-bottom">
                   <span data-char className="inline-block" style={{ fontVariationSettings: '"wght" 380, "opsz" 72' }}>
                     {c}
                   </span>
@@ -292,10 +290,7 @@ export default function Hero() {
             {profile.location.split(",")[0]}, <MumbaiTime />
           </span>
           <span className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cobalt opacity-50" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-cobalt" />
-            </span>
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-cobalt" />
             {profile.availability}
           </span>
         </div>

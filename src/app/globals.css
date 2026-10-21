@@ -203,59 +203,11 @@ body {
 
 /* ---------- Reveal masks (used by GSAP) ---------- */
 
-.line-mask {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
-
 /* Hide animated elements only when JS is running and motion is OK,
    so the page is fully readable without JS. */
 html.js-motion [data-reveal],
 html.js-motion [data-hero] {
   opacity: 0;
-}
-
-/* ---------- Context cursor (work list) ---------- */
-
-.cursor-chip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 70;
-  pointer-events: none;
-  padding: 0.55rem 0.95rem;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-}
-
-/* ---------- Mail-merge field swap ---------- */
-
-@keyframes field-swap {
-  from {
-    opacity: 0;
-    transform: translateY(0.35em);
-  }
-}
-.field-swap {
-  animation: field-swap 0.5s var(--ease-out);
-}
-
-/* ---------- Marquee ---------- */
-
-@keyframes marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-.marquee-track {
-  animation: marquee 40s linear infinite;
 }
 
 /* ---------- Details / FAQ ---------- */
@@ -281,9 +233,6 @@ details[open] .faq-icon {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  .marquee-track {
-    animation: none;
   }
 }
 

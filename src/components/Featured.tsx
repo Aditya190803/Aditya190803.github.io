@@ -58,16 +58,16 @@ export default function Featured() {
           <p data-reveal className="mb-6 text-ink-2">
             Featured product, in use at <strong className="font-medium text-ink">{featured.usedBy}</strong>
           </p>
-          <h2 id="flier-title" data-reveal="split" className="display mb-8 text-[clamp(2.75rem,6vw,5.5rem)]">
+          <h2 id="flier-title" data-reveal className="display mb-8 text-[clamp(2.75rem,6vw,5.5rem)]">
             {featured.headline}
           </h2>
           <p data-reveal className="measure mb-12 text-[1.15rem] leading-relaxed text-ink-2">
             {featured.summary}
           </p>
 
-          <dl className="space-y-8">
+          <dl className="space-y-7">
             {featured.points.map((p) => (
-              <div key={p.title} data-reveal className="border-t border-rule pt-5">
+              <div key={p.title} data-reveal>
                 <dt className="title mb-2 text-[1.6rem]">{p.title}</dt>
                 <dd className="measure text-ink-2">{p.body}</dd>
               </div>

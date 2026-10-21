@@ -6,7 +6,7 @@ export default function Services() {
       <div className="wrap grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
-            <h2 id="services-title" data-reveal="split" className="display mb-6 text-[clamp(3rem,6.5vw,6rem)]">
+            <h2 id="services-title" data-reveal className="display mb-6 text-[clamp(3rem,6.5vw,6rem)]">
               What I can build for you
             </h2>
             <p data-reveal className="measure text-[1.1rem] text-ink-2">
@@ -18,7 +18,7 @@ export default function Services() {
 
         <ol className="lg:col-span-7 lg:col-start-6">
           {services.map((s) => (
-            <li key={s.title} data-reveal className="border-t border-ink/15 py-10 first:border-t-0 first:pt-0 md:py-12">
+            <li key={s.title} data-reveal className="pb-14 last:pb-0 md:pb-20">
               <h3 className="title mb-4 text-[clamp(1.9rem,3.4vw,2.9rem)]">{s.title}</h3>
               <p className="measure mb-7 text-[1.1rem] leading-relaxed text-ink-2">{s.pitch}</p>
               <ul className="flex flex-wrap gap-2">

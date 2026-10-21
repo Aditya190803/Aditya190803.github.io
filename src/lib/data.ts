@@ -552,7 +552,7 @@ export const services: Service[] = [
     includes: ["Dashboards and portals", "Logins, roles and permissions", "Integrations with Google, payments, CRMs", "Automated tests"],
   },
   {
-    title: "Useful AI, not gimmicks",
+    title: "AI features that save time",
     pitch:
       "Assistants that answer from your own documents, automatic data extraction from PDFs and forms, and workflows that run themselves. I've published research in this area, so I'll tell you honestly when AI isn't the answer.",
     includes: ["Chat over your documents", "Document and form processing", "Workflow automation", "Model evaluation"],
