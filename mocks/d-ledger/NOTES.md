@@ -61,3 +61,10 @@ Everything in PLAN.md's information architecture is on the page:
 
 ## Template check
 Swap in another freelancer's name and the page no longer fits. The hero is his actual `work.csv` (IASCC, Younique India, Flier, Theska), and the grid comes from his own product. The outlined cells are his specific facts: the CMS clients run, Tata Memorial Hospital, FastWrite's downloads and the fixed quote.
+
+## Hero v2 (revision 2 rules)
+- **Composition:** H1 `I build what your team runs` set large (about 80px at 1440) across columns A–G, the sub-line `Freelance, from Mumbai.`, then `Start a project` plus a quiet `See the work ↓` text link. On the right, `work.csv` is cut to 2 columns (client, built) and 4 rows with no header row or toolbar hints; the selected-cell outline sits on the active row. Below both, the selected row's live screenshot rises from the bottom edge across 10 columns and is the main visual.
+- **Explore:** hovering a row (fine pointers), clicking it or using ↑ ↓ Home End swaps the screenshot. The window still lifts about 1.6 cells on scroll. Theska's private pane now sits near the top of the window so it is visible on the first screen.
+- **Quiet rulers:** the hero's row number is hidden, and the A–L letters fade to 16% ink while the hero is the active scope (`html.at-hero`).
+- **Removed or moved:** the kicker line, the long paragraph, the availability sentence, the status and link columns, the `↑ ↓ to browse` hint, the `[ Mumbai, India ]`, `[ row 2 · … ]` and `[ UTC+5:30 ]` labels, and the URL text in the window bar (now an icon link with an aria-label). The services phrase moved into the `.work` intro, and UTC+5:30 moved into the contact availability line. The client facts were already in the case studies.
+- **Measured:** 25 words and 13 text blocks on the first screen (it was 127 and 34). Overflow at 390: 0 px. CLS: 0.0000 at 1440 and at 390. With reduced motion, 0 of 152 cells are hidden and the window does not animate. Keyboard row navigation, the live region and the open link all still work.

@@ -96,22 +96,25 @@ svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .hgrid{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(9,calc(100cqw / 12));height:calc(100cqw / 12 * 9);overflow:hidden;
   background-image:radial-gradient(circle,rgba(20,20,20,.16) 0 1px,transparent 1.5px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
   background-size:calc(100cqw / 12) calc(100cqw / 12);}
-.htext{grid-column:1/span 6;grid-row:1/span 5;background:var(--bg);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:calc(100cqw / 12 * .4) calc(100cqw / 12 * .45) calc(100cqw / 12 * .36);display:flex;flex-direction:column;z-index:2}
-.htext .kick{color:var(--ink2)}
-.htext h1{font:500 calc(100cqw / 12 * .42)/1.08 var(--sans);letter-spacing:-.028em;margin-top:20px;max-width:15ch;text-wrap:balance}
-.htext .lede{font-size:17px;line-height:1.55;color:var(--ink2);margin-top:20px;max-width:50ch}
-.htext .acts{display:flex;gap:12px;margin-top:auto;padding-top:24px;flex-wrap:wrap}
-.htext .avail{margin-top:16px;display:flex;align-items:center;gap:8px;color:var(--ink2);font-size:14px}
+.htext{grid-column:1/span 7;grid-row:1/span 4;background:var(--bg);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:calc(100cqw / 12 * .52) calc(100cqw / 12 * .45) calc(100cqw / 12 * .4);display:flex;flex-direction:column;z-index:2}
+.htext h1{font:500 calc(100cqw / 12 * .78)/.98 var(--sans);letter-spacing:-.04em;max-width:11ch;text-wrap:balance}
+.htext .lede{font-size:20px;line-height:1.4;color:var(--ink2);margin-top:24px}
+.htext .acts{display:flex;align-items:center;gap:28px;margin-top:auto;padding-top:24px;flex-wrap:wrap}
+.htext .acts .btn{height:44px;padding:0 18px}
+.lnk{display:inline-flex;align-items:center;gap:6px;font:500 15px/1 var(--sans);text-decoration:none;color:var(--ink2);border-bottom:1px solid var(--line2);padding:4px 0}
+.lnk:hover{color:var(--ink);border-color:var(--ink)}
 .sq{width:7px;height:7px;background:var(--ink);flex:none}
+/* the hero row number and the column letters go quiet while the hero is in view */
+.hero::before{visibility:hidden}
+html.at-hero .letters span{color:rgba(20,20,20,.16)}
+html.at-hero .letters span.on{color:rgba(20,20,20,.38)}
 
-.tpanel{grid-column:7/span 6;grid-row:2/span 3;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);z-index:2;display:flex;flex-direction:column}
-.tcap{display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 16px;border-bottom:1px solid var(--line);color:var(--ink2)}
+.tpanel{grid-column:8/span 5;grid-row:2/span 3;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);z-index:2;display:flex;flex-direction:column}
+.tcap{display:flex;align-items:center;height:36px;padding:0 20px;border-bottom:1px solid var(--line);color:var(--ink2)}
 .tcap b{font-weight:500;color:var(--ink)}
-kbd{font:500 10px/1 var(--mono);border:1px solid var(--line2);border-bottom-width:2px;border-radius:3px;padding:2px 4px;color:var(--ink2);background:var(--surface)}
 table.wt{width:100%;border-collapse:collapse;table-layout:fixed}
-.wt th{font:400 11px/1 var(--mono);text-align:left;color:var(--ink3);height:32px;padding:0 16px;border-bottom:1px solid var(--line)}
-.wt th + th,.wt td + td{border-left:1px solid var(--line)}
-.wt td{height:calc((100cqw / 12 * 3 - 70px) / 4);padding:0 16px;border-bottom:1px solid var(--line);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wt td + td{border-left:1px solid var(--line)}
+.wt td{height:calc((100cqw / 12 * 3 - 37px) / 4);padding:0 20px;border-bottom:1px solid var(--line);font-size:18px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wt tr:last-child td{border-bottom:0}
 .wt tbody tr{cursor:pointer;transition:background-color .2s}
 .wt tbody tr:hover{background:#F6F6F5}
@@ -119,24 +122,22 @@ table.wt{width:100%;border-collapse:collapse;table-layout:fixed}
 .wt tbody tr:focus{outline:none}
 .wt tbody tr:focus-visible td:first-child{box-shadow:inset 2px 0 0 var(--ink)}
 .wt .cl{font-weight:500}
-.wt .st,.wt .ln{font:400 12px/1 var(--mono);color:var(--ink2)}
-.wt .ln a{text-decoration:none;display:inline-flex;align-items:center;gap:4px}
-.wt .ln a:hover{color:var(--ink);text-decoration:underline}
-.wt col.c1{width:27%}.wt col.c2{width:31%}.wt col.c3{width:20%}.wt col.c4{width:22%}
+.wt td:last-child{color:var(--ink2)}
+.wt col.c1{width:46%}
 
-.win{grid-column:2/span 10;grid-row:6/span 7;align-self:start;z-index:3;background:var(--surface);border:1px solid var(--line2);border-radius:10px 10px 0 0;overflow:hidden;box-shadow:0 1px 0 rgba(20,20,20,.03),0 24px 48px -24px rgba(20,20,20,.12)}
-.wbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:36px;padding:0 12px;border-bottom:1px solid var(--line);background:#FCFCFC}
+.win{grid-column:2/span 10;grid-row:5/span 8;align-self:start;margin-top:calc(100cqw / 12 * .5);z-index:3;background:var(--surface);border:1px solid var(--line2);border-radius:10px 10px 0 0;overflow:hidden;box-shadow:0 1px 0 rgba(20,20,20,.03),0 24px 48px -24px rgba(20,20,20,.12)}
+.wbar{display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 12px;border-bottom:1px solid var(--line);background:#FCFCFC}
 .wbar .dots{display:flex;gap:6px}
 .wbar .dots i{width:9px;height:9px;border-radius:50%;border:1px solid var(--line2)}
-.wbar .url{font:400 12px/1 var(--mono);color:var(--ink2);padding:6px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);min-width:220px;text-align:center}
-.wbar .open{justify-self:end;font:400 12px/1 var(--mono);color:var(--ink2);text-decoration:none;display:inline-flex;gap:4px;align-items:center}
-.wbar .open:hover{color:var(--ink)}
+.wbar .open{display:grid;place-items:center;width:28px;height:28px;border-radius:4px;color:var(--ink2)}
+.wbar .open:hover{color:var(--ink);background:var(--bg)}
 .panes{position:relative;aspect-ratio:16/10;background:var(--surface)}
 .pane{position:absolute;inset:0;opacity:0;transform:translateY(16px);transition:opacity .35s var(--ease),transform .5s var(--ease);visibility:hidden}
 .pane.on{opacity:1;transform:none;visibility:visible}
 .pane img{width:100%;height:100%;object-fit:cover;object-position:top}
 .priv{display:grid;place-items:center;height:100%;background:
   linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px),#FCFCFC;background-size:12.5% 40px,12.5% 40px}
+.win .priv{align-content:start;padding-top:9%}
 .priv-in{width:min(560px,86%);background:var(--surface);border:1px solid var(--line2);border-radius:6px}
 .priv-row{display:grid;grid-template-columns:1.2fr 2fr 1fr;border-bottom:1px solid var(--line);height:40px;align-items:center}
 .priv-row:last-child{border-bottom:0}
@@ -144,32 +145,26 @@ table.wt{width:100%;border-collapse:collapse;table-layout:fixed}
 .priv-row span + span{border-left:1px solid var(--line)}
 .priv-row i{display:block;height:8px;border-radius:2px;background:rgba(20,20,20,.09);width:100%}
 .priv-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink2)}
-.lab{font:400 10px/1 var(--mono);color:var(--ink3);padding:10px;white-space:nowrap;z-index:1}
 .px{display:grid;place-items:center;z-index:1}
 .px svg{width:42%;height:auto}
 
 @media (max-width:1099px){
   .hgrid{display:flex;flex-direction:column;gap:calc(100cqw / var(--cols) * .5);height:auto;overflow:visible;padding:0 0 calc(100cqw / var(--cols) * .5);background-size:calc(100cqw / var(--cols)) calc(100cqw / var(--cols))}
-  .hgrid>.lab,.hgrid>.px{display:none}
+  .hgrid>.px{display:none}
   .htext{border-right:0;padding:40px var(--pad) 32px}
-  .htext h1{font-size:clamp(34px,7.4cqw,52px);max-width:18ch}
-  .htext .lede{font-size:16px}
+  .htext h1{font-size:clamp(40px,9.6cqw,64px)}
+  .htext .lede{font-size:17px;margin-top:16px}
+  .htext .acts{margin-top:0;padding-top:28px}
   .tpanel{margin:0 var(--pad);border:1px solid var(--line)}
-  .wt td{height:48px}
+  .wt td{height:52px}
   .win{margin:0 var(--pad);border-radius:8px;align-self:stretch}
 }
 @media (max-width:639px){
-  .htext{padding:32px var(--pad) 28px}
-  .htext .acts .btn{flex:1;justify-content:center}
+  .htext{padding:28px var(--pad) 28px}
+  .htext .acts{gap:20px}
   .tpanel,.win{margin:0 12px}
-  .wt th,.wt td{padding:0 10px}
-  .wt td{font-size:14px}
-  .wt col.c1{width:38%}.wt col.c2{width:62%}.wt col.c3,.wt col.c4{width:0}
-  .wt .st,.wt .ln,.wt th.st,.wt th.ln{display:none}
-  .wbar{grid-template-columns:auto 1fr;gap:12px}
-  .wbar .url{min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .wbar .open{display:none}
-  .tcap .hint{display:none}
+  .wt td{padding:0 14px;font-size:16px;height:46px}
+  .tcap{padding:0 14px}
 }
 
 /* hero window rises out of the hero ledge as you scroll (scroll-driven, transform only) */
@@ -392,38 +387,32 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
   <section class="r hero" data-scope="hero" aria-labelledby="h1">
     <div class="hgrid">
       <div class="htext">
-        <p class="kick mono">Aditya Mer · freelance web and AI developer · Mumbai</p>
-        <h1 id="h1">Websites, online stores and internal tools your team can run themselves</h1>
-        <p class="lede">I design and build for organisations and businesses, anywhere. IASCC publishes its own news and research grants through the CMS I built them, Younique India sells across India on the store I built, and I make Flier, a mail-merge app of my own.</p>
+        <h1 id="h1">I build what your team runs</h1>
+        <p class="lede">Freelance, from Mumbai.</p>
         <div class="acts">
           <a class="btn btn-p" href="#contact">Start a project <svg class="i" viewBox="0 0 16 16"><path d="M3.5 8h9M8.5 4l4 4-4 4"/></svg></a>
-          <a class="btn btn-s" href="#work">See the work</a>
+          <a class="lnk" href="#work">See the work <svg class="i" viewBox="0 0 16 16"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
         </div>
-        <p class="avail"><span class="sq" aria-hidden="true"></span>Taking on new projects. Based in Mumbai (IST), working with clients anywhere.</p>
       </div>
 
       <div class="tpanel">
-        <div class="tcap mono"><span><b>work.csv</b> &nbsp;4 rows</span><span class="hint"><kbd>↑</kbd> <kbd>↓</kbd> to browse</span></div>
-        <table class="wt" id="wt" role="grid" aria-label="work.csv, projects I have shipped. Use the arrow keys to preview each one." aria-describedby="wlive">
-          <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
-          <thead><tr><th scope="col">client</th><th scope="col">built</th><th scope="col" class="st">status</th><th scope="col" class="ln">link</th></tr></thead>
+        <div class="tcap mono"><b>work.csv</b></div>
+        <table class="wt" id="wt" role="grid" aria-label="work.csv: client and what I built. Use the arrow keys to preview each project." aria-describedby="wlive">
+          <colgroup><col class="c1"><col></colgroup>
           <tbody>
-            <tr tabindex="0" aria-selected="true" data-url="iascc.in" data-href="https://iascc.in"><td class="cl">IASCC</td><td>Website and CMS</td><td class="st">Live · 2025</td><td class="ln"><a href="https://iascc.in" tabindex="-1" target="_blank" rel="noopener">iascc.in <svg class="i" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></a></td></tr>
-            <tr tabindex="-1" aria-selected="false" data-url="youniqueindia.co.in" data-href="https://www.youniqueindia.co.in"><td class="cl">Younique India</td><td>Online store</td><td class="st">Live</td><td class="ln"><a href="https://www.youniqueindia.co.in" tabindex="-1" target="_blank" rel="noopener">younique… <svg class="i" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></a></td></tr>
-            <tr tabindex="-1" aria-selected="false" data-url="sendflier.tech" data-href="https://sendflier.tech"><td class="cl">Flier</td><td>My own product</td><td class="st">Open source</td><td class="ln"><a href="https://sendflier.tech" tabindex="-1" target="_blank" rel="noopener">sendflier… <svg class="i" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></a></td></tr>
-            <tr tabindex="-1" aria-selected="false" data-url="theska · private" data-href=""><td class="cl">Theska</td><td>Internal software</td><td class="st">Private</td><td class="ln">on a call</td></tr>
+            <tr tabindex="0" aria-selected="true" data-url="iascc.in" data-href="https://iascc.in"><td class="cl">IASCC</td><td>Website</td></tr>
+            <tr tabindex="-1" aria-selected="false" data-url="youniqueindia.co.in" data-href="https://www.youniqueindia.co.in"><td class="cl" title="Younique India">Younique</td><td>Store</td></tr>
+            <tr tabindex="-1" aria-selected="false" data-url="sendflier.tech" data-href="https://sendflier.tech"><td class="cl">Flier</td><td>Product</td></tr>
+            <tr tabindex="-1" aria-selected="false" data-url="theska · private" data-href=""><td class="cl">Theska</td><td>Internal tool</td></tr>
           </tbody>
         </table>
       </div>
 
-      <span class="lab" style="grid-column:7/span 3;grid-row:1">[ Mumbai, India ]</span>
-      <span class="lab" id="rowlab" style="grid-column:7/span 4;grid-row:5" aria-hidden="true">[ row 2 · iascc.in ]</span>
-      <span class="lab" style="grid-column:12;grid-row:9;align-self:end">[ UTC+5:30 ]</span>
       <span class="px" style="grid-column:12;grid-row:1" aria-hidden="true"><svg viewBox="0 0 28 20"><g fill="#F07050"><rect x="0" y="0" width="3" height="3"/><rect x="4" y="0" width="3" height="3"/><rect x="8" y="0" width="3" height="3"/><rect x="12" y="0" width="3" height="3"/><rect x="16" y="0" width="3" height="3" opacity=".8"/><rect x="20" y="0" width="3" height="3" opacity=".6"/><rect x="24" y="0" width="3" height="3" opacity=".4"/><rect x="0" y="4" width="3" height="3"/><rect x="4" y="4" width="3" height="3"/><rect x="20" y="4" width="3" height="3" opacity=".6"/><rect x="24" y="4" width="3" height="3" opacity=".4"/><rect x="0" y="8" width="3" height="3"/><rect x="8" y="8" width="3" height="3"/><rect x="16" y="8" width="3" height="3" opacity=".8"/><rect x="24" y="8" width="3" height="3" opacity=".4"/><rect x="0" y="12" width="3" height="3" opacity=".8"/><rect x="12" y="12" width="3" height="3" opacity=".7"/><rect x="24" y="12" width="3" height="3" opacity=".3"/><rect x="0" y="16" width="3" height="3" opacity=".6"/><rect x="4" y="16" width="3" height="3" opacity=".55"/><rect x="8" y="16" width="3" height="3" opacity=".5"/><rect x="12" y="16" width="3" height="3" opacity=".45"/><rect x="16" y="16" width="3" height="3" opacity=".4"/><rect x="20" y="16" width="3" height="3" opacity=".3"/><rect x="24" y="16" width="3" height="3" opacity=".2"/></g></svg></span>
-      <span class="px" style="grid-column:1;grid-row:7" aria-hidden="true"><svg viewBox="0 0 28 20"><g fill="#141414" opacity=".22"><rect x="0" y="0" width="7" height="3"/><rect x="9" y="0" width="9" height="3"/><rect x="20" y="0" width="7" height="3"/><rect x="0" y="6" width="7" height="3" opacity=".8"/><rect x="9" y="6" width="9" height="3" opacity=".8"/><rect x="20" y="6" width="7" height="3" opacity=".6"/><rect x="0" y="12" width="7" height="3" opacity=".6"/><rect x="9" y="12" width="9" height="3" opacity=".5"/><rect x="0" y="18" width="7" height="2" opacity=".35"/></g></svg></span>
+      <span class="px" style="grid-column:1;grid-row:6" aria-hidden="true"><svg viewBox="0 0 28 20"><g fill="#141414" opacity=".22"><rect x="0" y="0" width="7" height="3"/><rect x="9" y="0" width="9" height="3"/><rect x="20" y="0" width="7" height="3"/><rect x="0" y="6" width="7" height="3" opacity=".8"/><rect x="9" y="6" width="9" height="3" opacity=".8"/><rect x="20" y="6" width="7" height="3" opacity=".6"/><rect x="0" y="12" width="7" height="3" opacity=".6"/><rect x="9" y="12" width="9" height="3" opacity=".5"/><rect x="0" y="18" width="7" height="2" opacity=".35"/></g></svg></span>
 
       <figure class="win" aria-label="Preview of the selected project">
-        <div class="wbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url" id="wurl">iascc.in</span><a class="open" id="wopen" href="https://iascc.in" target="_blank" rel="noopener">open <svg class="i" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></a></div>
+        <div class="wbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><a class="open" id="wopen" href="https://iascc.in" target="_blank" rel="noopener" aria-label="Open iascc.in"><svg class="i" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></a></div>
         <div class="panes">
           <div class="pane on"><img src="../assets/iascc.webp" width="1600" height="1000" alt="IASCC home page: Integrated Association of Supportive Care in Cancer"></div>
           <div class="pane"><img src="../assets/younique.webp" width="1600" height="1000" alt="Younique India online store home page" loading="lazy"></div>
@@ -445,7 +434,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
 
   <!-- work -->
   <section id="work" aria-labelledby="work-h">
-    <div class="r sh fill"><div class="c t"><h2 id="work-h"><span class="dot">.</span>work</h2></div><div class="c d"><p>Three client projects and one product of my own. The screenshots are the live sites.</p></div></div>
+    <div class="r sh fill"><div class="c t"><h2 id="work-h"><span class="dot">.</span>work</h2></div><div class="c d"><p>Websites, online stores and internal tools: three client projects and Flier, a product of my own. The screenshots are the live sites.</p></div></div>
 
     <article class="r case fill" data-scope>
       <div class="c img"><a class="shot" href="https://iascc.in" target="_blank" rel="noopener" aria-label="Visit iascc.in"><img src="../assets/iascc.webp" width="1600" height="1000" alt="IASCC website home page" loading="lazy"></a></div>
@@ -641,7 +630,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
         <h2 id="ct-h" style="margin-top:16px">Let's work together</h2>
         <p>Tell me what you need and who it's for. I reply with a few questions, then we set up a short call. No cost and no obligation.</p>
         <div class="mailcell" data-sel><a href="mailto:adityamer.work@gmail.com">adityamer.work@gmail.com</a><button class="copy" type="button" id="copy" data-v="adityamer.work@gmail.com"><svg class="i" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1"/><path d="M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2"/></svg><span>Copy</span></button></div>
-        <p class="avail"><span class="sq" aria-hidden="true"></span>Taking on new projects · Mumbai, India · clients anywhere</p>
+        <p class="avail"><span class="sq" aria-hidden="true"></span>Taking on new projects · Mumbai, India (UTC+5:30) · clients anywhere</p>
         <p class="sr" id="copied" aria-live="polite"></p>
         <div class="else"><a href="https://github.com/aditya190803" target="_blank" rel="noopener">GitHub ↗</a><a href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener">LinkedIn ↗</a><a href="/Aditya_Mer_Resume.pdf">Résumé (PDF)</a></div>
       </div>
@@ -697,8 +686,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
 
   /* ---- hero work.csv rows ---- */
   var wt=d.getElementById('wt'), rows=[].slice.call(wt.tBodies[0].rows);
-  var panes=d.querySelectorAll('.pane'), wurl=d.getElementById('wurl'), wopen=d.getElementById('wopen');
-  var rowlab=d.getElementById('rowlab'), wlive=d.getElementById('wlive');
+  var panes=d.querySelectorAll('.pane'), wopen=d.getElementById('wopen'), wlive=d.getElementById('wlive');
   var names=['IASCC','Younique India','Flier','Theska'];
   function pick(list, i, focus){
     list.forEach(function(r,j){ r.setAttribute('aria-selected', j===i); r.tabIndex = j===i ? 0 : -1; });
@@ -708,9 +696,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
     pick(rows, i, focus);
     for(var j=0;j<panes.length;j++) panes[j].classList.toggle('on', j===i);
     var r=rows[i];
-    wurl.textContent=r.dataset.url;
-    if(r.dataset.href){ wopen.href=r.dataset.href; wopen.style.visibility=''; } else wopen.style.visibility='hidden';
-    rowlab.textContent='[ row '+(i+2)+' · '+r.dataset.url+' ]';
+    if(r.dataset.href){ wopen.href=r.dataset.href; wopen.setAttribute('aria-label','Open '+r.dataset.url); wopen.style.visibility=''; } else wopen.style.visibility='hidden';
     wlive.textContent='Showing '+names[i]+(r.dataset.href?', '+r.dataset.url:', private project');
     if(curScope && curScope.dataset.scope==='hero') place(r);
   }
@@ -728,6 +714,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
       });
     });
   }
+  if(matchMedia('(hover: hover) and (pointer: fine)').matches) rows.forEach(function(r,i){ r.addEventListener('mouseenter', function(){ if(r.getAttribute('aria-selected')!=='true') selectWork(i, false); }); });
   grid(rows, selectWork, function(i){ var h=rows[i].dataset.href; if(h) window.open(h,'_blank','noopener'); else location.hash='#contact'; });
 
   /* ---- Flier merge demo ---- */
@@ -742,7 +729,7 @@ form.fm{display:grid;grid-template-columns:1fr 1fr}
 
   /* ---- the outline follows whichever scope crosses the reading line ---- */
   var scopes=d.querySelectorAll('[data-scope]');
-  function setScope(s, snap){ curScope=s; place(targetOf(s), snap); }
+  function setScope(s, snap){ curScope=s; d.documentElement.classList.toggle('at-hero', s.dataset.scope==='hero'); place(targetOf(s), snap); }
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting && e.target!==curScope) setScope(e.target); });
