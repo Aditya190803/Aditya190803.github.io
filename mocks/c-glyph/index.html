@@ -831,6 +831,7 @@ footer .links a:hover{color:var(--ink)}
   async function build() {
     const b0 = performance.now();
     const W = shot.clientWidth, H = shot.clientHeight;
+    lastW = W;
     if (!W || !H || !img.naturalWidth) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const small = W < 721;
@@ -972,12 +973,11 @@ footer .links a:hover{color:var(--ink)}
     }
   }
 
-  let rz = 0, lastW = shot.clientWidth;
+  let rz = 0, lastW = 0;
   addEventListener('resize', () => {
     clearTimeout(rz);
     rz = setTimeout(() => {
       if (shot.clientWidth === lastW) { if (!reduce) measure(); return; }
-      lastW = shot.clientWidth;
       build(); if (!reduce) { measure(); onScroll(); }
     }, 150);
   });
