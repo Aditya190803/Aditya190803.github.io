@@ -51,3 +51,11 @@ Swap the name and the page no longer fits:
 - the case studies, the Flier merge table and Tata Memorial Hospital are specific to him
 
 The weakest part is the H1, which is plain on purpose ("Websites, online stores and web apps for organisations and small businesses"). The specifics sit in the lead line, which names IASCC, Younique India and Flier.
+
+## Hero v2 (owner: "too much text, not appealing to explore")
+- **Composition:** the 96px cell grid and frame stay. Left, a paper block spanning 5 cells holds the H1 "I build what your team runs", one sub-line and two actions (`Start a project`, then `See the work` as a quiet text link). Right, the real IASCC site in a hairline browser window (iascc.webp) with the IASCC phone capture rising from, and clipped by, the hero's bottom edge.
+- **Dot matrix → work:** the screenshots start covered by grid cells (paper squares, a few orange or grey). Bottom rows clear first on load. About 13% stay until you scroll (`animation-timeline: scroll(root)`). The windows also rise on scroll: the desktop by half a cell, the phone by 2.2 cells. Two orange pixel clusters sit at the window's corners.
+- **Callouts:** two grid cells act as callouts. `[ custom CMS ]` has a leader to an orange box around the Events and Publications menus, which the team edits through the CMS. `[ mobile view ]` points at the phone. The window bar reads `iascc.in`. Counting the bar, that makes 3 labels.
+- **Word count:** 25 visible words (count.js reports 24 because the URL bar is aria-hidden). The 1-cell AM monogram is gone, and the header logo carries it.
+- **Moved:** the lead paragraph (Aditya Mer, IASCC, Younique India, Flier, "AI comes in where it saves time") and the availability and email line now open the `.work` section. The gutter coordinates moved to the footer's Location cell. iascc.in, sendflier.tech, IEEE TENSYMP '24, youniqueindia.co.in and FastWrite 6,000+ were already in the work and about sections.
+- **Checked:** horizontal overflow is 0px at 390, 1024 and 1440. CLS is 0.002 at 1440, 0.012 at 1024 and 0 at 390. With reduced motion, the covers are not rendered, the windows sit at rest and 0 of 256 animated elements are hidden. Without JS, no covers are generated.
