@@ -1,91 +1,68 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
-import BackToTop from "@/components/BackToTop";
-import PageTransition from "@/components/PageTransition";
+import { Header, Reveal } from "@/components/Chrome";
+import { Footer } from "@/components/Site";
+import { profile } from "@/lib/data";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const newsreader = Newsreader({ subsets: ["latin"], variable: "--font-newsreader", display: "swap", weight: ["400", "500"] });
+const plexMono = IBM_Plex_Mono({ subsets: ["latin"], variable: "--font-plex-mono", display: "swap", weight: ["400", "500"] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const description =
+  "Aditya Mer is a full-stack and AI developer in Mumbai and the maker of Flier. He builds websites, online stores and internal tools for organisations and small businesses.";
 
 export const metadata: Metadata = {
-  title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-  description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems, Generative AI, and Deep Learning solutions.",
-  keywords: [
-    "ML Engineer", 
-    "GenAI Developer", 
-    "AI Research", 
-    "Deep Learning", 
-    "Portfolio", 
-    "Aditya Mer", 
-    "Machine Learning", 
-    "Generative AI",
-    "Large Language Models",
-    "LLM",
-    "Computer Vision",
-    "NLP"
-  ],
-  authors: [{ name: "Aditya Mer" }],
-  creator: "Aditya Mer",
-  publisher: "Aditya Mer",
-  robots: "index, follow",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+  metadataBase: new URL(profile.url),
+  title: { default: "Aditya Mer, full-stack and AI developer in Mumbai", template: "%s | Aditya Mer" },
+  description,
+  authors: [{ name: profile.name, url: profile.url }],
+  creator: profile.name,
+  icons: { icon: "/logo.png", apple: "/logo.png" },
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems from research to production.",
-    url: "https://adityamer.dev",
-    siteName: "Aditya Mer Portfolio",
-    locale: "en_US",
+    title: "Aditya Mer, full-stack and AI developer in Mumbai",
+    description,
+    url: profile.url,
+    siteName: "Aditya Mer",
+    locale: "en_IN",
     type: "website",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Aditya Mer Portfolio Logo",
-      },
-    ],
+    images: [{ url: "/work/flier.webp", width: 1600, height: 1000, alt: "Flier, a mail-merge app by Aditya Mer" }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems.",
-    creator: "@aditya190803",
-    images: ["/logo.png"],
-  },
-  alternates: {
-    canonical: "https://adityamer.dev",
-  },
-  metadataBase: new URL("https://adityamer.dev"),
+  twitter: { card: "summary_large_image", title: "Aditya Mer", description, images: ["/work/flier.webp"] },
 };
 
-export function generateViewport() {
-  return { width: 'device-width', initialScale: 1 };
-}
+export const viewport: Viewport = { themeColor: "#FAFAF9" };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: profile.url,
+  email: `mailto:${profile.email}`,
+  jobTitle: profile.role,
+  address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressCountry: "IN" },
+  sameAs: [profile.github, profile.linkedin],
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <PageTransition>
-          {children}
-        </PageTransition>
-        <BackToTop />
+    <html lang="en" className={`${inter.variable} ${newsreader.variable} ${plexMono.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Hide reveal-animated content only once we know JS is running. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
+      </head>
+      <body>
+        <div className="frame-lines" aria-hidden="true" />
+        <Header />
+        <main id="top">
+          <div className="frame">
+            {children}
+            <Footer />
+          </div>
+        </main>
+        <Reveal />
       </body>
     </html>
   );
