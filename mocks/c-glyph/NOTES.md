@@ -94,3 +94,13 @@ No testimonials, logos or stats were invented.
 Notes:
 - Add `?perf` to the URL to record the per-frame compose cost in `window.__glyph`.
 - When opened over `file://`, the canvas is tainted, so the hero falls back to the plain screenshot. Serve the folder over http to see the glyphs.
+
+## Hero v2 (owner feedback: too much text, not appealing to explore)
+Supersedes the hero parts above (kicker, lede, availability line, coordinates, 2:1 shot with block-by-block reveal).
+- **Composition:** a compact block (H1 `I build what your team runs`, one sub-line, `Start a project` + a quiet `See the work ↓` link) sits above one framed window (hairline border, 8px radius) that fills about 80% of the first screen (≈75% on mobile). The window is iascc.in at 16:10, so the whole page fits and its buttons show on the first frame.
+- **First frame is already readable:** the top-left 40% is the real screenshot, the rest is dense glyphs, split by one clean diagonal with a 1px orange line. A thin band of finer glyphs rides just ahead of the edge.
+- **Denser, darker glyphs:** 7px cells (5px on mobile) with a 4px (3px) fine band. Each cell takes the darkest of 2×2 samples, so thin type survives; ink alphas are 0.42–1; colour is picked by chroma, so navy text stays ink and only the coloured headline and buttons turn orange. The page ground becomes an even field of faint dots, not scattered noise.
+- **Exploring:** scrolling moves the diagonal from 40% to fully resolved in about 290px. Hovering (fine pointers) opens a 120px lens onto the real site, ringed with fine glyphs. The twinkle still runs only while the picture is part code.
+- **Labels (2):** `[ iascc.in ]` and `source → site 40%` (brackets and arrow are CSS, not words).
+- **Moved out of the hero:** "organisations and small businesses" → the .work intro; the glyph-set caption → the IASCC case meta (`above`); the Mumbai coordinates → the footer. Client names, the AI line and availability already live in Work, Services, About and Contact.
+- **Measured (http, headless Chromium):** 24 words on the first screen (desktop and 390), CLS 0.0005 desktop / 0.0001 mobile, 0 px overflow at 390, inline JS 13.9 KB. Reduced motion: 0 hidden reveals, picture static at 40%, no listeners. Over `file://` the canvas is tainted, so the window shows the plain screenshot and the readout says 100%; the word count stays at 24.
