@@ -20,16 +20,16 @@ export default function Services() {
             const Icon = icons[s.id as keyof typeof icons] ?? Globe;
             return (
               <li key={s.id} className="grid-12 gap-y-4 py-8 lg:py-10">
-                <div className="col-span-12 flex items-start gap-4 lg:col-span-4">
+                <div className="col-span-12 flex items-start gap-4 xl:col-span-4">
                   <span className="grid size-11 shrink-0 place-items-center rounded-md border border-line bg-white text-accent">
                     <Icon size={20} strokeWidth={1.75} aria-hidden />
                   </span>
                   <h3 className="t-h3 pt-1.5">{s.title}</h3>
                 </div>
-                <p className="t-body col-span-12 lg:col-span-5 lg:pr-6">{s.pitch}</p>
-                <ul className="col-span-12 flex flex-wrap content-start gap-2 lg:col-span-3">
+                <p className="t-body col-span-12 md:col-span-7 xl:col-span-5 xl:pr-6">{s.pitch}</p>
+                <ul className="col-span-12 flex flex-wrap content-start gap-2 md:col-span-5 xl:col-span-3">
                   {s.includes.map((i) => (
-                    <li key={i} className="rounded-full border border-line bg-white px-3 py-1 text-[13px] text-ink-2">
+                    <li key={i} className="whitespace-nowrap rounded-full border border-line bg-white px-3 py-1 text-[13px] text-ink-2">
                       {i}
                     </li>
                   ))}

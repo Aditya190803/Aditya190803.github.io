@@ -11,7 +11,11 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <>
+    <div className="relative">
+      {/* Page-long guide lines just outside the content edges (desktop) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] hidden lg:block">
+        <div className="guides mx-auto h-full" />
+      </div>
       <Header />
       <main id="main">
         <Hero />
@@ -24,6 +28,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

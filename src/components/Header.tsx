@@ -13,9 +13,9 @@ const nav = [
   { href: "#faq", label: "FAQ" },
 ];
 
-export function Logo() {
+export function Logo({ href = "#top" }: { href?: string }) {
   return (
-    <a href="#top" className="flex items-center gap-3 font-medium tracking-tight text-ink" aria-label={`${profile.name}, back to top`}>
+    <a href={href} className="flex items-center gap-3 font-medium tracking-tight text-ink" aria-label={href === "#top" ? `${profile.name}, back to top` : `${profile.name}, home`}>
       <span aria-hidden className="relative block size-7 rounded-[6px] bg-accent">
         <span className="absolute bottom-[5px] right-[5px] size-2.5 rounded-full bg-white" />
       </span>
@@ -31,12 +31,13 @@ export default function Header() {
 
   // Highlight the section in view (no scroll listeners; IntersectionObserver only)
   useEffect(() => {
-    const ids = nav.map((n) => n.href.slice(1));
+    // "top" (the hero) clears the highlight when scrolled back up.
+    const ids = ["top", ...nav.map((n) => n.href.slice(1))];
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
+          if (e.isIntersecting) setActive(e.target.id === "top" ? "" : e.target.id);
         });
       },
       { rootMargin: "-45% 0px -50% 0px" }
@@ -58,7 +59,7 @@ export default function Header() {
     const onDesktop = (e: MediaQueryListEvent) => e.matches && setOpen(false);
 
     // Keep focus inside the sheet: everything behind it becomes inert.
-    const behind = [document.getElementById("main"), document.querySelector("body > footer")].filter(
+    const behind = [document.getElementById("main"), document.querySelector("footer")].filter(
       Boolean
     ) as HTMLElement[];
     behind.forEach((el) => (el.inert = true));

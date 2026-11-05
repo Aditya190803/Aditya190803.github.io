@@ -8,7 +8,7 @@ const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 
 const projectTypes = ["Website with a CMS", "Online store", "Web app or internal tool", "AI or data project", "Not sure yet"];
 
-type Status = "idle" | "sending" | "sent" | "error";
+type Status = "idle" | "sending" | "sent" | "error" | "mailto";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
@@ -25,6 +25,7 @@ export default function Contact() {
       window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(
         `Project enquiry from ${data.name}`
       )}&body=${encodeURIComponent(body)}`;
+      setStatus("mailto");
       return;
     }
 
@@ -75,7 +76,7 @@ export default function Contact() {
           <h2 id="contact-title" className="t-h1 mt-6">
             Tell me about
             <br />
-            <span className="serif-accent text-[1.12em] leading-[0.95]">your project.</span>
+            <span className="serif-accent inline-block pl-[0.06em] text-[1.12em] leading-[0.95]">your project.</span>
           </h2>
           <p className="t-lead measure mt-6">
             Share a few lines about what you need. I&apos;ll reply with questions or a time for a short call, then a
@@ -151,6 +152,12 @@ export default function Contact() {
                 {/* Honeypot for bots */}
                 <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
 
+                {status === "mailto" ? (
+                  <p role="status" className="t-small text-ink-2">
+                    Your email app should open with the message filled in. If it doesn&apos;t, email{" "}
+                    <a className="link" href={`mailto:${profile.email}`}>{profile.email}</a>.
+                  </p>
+                ) : null}
                 {status === "error" ? (
                   <p role="alert" className="t-small text-[#b4361f]">
                     The enquiry didn&apos;t send. Please try again, or email {profile.email} directly.

@@ -34,20 +34,15 @@ function Cover({ item }: { item: ClientWork }) {
 function CardBody({ item }: { item: ClientWork }) {
   return (
     <div className="flex flex-1 flex-col p-6 sm:p-7">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="t-title">{item.client}</h3>
-          <p className="t-small muted mt-1">{item.kind}</p>
-        </div>
-        <p className="t-small muted shrink-0 text-right tnum">
-          {item.sector}
-          {item.year ? <><br />{item.year}</> : null}
-        </p>
-      </div>
+      <h3 className="t-title">{item.client}</h3>
+      <p className="t-small muted mt-1">
+        {item.kind}, {item.sector.toLowerCase()}
+        {item.year ? `, ${item.year}` : null}
+      </p>
       <p className="t-body mt-5">{item.summary}</p>
       <ul className="mt-6 flex flex-wrap gap-2">
         {item.scope.map((s) => (
-          <li key={s} className="rounded-full border border-line px-3 py-1 text-[13px] text-ink-2">
+          <li key={s} className="whitespace-nowrap rounded-full border border-line px-3 py-1 text-[13px] text-ink-2">
             {s}
           </li>
         ))}
@@ -81,9 +76,9 @@ export default function Work() {
           />
         </div>
 
-        <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {clientWork.map((item) => (
-            <li key={item.slug} className="flex">
+            <li key={item.slug} className="flex sm:last:odd:col-span-2 xl:last:odd:col-span-1">
               {item.url ? (
                 <a
                   href={item.url}

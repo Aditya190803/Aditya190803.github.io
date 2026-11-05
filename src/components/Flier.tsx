@@ -47,13 +47,13 @@ function Demo() {
         <div className="w-[42px]" aria-hidden />
       </div>
 
-      <div className="grid md:grid-cols-[minmax(0,230px)_minmax(0,1fr)]">
+      <div className="grid sm:grid-cols-[minmax(0,200px)_minmax(0,1fr)]">
         {/* Recipients from the CSV */}
-        <div className="border-b border-line bg-ground p-4 md:border-b-0 md:border-r">
+        <div className="border-b border-line bg-ground p-4 sm:border-b-0 sm:border-r">
           <p className="flex items-center gap-2 px-2 text-[13px] font-medium text-muted">
             <FileSpreadsheet size={15} aria-hidden /> guests.csv · {recipients.length} rows
           </p>
-          <div role="group" aria-label="Preview the email for" className="mt-3 grid grid-cols-2 gap-1 md:grid-cols-1">
+          <div role="group" aria-label="Preview the email for" className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-1">
             <button
               type="button"
               aria-pressed={index === null}
@@ -125,7 +125,7 @@ export default function Flier() {
     <section id="flier" aria-labelledby="flier-title" className="section section--alt relative isolate overflow-hidden">
       <div className="bg-dots -z-10 opacity-70" aria-hidden />
       <div className="wrap grid-12 gap-y-12">
-        <div className="col-span-12 lg:col-span-5">
+        <div className="col-span-12 xl:col-span-5">
           <SectionHead
             id="flier-title"
             label="My own product"
@@ -158,7 +158,7 @@ export default function Flier() {
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-7 lg:pl-6">
+        <div className="col-span-12 xl:col-span-7 xl:pl-6">
           <p className="t-label mb-3">Pick a recipient to preview their email</p>
           <Demo />
           <p className="t-small muted mt-4">

@@ -6,15 +6,15 @@ const iascc = clientWork[0];
 
 const proof = [
   { icon: LayoutTemplate, text: "IASCC website and CMS" },
-  { icon: Mail, text: "Flier, my own mail-merge product" },
-  { icon: BookOpen, text: "Research published at IEEE" },
+  { icon: Mail, text: "Flier, my mail-merge app" },
+  { icon: BookOpen, text: "Published at IEEE" },
 ];
 
 export default function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden pt-[calc(var(--nav)+72px)] pb-20 lg:min-h-[100svh] lg:pt-[calc(var(--nav)+96px)] lg:pb-24"
+      className="relative isolate overflow-hidden pt-[calc(var(--nav)+64px)] pb-16 lg:pt-[calc(var(--nav)+88px)] lg:pb-20"
     >
       {/* Background graphics */}
       <div aria-hidden className="absolute inset-0 -z-10">
@@ -34,7 +34,7 @@ export default function Hero() {
           <h1 className="t-h1 mt-7">
             Websites and web apps,
             <br />
-            <span className="serif-accent text-[1.12em] leading-[0.95]">built to be used.</span>
+            <span className="serif-accent inline-block pl-[0.04em] text-[1.12em] leading-[0.95]">built to be used.</span>
           </h1>
 
           <p className="t-lead measure mt-7">
@@ -51,7 +51,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
+          <ul className="mt-10 grid gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-1 xl:grid-cols-3">
             {proof.map(({ icon: Icon, text }) => (
               <li key={text} className="flex items-center gap-2 text-[14px] text-muted">
                 <Icon size={16} strokeWidth={1.75} className="text-accent" aria-hidden />
@@ -61,7 +61,7 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="col-span-12 lg:col-span-6">
+        <div className="col-span-12 hidden sm:block lg:col-span-6">
           <div className="frame settle rounded-[24px] bg-white/60 p-2 sm:p-3">
             <span className="plus plus--tl" aria-hidden />
             <span className="plus plus--tr" aria-hidden />

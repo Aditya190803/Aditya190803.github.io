@@ -1,8 +1,15 @@
 import Link from "next/link";
 import { profile } from "@/lib/data";
+import { Logo } from "@/components/Header";
 
 export default function NotFound() {
   return (
+    <>
+    <header className="border-b border-line bg-ground">
+      <div className="wrap flex h-[var(--nav)] items-center">
+        <Logo href="/" />
+      </div>
+    </header>
     <main className="flex min-h-[70svh] items-center bg-ground py-24">
       <div className="wrap">
         <p className="t-label tnum">404</p>
@@ -20,5 +27,6 @@ export default function NotFound() {
         </div>
       </div>
     </main>
+    </>
   );
 }

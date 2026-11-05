@@ -75,7 +75,7 @@ export default function About() {
                     <span className="block text-[15px] font-medium text-ink group-hover:text-accent transition-colors">
                       FastWrite, a Python package for writing code docs with LLMs
                     </span>
-                    <span className="t-small muted mt-1 block tnum">6,000+ PyPI downloads in its first month</span>
+                    <span className="t-small muted mt-1 block">6,000+ PyPI downloads in its first month</span>
                   </span>
                   <ArrowUpRight size={16} className="mt-1 shrink-0 text-muted" aria-hidden />
                 </a>

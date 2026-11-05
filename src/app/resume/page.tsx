@@ -66,7 +66,7 @@ function Item({
     <article className="cv-item py-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
         <h3 className="font-medium text-ink">{title}</h3>
-        {meta ? <p className="t-label tnum shrink-0 sm:text-right">{meta}</p> : null}
+        {meta ? <p className="t-label shrink-0 sm:text-right">{meta}</p> : null}
       </div>
       {children ? <div className="mt-2 grid gap-2">{children}</div> : null}
     </article>
@@ -102,7 +102,7 @@ const featured = projects.filter((p) => p.featured);
 
 export default function ResumePage() {
   return (
-    <main className="cv-page min-h-svh bg-ground px-4 pb-24 pt-6 sm:px-8 sm:pt-10">
+    <main className="cv-page min-h-svh bg-ground px-6 pb-24 pt-6 sm:px-8 sm:pt-10">
       <div className="cv-sheet mx-auto w-full max-w-[840px]">
         {/* Action bar */}
         <nav
