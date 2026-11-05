@@ -1,26 +1,17 @@
-import dynamic from "next/dynamic";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About, { Skills } from "@/components/About";
-import Certifications from "@/components/Certifications";
-
-const Projects = dynamic(() => import("@/components/Projects"));
-const Experience = dynamic(() => import("@/components/Experience"));
-const Research = dynamic(() => import("@/components/Experience").then(mod => mod.Research));
-const Contact = dynamic(() => import("@/components/Contact"));
+import { Contact } from "@/components/Contact";
+import { About, Faq, Hero, Projects, Research, Services, Work } from "@/components/Home";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-cream">
-      <Navbar />
+    <>
       <Hero />
-      <About />
-      <Skills />
+      <Work />
       <Projects />
-      <Certifications />
+      <Services />
+      <About />
       <Research />
-      <Experience />
+      <Faq />
       <Contact />
-    </main>
+    </>
   );
 }
