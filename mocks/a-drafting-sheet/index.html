@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aditya Mer, freelance web and AI developer</title>
+<meta name="description" content="Websites, online stores and web apps for organisations and small businesses, with AI where it saves time. Freelance developer in Mumbai.">
+<script>document.documentElement.className='js'</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141414; --ink-2:#454545; --ink-3:#6b6b6b;
+  --line:rgba(20,20,20,.09); --line-2:rgba(20,20,20,.16);
+  --bg:#f7f7f6; --paper:#fff; --tint:#fafafa;
+  --accent:#f07050; --accent-ink:#c2410c;
+  --sans:"Geist",ui-sans-serif,system-ui,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --cols:12;
+  --cell:min(96px, calc((100vw - 64px) / 14));
+  --gut:var(--cell);
+  --frame:calc(var(--cell) * 12);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+@media (max-width:759px){
+  :root{ --cols:6; --gut:16px; --cell:calc((100vw - 32px) / 6); --frame:calc(var(--cell) * 6); }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:auto;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans);font-feature-settings:"ss01";-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+p{margin:0}
+h1,h2,h3,h4{margin:0;font-weight:500;letter-spacing:-.01em}
+ul,ol,dl,dd{margin:0;padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.mono{font-family:var(--mono);font-size:12px;line-height:1.5;letter-spacing:0;color:var(--ink-3)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+
+/* ---------- the sheet ---------- */
+.sheet{position:relative;width:var(--frame);margin:0 auto;background:var(--paper);border-left:1px solid var(--line-2);border-right:1px solid var(--line-2)}
+.sheet::before,.sheet::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.sheet::before{left:calc(-1 * var(--gut) - 1px)}
+.sheet::after{right:calc(-1 * var(--gut) - 1px)}
+section,.ft{position:relative;view-timeline-name:--sec}
+/* hairline across frame + gutters, with + marks at the crossings */
+.rl{position:absolute;top:-1px;left:calc(-1 * var(--gut) - 1px);right:calc(-1 * var(--gut) - 1px);height:1px;z-index:2;pointer-events:none}
+.rl::before{content:"";position:absolute;inset:0;background:var(--line)}
+.rl .ln{position:absolute;inset:0;background:var(--line-2);transform-origin:0 50%}
+.rl b{position:absolute;top:-4px;width:9px;height:9px;background:
+  linear-gradient(var(--ink-3),var(--ink-3)) center/9px 1px no-repeat,
+  linear-gradient(var(--ink-3),var(--ink-3)) center/1px 9px no-repeat;opacity:.55}
+.rl b:nth-child(2){left:-4px}
+.rl b:nth-child(3){left:calc(var(--gut) - 4px)}
+.rl b:nth-child(4){right:calc(var(--gut) - 4px)}
+.rl b:nth-child(5){right:-4px}
+@media (max-width:759px){ .rl b:nth-child(2),.rl b:nth-child(5){display:none} }
+
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line-2)}
+.top-in{height:64px;display:flex;align-items:center;gap:32px;padding:0 24px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:500;font-size:15px;letter-spacing:-.005em}
+.brand img{width:28px;height:28px;border:1px solid var(--line)}
+.nav{display:flex;gap:28px;margin-left:auto;font-size:14px;color:var(--ink-2)}
+.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:6px;font-size:14px;font-weight:500;white-space:nowrap;transition:background-color .15s,transform .1s}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--accent);color:var(--ink)}
+.btn-p:hover{background:#e8613f}
+.btn-s{color:var(--ink);border:1px solid var(--line-2);background:var(--paper)}
+.btn-s:hover{background:var(--tint)}
+.ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-m{display:none}
+@media (max-width:759px){
+  .top-in{padding:0 16px;gap:12px}
+  .nav{display:none}
+  .top .btn{margin-left:auto;height:36px;padding:0 12px;font-size:13px}
+  .nav-m{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+  .nav-m a{text-align:center;padding:10px 0;border-left:1px solid var(--line)}
+  .nav-m a:first-child{border-left:0}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative}
+.hero-g{position:relative;display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-template-rows:repeat(7,var(--cell));
+  background:
+    radial-gradient(circle,rgba(20,20,20,.22) 1px,transparent 1.6px) 0 0/var(--cell) var(--cell),
+    linear-gradient(to right,var(--line) 1px,transparent 1px) 0 0/var(--cell) var(--cell),
+    linear-gradient(to bottom,var(--line) 1px,transparent 1px) 0 0/var(--cell) var(--cell)}
+.hero-g::before,.hero-g::after{content:"";position:absolute;top:0;bottom:0;width:var(--gut);
+  background:
+    radial-gradient(circle,rgba(20,20,20,.16) 1px,transparent 1.6px) 0 0/var(--cell) var(--cell),
+    linear-gradient(to bottom,var(--line) 1px,transparent 1px) 0 0/var(--cell) var(--cell)}
+.hero-g::before{right:100%;margin-right:1px}
+.hero-g::after{left:100%;margin-left:1px}
+.hero-g>*{grid-area:var(--ga)}
+.cellw{background:var(--paper);border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin-left:1px;margin-top:1px}
+.dm{display:grid;place-items:center}
+.dm svg{display:block;width:100%;height:100%;overflow:visible;shape-rendering:crispEdges}
+.dm.sm svg{width:min(70px,72%);height:auto}
+.dm.lg svg{width:min(160px,84%);height:auto}
+.lbl{font-family:var(--mono);font-size:11px;line-height:1;color:var(--ink-3);padding:10px 10px;white-space:nowrap;align-self:start}
+.lbl.r{justify-self:end}
+.lbl.b{align-self:end}
+.gl{position:absolute;top:0;bottom:0;width:var(--gut);display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:16px 0;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);writing-mode:vertical-rl;white-space:nowrap}
+.gl.l{right:calc(100% + 1px);transform:rotate(180deg)}
+.gl.r{left:calc(100% + 1px)}
+.hero-t{grid-area:2/1/8/8;background:var(--paper);border-top:1px solid var(--line-2);border-right:1px solid var(--line-2);margin-top:0;
+  padding:48px 48px 40px;display:flex;flex-direction:column;position:relative;z-index:1}
+.hero h1{font-size:clamp(34px,3.7vw,52px);line-height:1.06;letter-spacing:-.025em;font-weight:500;max-width:15.5em}
+.lead{margin-top:24px;font-size:18px;line-height:1.55;color:var(--ink-2);max-width:34em}
+.lead a{color:var(--ink);border-bottom:1px solid var(--line-2)}
+.lead a:hover{border-color:var(--ink)}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:32px}
+.avail{margin-top:auto;padding-top:28px;display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.avail i{width:6px;height:6px;background:var(--accent);flex:none}
+/* dot-matrix pixels */
+.px-b{fill:rgba(20,20,20,.07)}
+.dm.a .px-b{fill:rgba(240,112,80,.16)}
+.px-f{fill:rgba(20,20,20,.34);transform-box:fill-box;transform-origin:center}
+.dm.a .px-f{fill:var(--accent)}
+.dm.m .px-f{fill:var(--ink)}
+.dm.sv .px-f{fill:rgba(20,20,20,.55)}
+html.js .hero .px-f{opacity:0;transform:scale(.2)}
+html.js .hero .px-f.l{animation:fillpx .55s var(--d) var(--ease) forwards}
+html.js .hero .px-f.s{animation:fillpx .55s calc(var(--d) + 1.6s) var(--ease) forwards}
+@supports (animation-timeline:scroll()){
+  html.js .hero .px-f.s{animation:fillpx linear both;animation-timeline:scroll(root);animation-range:var(--a) calc(var(--a) + 90px)}
+}
+@keyframes fillpx{to{opacity:1;transform:none}}
+
+/* ---------- sections ---------- */
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:72px 48px 32px}
+.sh h2{font-size:40px;line-height:1;letter-spacing:-.03em;display:flex;align-items:baseline}
+.sh h2 i{display:inline-block;width:.2em;height:.2em;background:var(--accent);margin-right:.06em}
+.sh .mono{text-align:right}
+.bt{border-top:1px solid var(--line)}
+.bl{border-left:1px solid var(--line)}
+.pad{padding:40px 48px}
+.k{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.lnk{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:var(--ink);border-bottom:1px solid var(--line-2);padding-bottom:2px}
+.lnk:hover{border-color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px 6px}
+.tags li{font-family:var(--mono);font-size:12px;color:var(--ink-2);border:1px solid var(--line);padding:3px 8px;border-radius:4px;background:var(--paper)}
+
+/* work */
+.case{display:grid;grid-template-columns:8fr 4fr}
+.case.flip{grid-template-columns:4fr 8fr}
+.case.flip .shot{order:2;border-left:1px solid var(--line);border-right:0}
+.shot{position:relative;padding:40px;border-right:1px solid var(--line);
+  background:radial-gradient(circle,rgba(20,20,20,.16) 1px,transparent 1.6px) 0 0/calc(var(--cell)/2) calc(var(--cell)/2),var(--tint)}
+.shot img{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--line-2);background:var(--paper)}
+.shot .lbl{position:absolute;padding:0}
+.shot .lbl.tl{top:14px;left:16px}
+.shot .lbl.br{bottom:14px;right:16px}
+.ctext{padding:40px 40px 36px;display:flex;flex-direction:column;gap:16px}
+.ctext h3{font-size:32px;line-height:1.05;letter-spacing:-.025em}
+.ctext p{color:var(--ink-2);font-size:16px}
+.ctext p.k{font-size:12px;color:var(--ink-3)}
+.scope{display:grid;gap:6px;font-size:14px;color:var(--ink-2)}
+.scope li{display:flex;gap:10px}
+.scope li::before{content:"";width:8px;height:1px;background:var(--ink-3);margin-top:11px;flex:none}
+.ctext .lnk{margin-top:auto;align-self:flex-start}
+.flier-pts{display:grid;grid-template-columns:repeat(3,1fr)}
+.flier-pts>div{padding:28px 32px 32px}
+.flier-pts>div+div{border-left:1px solid var(--line)}
+.flier-pts h4{font-size:16px;margin:10px 0 6px}
+.flier-pts p{font-size:14px;color:var(--ink-2)}
+.merge{display:grid;grid-template-columns:5fr 7fr}
+.merge-l{padding:32px 32px 32px 48px;display:flex;flex-direction:column;gap:12px}
+.merge-l p{font-size:14px;color:var(--ink-2)}
+.merge-l .used{font-family:var(--mono);font-size:12px;color:var(--ink);margin-top:auto;padding-top:8px}
+.merge-t{border-left:1px solid var(--line);font-family:var(--mono);font-size:12px;overflow:hidden}
+.merge-t .row{display:grid;grid-template-columns:72px 1fr;gap:16px;padding:11px 24px;border-top:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.merge-t .row:first-child{border-top:0;color:var(--ink-3)}
+.merge-t .row span:last-child{overflow:hidden;text-overflow:ellipsis}
+.merge-t mark{background:none;color:var(--accent-ink)}
+.theska{display:grid;grid-template-columns:4fr 8fr}
+.hatch{border-left:1px solid var(--line);min-height:240px;display:grid;place-items:center;
+  background:repeating-linear-gradient(135deg,transparent 0 11px,rgba(20,20,20,.07) 11px 12px),var(--tint)}
+.hatch span{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line-2);padding:8px 12px;display:flex;gap:8px;align-items:center}
+
+/* services */
+.svc{display:grid;grid-template-columns:1fr 1fr}
+.svc>article{padding:40px 48px 44px;display:grid;grid-template-columns:56px 1fr;gap:0 24px}
+.svc>article:nth-child(2n){border-left:1px solid var(--line)}
+.svc>article:nth-child(n+3){border-top:1px solid var(--line)}
+.svc .dm{width:56px;height:56px;border:1px solid var(--line);background:var(--paper)}
+.svc .dm svg{width:62%;height:62%;shape-rendering:auto}
+.svc h3{font-size:22px;line-height:1.2;letter-spacing:-.015em}
+.svc p{margin-top:12px;color:var(--ink-2);font-size:15px}
+.svc ul{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:14px;color:var(--ink)}
+.svc ul li{display:flex;gap:10px}
+.svc ul li::before{content:"+";font-family:var(--mono);color:var(--ink-3)}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr)}
+.steps li{padding:32px 32px 40px;position:relative}
+.steps li+li{border-left:1px solid var(--line)}
+.steps .n{font-family:var(--mono);font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:10px}
+.steps .n::after{content:"";flex:1;height:1px;background:var(--line)}
+.steps h3{font-size:20px;margin-top:40px;letter-spacing:-.015em}
+.steps p{margin-top:10px;font-size:15px;color:var(--ink-2)}
+
+/* about */
+.bio{display:grid;grid-template-columns:7fr 5fr}
+.bio-t{padding:40px 48px 48px}
+.bio-t p{font-size:24px;line-height:1.4;letter-spacing:-.015em;color:var(--ink)}
+.bio-t p+p{margin-top:20px;font-size:16px;line-height:1.6;letter-spacing:0;color:var(--ink-2)}
+.edu{border-left:1px solid var(--line)}
+.edu li{padding:20px 32px;border-top:1px solid var(--line)}
+.edu li:first-child{border-top:0}
+.edu .k{display:block;margin-bottom:4px}
+.edu strong{font-weight:500;display:block;font-size:15px}
+.edu span.sub{font-size:14px;color:var(--ink-2)}
+.subh{display:flex;justify-content:space-between;align-items:baseline;padding:20px 48px;border-top:1px solid var(--line);background:var(--tint)}
+.subh h3{font-size:16px;letter-spacing:0}
+.xp li{display:grid;grid-template-columns:3fr 4fr 5fr;gap:24px;padding:24px 48px;border-top:1px solid var(--line)}
+.xp strong{font-weight:500;display:block}
+.xp .co{font-size:15px;color:var(--ink-2)}
+.xp ul{font-size:14px;color:var(--ink-2);display:grid;gap:4px}
+.xp ul li{display:flex;gap:10px;padding:0;border:0;grid-template-columns:none}
+.xp ul li::before{content:"";width:8px;height:1px;background:var(--ink-3);margin-top:10px;flex:none}
+.papers{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.papers article{padding:32px 48px 36px;display:flex;flex-direction:column;gap:12px}
+.papers article+article{border-left:1px solid var(--line)}
+.papers h4{font-size:19px;line-height:1.3;letter-spacing:-.01em}
+.papers p{font-size:14px;color:var(--ink-2)}
+.papers .au{font-size:13px;color:var(--ink-3)}
+.papers .au b{font-weight:500;color:var(--ink)}
+.papers .lnk{align-self:flex-start;margin-top:auto}
+.proj{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.proj article{padding:28px 32px 32px;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.proj article:nth-child(3n+1){border-left:0}
+.proj article:nth-child(-n+3){border-top:0}
+.proj h4{font-size:17px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.proj p{font-size:14px;color:var(--ink-2)}
+.proj .stat{font-family:var(--mono);font-size:12px;color:var(--accent-ink)}
+.proj .lk{display:flex;gap:16px;margin-top:auto;padding-top:6px;font-size:13px;font-weight:500}
+.proj .lk a{display:inline-flex;gap:4px;align-items:center;border-bottom:1px solid var(--line-2)}
+.proj .lk a:hover{border-color:var(--ink)}
+.proj .lk .ico{width:14px;height:14px}
+.sk{display:grid;grid-template-columns:7fr 5fr;border-top:1px solid var(--line)}
+.sk dl{padding:12px 48px 32px}
+.sk dl>div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+.sk dl>div:first-child{border-top:0}
+.sk dt{font-family:var(--mono);font-size:12px;color:var(--ink-3);padding-top:2px}
+.sk dd{font-size:14px;color:var(--ink-2)}
+.certs{border-left:1px solid var(--line);padding:12px 40px 32px}
+.certs li{padding:12px 0;border-top:1px solid var(--line);font-size:14px}
+.certs li:first-child{border-top:0}
+.certs a,.certs span.t{font-weight:500;color:var(--ink)}
+.certs a{border-bottom:1px solid var(--line-2)}
+.certs .k{display:block;margin-top:2px}
+
+/* faq */
+.faq{display:grid;grid-template-columns:4fr 8fr}
+.faq-l{padding:72px 48px 40px}
+.faq-l h2{font-size:40px;line-height:1;letter-spacing:-.03em;display:flex;align-items:baseline}
+.faq-l h2 i{display:inline-block;width:.2em;height:.2em;background:var(--accent);margin-right:.06em}
+.faq-l p{margin-top:20px;font-size:15px;color:var(--ink-2)}
+.faq-l p a{border-bottom:1px solid var(--line-2);color:var(--ink)}
+.qa{border-left:1px solid var(--line)}
+.qa details{border-top:1px solid var(--line)}
+.qa details:first-child{border-top:0}
+.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:24px 40px;font-size:17px;font-weight:500}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .pl{width:16px;height:16px;flex:none;margin-top:4px;position:relative}
+.qa summary .pl::before,.qa summary .pl::after{content:"";position:absolute;background:var(--ink-3);left:0;top:7.5px;width:16px;height:1px;transition:transform .2s var(--ease)}
+.qa summary .pl::after{transform:rotate(90deg)}
+.qa details[open] .pl::after{transform:rotate(0)}
+.qa summary:hover{background:var(--tint)}
+.qa details p{padding:0 80px 24px 40px;color:var(--ink-2);font-size:15px}
+
+/* contact */
+.ct{display:grid;grid-template-columns:5fr 7fr}
+.ct-l{padding:72px 48px 48px;display:flex;flex-direction:column;gap:20px}
+.ct-l h2{font-size:48px;line-height:1.02;letter-spacing:-.03em;display:block}
+.ct-l h2 i{display:inline-block;width:.2em;height:.2em;background:var(--accent);margin-right:.06em}
+.ct-l>p{font-size:16px;color:var(--ink-2)}
+.ct-l>p.avail{font-size:12px}
+.mail{display:flex;align-items:stretch;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;margin-top:8px}
+.mail a{flex:1;padding:12px 14px;font-family:var(--mono);font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mail button{display:flex;align-items:center;gap:6px;border:0;border-left:1px solid var(--line-2);background:var(--tint);padding:0 14px;font-size:13px;font-weight:500;cursor:pointer}
+.mail button:hover{background:#f0f0ef}
+.elsewhere{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:auto;padding-top:12px}
+.form{border-left:1px solid var(--line);padding:72px 48px 48px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-content:start;background:var(--tint)}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld.w{grid-column:1/-1}
+.fld label{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);padding:11px 12px;font-size:15px;line-height:1.4}
+.fld textarea{min-height:140px;resize:vertical}
+.fld select{appearance:none;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 12px center}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--ink)}
+.form .send{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.form .send .btn{border:0;cursor:pointer;height:44px}
+
+/* footer title block */
+.foot{display:grid;grid-template-columns:3fr 2fr 2fr 2fr 3fr;font-size:14px}
+.foot>div{padding:20px 24px 24px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.foot>div:first-child{border-left:0;padding-left:48px}
+.foot .k{font-size:11px}
+.foot a{border-bottom:1px solid var(--line-2);align-self:flex-start}
+.after{height:48px}
+
+/* ---------- motion ---------- */
+html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0) * 70ms)}
+html.js .rv.in{opacity:1;transform:none}
+html.js .rl .ln{transform:scaleX(0);transition:transform 1s var(--ease)}
+html.js .in>.rl .ln{transform:none}
+@supports (animation-timeline:view()){
+  html.js .rl .ln{transition:none;animation:draw linear both;animation-timeline:--sec;animation-range:entry 0% entry 35%}
+}
+@keyframes draw{from{transform:scaleX(0)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){
+  html.js .rv,html.js .rl .ln,html.js .hero .px-f{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+}
+
+/* ---------- responsive ---------- */
+@media (min-width:1100px){.m-show{display:none}}
+@media (max-width:1099px){
+  .hero-g{grid-template-rows:repeat(4,var(--cell)) auto}
+  .hero-g>*{grid-area:var(--gt,var(--ga))}
+  .hero-g>.hero-t{grid-area:5/1/6/-1;border:0;border-top:1px solid var(--line-2);padding:40px 40px 40px}
+  .hero h1{font-size:clamp(32px,5.4vw,48px)}
+  .t-hide{display:none}
+  .sh,.pad{padding-left:32px;padding-right:32px}
+  .case,.case.flip,.theska,.merge,.bio,.sk,.faq,.ct{grid-template-columns:1fr}
+  .case.flip .shot{order:0}
+  .shot,.case.flip .shot{border:0;border-bottom:1px solid var(--line);padding:28px}
+  .hatch{border-left:0;border-top:1px solid var(--line)}
+  .theska .ctext{order:-1}
+  .merge-t{border-left:0;border-top:1px solid var(--line)}
+  .merge-l{padding:28px 32px}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps li:nth-child(3){border-left:0}
+  .steps li:nth-child(n+3){border-top:1px solid var(--line)}
+  .edu,.certs,.qa,.form{border-left:0;border-top:1px solid var(--line)}
+  .bio-t,.xp li,.subh,.papers article,.sk dl{padding-left:32px;padding-right:32px}
+  .xp li{grid-template-columns:1fr 2fr}
+  .xp li>ul{grid-column:2}
+  .proj{grid-template-columns:1fr 1fr}
+  .proj article{border-left:1px solid var(--line)!important;border-top:1px solid var(--line)!important}
+  .proj article:nth-child(2n+1){border-left:0!important}
+  .proj article:nth-child(-n+2){border-top:0!important}
+  .svc>article{padding:32px}
+  .faq-l{padding:56px 32px 32px}
+  .ct-l,.form{padding:48px 32px}
+  .foot{grid-template-columns:1fr 1fr 1fr}
+  .foot>div:nth-child(4){border-left:0;padding-left:32px}
+  .foot>div:nth-child(n+4){border-top:1px solid var(--line)}
+  .foot>div:first-child{padding-left:32px}
+}
+@media (max-width:759px){
+  .hero-g>*{grid-area:var(--gm,var(--gt))}
+  .hero-g>.hero-t{grid-area:5/1/6/-1}
+  .hero-g::before,.hero-g::after,.gl,.m-hide{display:none}
+  .dm svg{shape-rendering:auto}
+  .hero-t{padding:32px 20px 32px}
+  .hero h1{font-size:34px;line-height:1.08}
+  .lead{font-size:16px;margin-top:20px}
+  .acts{margin-top:28px}
+  .acts .btn{height:44px}
+  .lbl{font-size:10px;padding:7px 6px}
+  .sh{padding:56px 20px 24px;flex-direction:column;align-items:flex-start;gap:12px}
+  .sh h2,.faq-l h2{font-size:34px}
+  .sh .mono{text-align:left}
+  .pad,.ctext,.bio-t,.xp li,.subh,.papers article,.sk dl,.certs,.svc>article,.faq-l,.ct-l,.form,.merge-l{padding-left:20px;padding-right:20px}
+  .shot,.case.flip .shot{padding:16px 16px 28px}
+  .shot .lbl.tl{display:none}
+  .shot .lbl.br{bottom:8px;right:16px}
+  .ctext{padding-top:28px;padding-bottom:32px}
+  .ctext h3{font-size:28px}
+  .flier-pts,.papers,.svc,.steps,.proj{grid-template-columns:1fr}
+  .flier-pts>div+div,.papers article+article,.svc>article:nth-child(2n),.steps li+li,.proj article{border-left:0!important}
+  .flier-pts>div+div,.papers article+article,.svc>article+article,.steps li+li,.proj article+article{border-top:1px solid var(--line)!important}
+  .flier-pts>div{padding:24px 20px}
+  .merge-t .row{grid-template-columns:52px 1fr;padding:10px 20px;gap:12px}
+  .svc>article{grid-template-columns:1fr;gap:16px;padding-top:28px;padding-bottom:32px}
+  .svc ul{grid-template-columns:1fr}
+  .steps li{padding:24px 20px 28px}
+  .steps h3{margin-top:20px}
+  .bio-t p{font-size:20px}
+  .edu li{padding:16px 20px}
+  .xp li{grid-template-columns:1fr;gap:8px;padding-top:20px;padding-bottom:20px}
+  .xp li>ul{grid-column:auto}
+  .sk dl>div{grid-template-columns:1fr;gap:4px}
+  .qa summary{padding:20px;font-size:16px}
+  .qa details p{padding:0 20px 20px}
+  .ct-l h2{font-size:38px}
+  .form{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot>div{border-left:0!important;border-top:1px solid var(--line);padding-left:20px!important}
+  .foot>div:nth-child(2n){border-left:1px solid var(--line)!important}
+  .foot>div:first-child{grid-column:1/-1;border-top:0}
+  .foot>div:nth-child(2n){border-left:0!important}
+  .foot>div:nth-child(2n+1):not(:first-child){border-left:1px solid var(--line)!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ne" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+  <symbol id="i-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+</svg>
+
+<div class="sheet">
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top" aria-label="Aditya Mer, home"><img src="../assets/logo.png" width="28" height="28" alt="">Aditya Mer</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-p" href="#contact">Start a project</a>
+  </div>
+  <nav class="nav-m" aria-label="Sections">
+    <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-g">
+    <div class="gl l" aria-hidden="true"><span>[ Mumbai, IN ]</span><span>[ 19.08° N, 72.88° E ]</span></div>
+    <div class="gl r" aria-hidden="true"><span>[ taking on new projects ]</span><span>[ FastWrite, 6,000+ PyPI downloads ]</span></div>
+
+    <!-- AM monogram, drawn after the logo: solid A, outlined M -->
+    <div class="dm lg a" data-g="A" aria-hidden="true" style="--ga:2/9/span 2/span 2;--gt:1/7/span 2/span 2;--gm:1/2/span 2/span 2"></div>
+    <div class="dm lg m" data-g="M" aria-hidden="true" style="--ga:4/10/span 2/span 2;--gt:3/8/span 2/span 2;--gm:3/3/span 2/span 2"></div>
+
+    <div class="dm sm cellw" data-g="web" aria-hidden="true" style="--ga:1/3;--gt:2/2;--gm:1/5"></div>
+    <span class="lbl" style="--ga:1/4/2/7;--gt:1/2/2/5;--gm:2/4/3/7">[ iascc.in ]</span>
+
+    <div class="dm sm cellw" data-g="mail" aria-hidden="true" style="--ga:1/12;--gt:1/11;--gm:4/6"></div>
+    <span class="lbl r" style="--ga:1/9/2/12;--gt:2/9/3/12;--gm:3/4/4/7">[ sendflier.tech ]</span>
+
+    <div class="dm sm cellw t-hide" data-g="paper" aria-hidden="true" style="--ga:6/8"></div>
+    <span class="lbl t-hide" style="--ga:7/8/8/10">[ IEEE TENSYMP ’24 ]</span>
+
+    <div class="dm sm cellw" data-g="cart" aria-hidden="true" style="--ga:7/12;--gt:4/12;--gm:4/1"></div>
+    <span class="lbl r b" style="--ga:7/9/8/12;--gt:4/9/5/12;--gm:3/1/4/3">[ youniqueindia.co.in ]</span>
+    <span class="lbl b m-show" style="--ga:6/12/7/13;--gt:3/2/4/5;--gm:4/2/5/5">[ Mumbai, IN ]</span>
+
+    <div class="hero-t">
+      <h1>Websites, online stores and web apps for organisations and small businesses</h1>
+      <p class="lead">I’m Aditya Mer, a freelance web and AI developer in Mumbai, working with clients anywhere. I built the <a href="https://iascc.in">IASCC</a> website and CMS, the <a href="https://www.youniqueindia.co.in">Younique India</a> store, and Flier, my own mail-merge app. AI comes in where it saves time.</p>
+      <div class="acts">
+        <a class="btn btn-p" href="#contact">Start a project</a>
+        <a class="btn btn-s" href="#work">See the work <svg class="ico"><use href="#i-r"/></svg></a>
+      </div>
+      <p class="avail"><i></i>Taking on new projects. Replies from adityamer.work@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section id="work">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <header class="sh"><h2 class="rv"><i></i>work</h2><p class="mono rv" style="--i:1">3 client projects, 1 product of my own</p></header>
+
+  <article class="case bt">
+    <div class="shot">
+      <span class="lbl tl">[ fig. 01 ]</span>
+      <img class="rv" src="../assets/iascc.webp" width="1600" height="1000" alt="The IASCC homepage: Integrated Association of Supportive Care in Cancer" loading="lazy" decoding="async">
+      <span class="lbl br">[ 1600 × 1000 ]</span>
+    </div>
+    <div class="ctext">
+      <p class="k rv">Website and custom CMS · Cancer-care nonprofit · 2025</p>
+      <h3 class="rv" style="--i:1">IASCC</h3>
+      <p class="rv" style="--i:2">India’s national affiliate of MASCC. I designed and built the site from scratch, with a CMS the team uses to publish events, news, newsletters and research grants themselves.</p>
+      <ul class="scope rv" style="--i:3"><li>Design and build</li><li>Custom CMS</li><li>Membership and contact pages</li></ul>
+      <a class="lnk rv" style="--i:4" href="https://iascc.in">iascc.in <svg class="ico"><use href="#i-ne"/></svg></a>
+    </div>
+  </article>
+
+  <article class="case flip bt">
+    <div class="shot">
+      <span class="lbl tl">[ fig. 02 ]</span>
+      <img class="rv" src="../assets/younique.webp" width="1600" height="1000" alt="The Younique India storefront with its jewellery collection" loading="lazy" decoding="async">
+      <span class="lbl br">[ 1600 × 1000 ]</span>
+    </div>
+    <div class="ctext">
+      <p class="k rv">Online store · Jewellery retail</p>
+      <h3 class="rv" style="--i:1">Younique India</h3>
+      <p class="rv" style="--i:2">A storefront for an 18k gold-plated, anti-tarnish jewellery brand that ships across India, with search, collections, customer sign-in and order tracking.</p>
+      <ul class="scope rv" style="--i:3"><li>Storefront design</li><li>Catalogue and collections</li><li>Accounts and order tracking</li></ul>
+      <a class="lnk rv" style="--i:4" href="https://www.youniqueindia.co.in">youniqueindia.co.in <svg class="ico"><use href="#i-ne"/></svg></a>
+    </div>
+  </article>
+
+  <article class="bt" aria-labelledby="flier-h">
+    <div class="case">
+      <div class="shot">
+        <span class="lbl tl">[ fig. 03 ]</span>
+        <img class="rv" src="../assets/flier.webp" width="1600" height="1000" alt="Flier’s homepage: personalised email campaigns through Gmail" loading="lazy" decoding="async">
+        <span class="lbl br">[ open source ]</span>
+      </div>
+      <div class="ctext">
+        <p class="k rv">My own product · Mail merge · Open source</p>
+        <h3 class="rv" id="flier-h" style="--i:1">Flier</h3>
+        <p class="rv" style="--i:2">A mail-merge product I designed and built end to end. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent from your own Gmail.</p>
+        <ul class="tags rv" style="--i:3"><li>Next.js</li><li>TypeScript</li><li>Gmail API</li><li>Google OAuth</li></ul>
+        <div class="rv" style="--i:4;display:flex;gap:20px;flex-wrap:wrap;margin-top:auto">
+          <a class="lnk" href="https://sendflier.tech">sendflier.tech <svg class="ico"><use href="#i-ne"/></svg></a>
+          <a class="lnk" href="https://github.com/Aditya190803/EchoMail">Source on GitHub <svg class="ico"><use href="#i-ne"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="flier-pts bt">
+      <div class="rv"><span class="k">01</span><h4>Spreadsheet in, personal emails out</h4><p>CSV columns become {{variables}}, and every message can be previewed before it goes.</p></div>
+      <div class="rv" style="--i:1"><span class="k">02</span><h4>Sent through the official Gmail API</h4><p>Google sign-in and Gmail’s own API, so messages arrive like normal email from your address.</p></div>
+      <div class="rv" style="--i:2"><span class="k">03</span><h4>Progress and results you can see</h4><p>Live sending progress, scheduled sends, and open and click tracking for every campaign.</p></div>
+    </div>
+    <div class="merge bt">
+      <div class="merge-l rv">
+        <span class="k">One subject line, four inboxes</span>
+        <p>The subject <code class="k" style="color:var(--ink)">{{name}}, your seat for {{event}}</code> becomes a different email for every row of the sheet.</p>
+        <p class="used">In use at Tata Memorial Hospital</p>
+      </div>
+      <div class="merge-t rv" style="--i:1" aria-label="Example: four rows of a spreadsheet merged into subject lines">
+        <div class="row"><span>name</span><span>subject, as sent</span></div>
+        <div class="row"><span>Priya</span><span><mark>Priya</mark>, your seat for <mark>the workshop on 14 Nov</mark></span></div>
+        <div class="row"><span>Rahul</span><span><mark>Rahul</mark>, your seat for <mark>next week’s webinar</mark></span></div>
+        <div class="row"><span>Meera</span><span><mark>Meera</mark>, your seat for <mark>the annual meet-up</mark></span></div>
+        <div class="row"><span>Arjun</span><span><mark>Arjun</mark>, your seat for <mark>Saturday’s session</mark></span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="theska bt">
+    <div class="ctext">
+      <p class="k rv">Internal software · Private project</p>
+      <h3 class="rv" style="--i:1">Theska</h3>
+      <p class="rv" style="--i:2">Internal software built for the company’s own team. The project is private, so I share the details on a call rather than here.</p>
+      <ul class="scope rv" style="--i:3"><li>Internal tool</li><li>Built to the team’s workflow</li></ul>
+      <a class="lnk rv" style="--i:4" href="#contact">Ask about it on a call <svg class="ico"><use href="#i-r"/></svg></a>
+    </div>
+    <div class="hatch"><span><svg class="ico"><use href="#i-lock"/></svg>[ private, no screenshots ]</span></div>
+  </article>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <header class="sh"><h2 class="rv"><i></i>services</h2><p class="mono rv" style="--i:1">Fixed quote per project, agreed in writing</p></header>
+  <div class="svc bt">
+    <article class="rv"><div class="dm sv" data-g="web" aria-hidden="true"></div><div>
+      <h3>Websites for organisations and firms</h3>
+      <p>A site that explains what you do in seconds, looks credible to the people you want to reach, and that your team can update without calling me.</p>
+      <ul><li>Design and page structure</li><li>A CMS your team can edit</li><li>SEO and analytics</li><li>Hosting and launch</li></ul></div>
+    </article>
+    <article class="rv" style="--i:1"><div class="dm sv" data-g="cart" aria-hidden="true"></div><div>
+      <h3>Online stores</h3>
+      <p>Product pages that sell, a checkout that stays out of the way, and an admin that matches how you actually run the shop.</p>
+      <ul><li>Catalogue and checkout</li><li>Payments and shipping</li><li>Orders and stock admin</li><li>Mobile-first design</li></ul></div>
+    </article>
+    <article class="rv"><div class="dm sv" data-g="app" aria-hidden="true"></div><div>
+      <h3>Web apps and internal tools</h3>
+      <p>When spreadsheets and copy-pasting slow your team down, I build the tool that replaces them, the way Flier replaced manual email.</p>
+      <ul><li>Dashboards and portals</li><li>Logins, roles and permissions</li><li>Google, payment and CRM integrations</li><li>Automated tests</li></ul></div>
+    </article>
+    <article class="rv" style="--i:1"><div class="dm sv" data-g="paper" aria-hidden="true"></div><div>
+      <h3>AI and data work</h3>
+      <p>Assistants that answer from your own documents, data pulled out of PDFs and forms, and dashboards built on data you already have. I’ll tell you plainly when AI isn’t the answer.</p>
+      <ul><li>Chat over your documents</li><li>Document and form processing</li><li>ML models and evaluation</li><li>Dashboards and reports</li></ul></div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <header class="sh"><h2 class="rv"><i></i>process</h2><p class="mono rv" style="--i:1">From the first call to handover</p></header>
+  <ol class="steps bt">
+    <li class="rv"><span class="n">01</span><h3>A short call</h3><p>We talk through what you need, who it’s for and what a good result looks like. No cost and no obligation.</p></li>
+    <li class="rv" style="--i:1"><span class="n">02</span><h3>A written proposal</h3><p>You get the scope, milestones, timeline and a fixed quote in writing before any work starts.</p></li>
+    <li class="rv" style="--i:2"><span class="n">03</span><h3>Build on a preview link</h3><p>I design the key screens first, then build in small steps on a private link, so you see progress every week.</p></li>
+    <li class="rv" style="--i:3"><span class="n">04</span><h3>Launch and handover</h3><p>I launch, show your team how to update everything, and stay on hand for fixes and new features.</p></li>
+  </ol>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <header class="sh"><h2 class="rv"><i></i>about</h2><p class="mono rv" style="--i:1">Full-stack developer and ML engineer, Mumbai</p></header>
+  <div class="bio bt">
+    <div class="bio-t">
+      <p class="rv">I design and ship websites, online stores and web apps for organisations and businesses. My applied AI research is published at IEEE and Taylor &amp; Francis.</p>
+      <p class="rv" style="--i:1">I studied AI and data science, then spent internships building websites, CRMs and machine-learning models. Today I take projects from the first call to launch myself, so the person you talk to is the person writing the code.</p>
+    </div>
+    <ul class="edu">
+      <li class="rv"><span class="k">2021–2025</span><strong>B.Tech in Artificial Intelligence &amp; Data Science</strong><span class="sub">K. J. Somaiya Institute of Technology, Mumbai</span></li>
+      <li class="rv" style="--i:1"><span class="k">2019–2021</span><strong>HSC (Higher Secondary Certificate)</strong><span class="sub">Jai Hind College, Mumbai</span></li>
+      <li class="rv" style="--i:2"><span class="k">2009–2019</span><strong>SSC (Secondary School Certificate)</strong><span class="sub">Chandaramji High School</span></li>
+    </ul>
+  </div>
+
+  <div class="subh"><h3>Experience</h3><span class="k">5 roles, 2022 to 2025</span></div>
+  <ol class="xp">
+    <li class="rv"><span class="k">June 2025 – Sept 2025<br>Hybrid</span><div><strong>Web Developer Intern</strong><span class="co">IASCC</span></div>
+      <ul><li>Designed and developed IASCC’s main website from scratch</li><li>Built custom CMS for blogs, newsletters, and research publications</li><li>Focused on performance optimization and UI/UX improvements</li></ul></li>
+    <li class="rv"><span class="k">May 2023 – May 2025<br>Mumbai, India</span><div><strong>Research Intern</strong><span class="co">Society for Data Science</span></div>
+      <ul><li>Researched misinformation spread using ML techniques</li><li>Analyzed 21,000+ news articles for fake news patterns</li><li>Developed ColBERT and SVM models for detection</li><li>Contributed to IEEE conference paper publication</li></ul></li>
+    <li class="rv"><span class="k">Sep 2023 – Dec 2023<br>Mumbai, India</span><div><strong>Software Development Intern</strong><span class="co">YANISA EXECUTION Pvt Ltd</span></div>
+      <ul><li>Built scalable web applications</li><li>Developed no-code CRM for client management</li><li>Collaborated on feature delivery and performance optimization</li></ul></li>
+    <li class="rv"><span class="k">July 2023<br>Remote</span><div><strong>Data Science &amp; ML Intern</strong><span class="co">YBI Foundation</span></div>
+      <ul><li>Developed ML models using Python, TensorFlow, and PyTorch</li><li>Implemented data preprocessing pipelines for large datasets</li><li>Applied regression and classification techniques</li></ul></li>
+    <li class="rv"><span class="k">Dec 2022 – Jan 2023<br>Mumbai, India</span><div><strong>Azure, Java, and Web Development Intern</strong><span class="co">Claidroid Technologies Pvt Ltd</span></div>
+      <ul><li>Gained experience with Azure cloud services and Java</li><li>Built library management app using Azure App Services</li><li>Applied enterprise software engineering principles</li></ul></li>
+  </ol>
+
+  <div class="subh"><h3>Published research</h3><span class="k">2 papers</span></div>
+  <div class="papers">
+    <article class="rv"><span class="k">IEEE Region 10 Symposium (TENSYMP), 2024</span>
+      <h4>Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media</h4>
+      <p>A structured dataset of fact-checked claims from news media to support misinformation detection research.</p>
+      <p class="au">Oam Bhanushali, <b>Aditya Mer</b>, Rishikesh Giridhar, Bhavormi Somaiya, Arish Manasia, Shivam Singh</p>
+      <a class="lnk" href="https://ieeexplore.ieee.org/document/10752132">Read on IEEE Xplore <svg class="ico"><use href="#i-ne"/></svg></a></article>
+    <article class="rv" style="--i:1"><span class="k">Taylor &amp; Francis (CRC Press), 2025 · book chapter</span>
+      <h4>FastWrite: Automation in Code Documentation</h4>
+      <p>A chapter on FastWrite, a Python module that generates code documentation with LLMs, using code analysis and support for several LLM providers.</p>
+      <p class="au">Rishikesh Giridhar, Sravan Kotta, <b>Aditya Mer</b>, Oam Bhanushali</p>
+      <a class="lnk" href="https://www.taylorfrancis.com/chapters/edit/10.1201/9781003774679-63/fastwrite-automation-code-documentation-rishikesh-giridhar-sravan-kotta-aditya-mer-oam-bhanushali-sejal-shah">Read on Taylor &amp; Francis <svg class="ico"><use href="#i-ne"/></svg></a></article>
+  </div>
+
+  <div class="subh"><h3>Open source and side projects</h3><a class="k" href="https://github.com/aditya190803" style="border-bottom:1px solid var(--line-2)">github.com/aditya190803</a></div>
+  <div class="proj">
+    <article class="rv"><h4>FastWrite <span class="k">Python · PyPI</span></h4><p class="stat">6,000+ PyPI downloads in its first month</p><p>A Python module that writes code documentation with LLMs (OpenAI, Groq, Gemini and others), with BLEU scores to measure quality.</p>
+      <div class="lk"><a href="https://pypi.org/project/FastWrite/">PyPI <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/R-G-KJSIT/FastWrite">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:1"><h4>ATS System <span class="k">Gemini · Streamlit</span></h4><p>A resume scanner that uses Gemini to score resumes against a job description and point out missing skills.</p>
+      <div class="lk"><a href="https://ats.adityamer.dev/">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/ATS-System">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:2"><h4>Verify News <span class="k">React · Gemini</span></h4><p>A news verification tool built with React, TypeScript, LangSearch and Gemini that checks text, images, audio and video for misinformation.</p>
+      <div class="lk"><a href="https://verify-news.adityamer.dev">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/Verify-News">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv"><h4>AI Research Agent <span class="k">CrewAI · Python</span></h4><p>An agent built with CrewAI that runs literature reviews, synthesises findings and writes research summaries.</p>
+      <div class="lk"><a href="https://ai-research-agent.adityamer.dev">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/AI-Research-Agent">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:1"><h4>Chat with PDF <span class="k">RAG · Langchain</span></h4><p>Ask questions of a PDF in plain language. Gemini and Langchain answer from the document’s own text.</p>
+      <div class="lk"><a href="https://adityamer.dev/Chat-with-PDF/">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/Chat-with-PDF">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:2"><h4>Mini App Factory <span class="k">GenAI · Web</span></h4><p>Generates small static websites and apps from a prompt or a starting template.</p>
+      <div class="lk"><a href="https://mini-app-factory.adityamer.dev">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/mini-app-factory">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv"><h4>Chat with Website <span class="k">RAG · ChatGroq</span></h4><p>Scrapes a website and answers questions about its pages, across several pages at once.</p>
+      <div class="lk"><a href="https://adityamer.dev/Chat-with-Website">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/aditya190803/Chat-with-Website">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:1"><h4>OSFM-Net <span class="k">Python · PyPI</span></h4><p>Network system management in server and client modes: remote desktop access and app management through Winget.</p>
+      <div class="lk"><a href="https://pypi.org/project/osfm/">PyPI <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/osfm/tree/osfm-net">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+    <article class="rv" style="--i:2"><h4>Digit Recognition <span class="k">TensorFlow</span></h4><p>Draw a digit on a canvas and a pre-trained TensorFlow model reads it in real time.</p>
+      <div class="lk"><a href="https://adityamer.dev/Handwritten-Digit-Recognition/">Demo <svg class="ico"><use href="#i-ne"/></svg></a><a href="https://github.com/Aditya190803/Handwritten-Digit-Recognition">Code <svg class="ico"><use href="#i-ne"/></svg></a></div></article>
+  </div>
+
+  <div class="subh"><h3>Skills and certifications</h3><span class="k">7 certificates</span></div>
+  <div class="sk">
+    <dl class="rv">
+      <div><dt>Languages</dt><dd>Python, JavaScript, TypeScript, C++, Java, SQL, HTML/CSS</dd></div>
+      <div><dt>Web development</dt><dd>React, Next.js, Node.js, Streamlit, Tailwind CSS, REST APIs, GraphQL</dd></div>
+      <div><dt>Generative AI</dt><dd>LLMs, RAG, Prompt Engineering, Langchain, CrewAI, Transformers, Fine-tuning, NLP</dd></div>
+      <div><dt>Machine learning</dt><dd>TensorFlow, PyTorch, Scikit-learn, Keras, PyTorch Lightning, Pandas, NumPy, Computer Vision, GANs</dd></div>
+      <div><dt>Cloud and DevOps</dt><dd>Azure, AWS, GCP, Docker, Kubernetes, Git, CI/CD</dd></div>
+      <div><dt>Data and tools</dt><dd>PostgreSQL, NoSQL, Apache Spark, Statistical Modeling, Time Series Analysis, Linux</dd></div>
+    </dl>
+    <ul class="certs rv" style="--i:1">
+      <li><a href="https://www.coursera.org/account/accomplishments/specialization/QKTOLUC5EZ7J">Large Language Models Specialization</a><span class="k">H2O.ai · July 2025</span></li>
+      <li><a href="https://www.coursera.org/account/accomplishments/specialization/Z93W2EAHBXFE">Natural Language Processing</a><span class="k">Stanford University · January 2025</span></li>
+      <li><span class="t">OCI 2024 Generative AI Certified Professional</span><span class="k">Oracle · June 2024 · ID 100690232OCI2024GAIOCP</span></li>
+      <li><a href="https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A">Machine Learning Specialization</a><span class="k">Stanford University · April 2024</span></li>
+      <li><a href="https://www.coursera.org/account/accomplishments/verify/W993KKKHASNW">Introduction to Web Development</a><span class="k">Meta · October 2022</span></li>
+      <li><a href="https://www.coursera.org/account/accomplishments/verify/G4E3EE6UKMAX">Programming with JavaScript</a><span class="k">Meta · October 2022</span></li>
+      <li><a href="https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9">Version Control</a><span class="k">Meta · October 2022</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <div class="faq">
+    <div class="faq-l"><h2 class="rv"><i></i>faq</h2><p class="rv" style="--i:1">Something else on your mind? Write to <a href="mailto:adityamer.work@gmail.com">adityamer.work@gmail.com</a></p></div>
+    <div class="qa rv" style="--i:1">
+      <details><summary>How do you price a project?<i class="pl"></i></summary><p>Each project gets a fixed quote based on its scope. After our call I send a written proposal with deliverables, timeline and price, so you know the full cost first.</p></details>
+      <details><summary>Can my team update the site after launch?<i class="pl"></i></summary><p>Yes. Content you change often, such as news, events, products or team members, gets an editor, and I walk your team through it.</p></details>
+      <details><summary>Do you work with clients outside Mumbai?<i class="pl"></i></summary><p>Yes. The work happens over calls and shared preview links, so I work with clients anywhere and overlap with your hours for calls.</p></details>
+      <details><summary>Who owns the code and the data?<i class="pl"></i></summary><p>You do. Your data stays yours throughout, and once the project is delivered and paid for, the code and documentation are yours too.</p></details>
+      <details><summary>Will you sign an NDA?<i class="pl"></i></summary><p>Yes. I’m happy to sign one before you share details about your product, data or business.</p></details>
+      <details><summary>Do you look after the site once it’s live?<i class="pl"></i></summary><p>If you’d like me to. I can handle hosting, updates, backups and small changes each month, or hand everything over to your team.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <div class="ct">
+    <div class="ct-l">
+      <h2 class="rv"><i></i>let’s work together</h2>
+      <p class="rv" style="--i:1">Tell me what you’re planning. I’ll reply with a few questions or a time for a short call, then a written proposal with a fixed quote.</p>
+      <p class="avail rv" style="--i:2;margin-top:0;padding-top:0"><i></i>Taking on new projects</p>
+      <div class="mail rv" style="--i:3">
+        <a href="mailto:adityamer.work@gmail.com" id="em">adityamer.work@gmail.com</a>
+        <button type="button" id="cp" aria-label="Copy email address"><svg class="ico"><use href="#i-copy"/></svg><span>Copy</span></button>
+      </div>
+      <div class="elsewhere rv" style="--i:4">
+        <a class="lnk" href="https://github.com/aditya190803">GitHub <svg class="ico"><use href="#i-ne"/></svg></a>
+        <a class="lnk" href="https://www.linkedin.com/in/adityamer/">LinkedIn <svg class="ico"><use href="#i-ne"/></svg></a>
+        <a class="lnk" href="/resume">Résumé <svg class="ico"><use href="#i-ne"/></svg></a>
+      </div>
+    </div>
+    <form class="form" id="f" novalidate>
+      <div class="fld rv"><label for="f-n">Name</label><input id="f-n" name="name" autocomplete="name" required></div>
+      <div class="fld rv" style="--i:1"><label for="f-e">Email</label><input id="f-e" name="email" type="email" autocomplete="email" required></div>
+      <div class="fld w rv" style="--i:2"><label for="f-t">Project type</label>
+        <select id="f-t" name="type"><option>Website for an organisation or firm</option><option>Online store</option><option>Web app or internal tool</option><option>AI and data work</option><option>Not sure yet</option></select></div>
+      <div class="fld w rv" style="--i:3"><label for="f-m">Message</label><textarea id="f-m" name="message" placeholder="What you need, who it’s for, and any dates" required></textarea></div>
+      <div class="send rv" style="--i:4"><span class="k">Opens your email app with this filled in</span><button class="btn btn-p" type="submit">Send message <svg class="ico"><use href="#i-r"/></svg></button></div>
+    </form>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
+  <div class="foot">
+  <div><span class="k">Drawn by</span><span>Aditya Mer, freelance web and AI developer</span></div>
+  <div><span class="k">Location</span><span>Mumbai, India</span></div>
+  <div><span class="k">Email</span><a href="mailto:adityamer.work@gmail.com">Write to me</a></div>
+  <div><span class="k">Elsewhere</span><a href="https://github.com/aditya190803">GitHub</a></div>
+  <div><span class="k">Sheet</span><span>1 of 1 · © <span id="yr">2026</span> Aditya Mer</span></div>
+  </div>
+</footer>
+</div>
+<div class="after"></div>
+
+<script>
+(function(){
+  var d=document, R=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 16x16 masks drawn after the logo. A is solid; M is turned into an outline below.
+  var G={
+    A:['.....######.....','.....######.....','....###..###....','....###..###....','...###....###...','...###....###...','..###......###..','..###......###..','.##############.','.##############.','.###........###.','###..........###','###..........###','###..........###','###..........###','###..........###'],
+    M:['####........####','#####......#####','######....######','#######..#######','################','####.######.####','####..####..####','####...##...####','####........####','####........####','####........####','####........####','####........####','####........####','####........####','####........####'],
+    web:['#######','#.#.#.#','#######','#.....#','#.###.#','#.....#','#######'],
+    mail:['#######','##...##','#.#.#.#','#..#..#','#.....#','#.....#','#######'],
+    paper:['#####..','#...##.','#....##','#.###.#','#.....#','#.###.#','#######'],
+    cart:['##.....','.######','.#....#','.#...#.','.#####.','.......','..#..#.'],
+    app:['#######','#######','#.....#','#.##..#','#.....#','#.####.','#######']
+  };
+  function outline(m){var h=m.length,w=m[0].length,o=[];for(var y=0;y<h;y++){var r='';for(var x=0;x<w;x++){var on=m[y][x]=='#',e=!on?0:(y==0||x==0||y==h-1||x==w-1||m[y-1][x]!='#'||m[y+1][x]!='#'||m[y][x-1]!='#'||m[y][x+1]!='#');r+=e?'#':'.'}o.push(r)}return o}
+  G.M=outline(G.M);
+  // cheap seeded random so the fill order is the same on every visit
+  var s=7;function rnd(){s=(s*16807)%2147483647;return s/2147483647}
+  d.querySelectorAll('.dm').forEach(function(el,k){
+    var m=G[el.dataset.g];if(!m)return;var n=m.length,p=10,sz=7,b='',f='',hero=!!el.closest('.hero');
+    for(var y=0;y<n;y++)for(var x=0;x<n;x++){if(m[y][x]!='#')continue;
+      var X=x*p+1.5,Y=y*p+1.5,r='<rect x="'+X+'" y="'+Y+'" width="'+sz+'" height="'+sz+'"';
+      b+=r+' class="px-b"/>';
+      if(hero){var big=n>8,scr=big&&rnd()<.3,dl=(big?(.15+rnd()*1.3+(el.dataset.g=='M'?.35:0)):(.9+rnd()*.9)).toFixed(2);
+        f+=r+' class="px-f '+(scr?'s':'l')+'" style="--d:'+dl+'s'+(scr?';--a:'+Math.round(rnd()*240)+'px':'')+'"/>';}
+      else f+=r+' class="px-f"/>';}
+    el.innerHTML='<svg viewBox="0 0 '+n*p+' '+n*p+'">'+b+f+'</svg>';
+  });
+  // reveal once + hairline fallback
+  var rv=d.querySelectorAll('.rv'),secs=d.querySelectorAll('section,.ft');
+  if(R||!('IntersectionObserver' in window)){rv.forEach(function(e){e.classList.add('in')});secs.forEach(function(e){e.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.12});
+    rv.forEach(function(e){io.observe(e)});secs.forEach(function(e){io.observe(e)})}
+  // copy email
+  var cp=d.getElementById('cp');cp.addEventListener('click',function(){
+    var t=cp.querySelector('span'),u=cp.querySelector('use');
+    (navigator.clipboard?navigator.clipboard.writeText('adityamer.work@gmail.com'):Promise.reject()).then(function(){t.textContent='Copied';u.setAttribute('href','#i-check');setTimeout(function(){t.textContent='Copy';u.setAttribute('href','#i-copy')},1800)},function(){location.href='mailto:adityamer.work@gmail.com'});
+  });
+  // form opens the mail app (no backend in the mock)
+  d.getElementById('f').addEventListener('submit',function(e){e.preventDefault();var F=e.target;
+    var body='Name: '+F.name.value+'\nEmail: '+F.email.value+'\nProject type: '+F.type.value+'\n\n'+F.message.value;
+    location.href='mailto:adityamer.work@gmail.com?subject='+encodeURIComponent('Project enquiry: '+F.type.value)+'&body='+encodeURIComponent(body)});
+  d.getElementById('yr').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

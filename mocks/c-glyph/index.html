@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aditya Mer, freelance web and AI developer in Mumbai</title>
+<meta name="description" content="Websites, online stores and web apps for organisations and businesses, with AI where it saves time. Freelance developer in Mumbai, working with clients anywhere.">
+<link rel="icon" href="../assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="../assets/iascc.webp" media="(min-width: 721px)">
+<link rel="preload" as="image" href="../assets/iascc-mobile.webp" media="(max-width: 720px)">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --ground:#f7f7f6;
+  --surface:#ffffff;
+  --ink:#141414;
+  --ink-2:#474747;
+  --ink-3:#6e6e6e;
+  --line:rgba(20,20,20,.09);
+  --line-2:rgba(20,20,20,.16);
+  --accent:#f07050;
+  --accent-ink:#c8481f;
+  --sans:"Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --frame:1200px;
+  --pad:48px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-padding-top:72px}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--sans);font-feature-settings:"ss01";-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:12px;line-height:1.5;letter-spacing:0;color:var(--ink-3);font-feature-settings:"zero" 0}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ico{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- frame ---------- */
+.frame{max-width:calc(var(--frame) + 2px);margin:0 auto;background:var(--surface);border-inline:1px solid var(--line);position:relative}
+.band{position:relative;border-top:1px solid transparent}
+.rule{position:absolute;top:-1px;left:-100vw;right:-100vw;height:1px;background:var(--line);transform-origin:50% 50%;pointer-events:none}
+.band>.cross{position:absolute;top:-5px;width:9px;height:9px;pointer-events:none}
+.band>.cross::before,.band>.cross::after{content:"";position:absolute;background:var(--line-2)}
+.band>.cross::before{left:4px;top:0;width:1px;height:9px}
+.band>.cross::after{top:4px;left:0;height:1px;width:9px}
+.band>.cross.l{left:-5px}.band>.cross.r{right:-5px}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:32px;height:64px;padding:0 24px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:500;letter-spacing:-.01em}
+.brand img{width:28px;height:28px;border-radius:4px}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{text-decoration:none;padding:8px 12px;border-radius:6px;color:var(--ink-2);font-size:15px}
+.nav a:hover{color:var(--ink);background:rgba(20,20,20,.04)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:8px;border:1px solid transparent;text-decoration:none;font-weight:500;font-size:15px;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--accent-ink);color:#fff}
+.btn-p:hover{background:#b03d18}
+.btn-s{background:var(--surface);border-color:var(--line-2);color:var(--ink)}
+.btn-s:hover{background:#f3f3f2}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#2c2c2c}
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:72px var(--pad) 56px;position:relative;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background-image:
+    radial-gradient(circle at 48px 48px, rgba(20,20,20,.16) 1px, transparent 1.5px),
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:96px 96px;background-position:-1px -1px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 100%);
+          mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 100%);
+  opacity:.55}
+.hero-l{grid-column:1/span 8}
+.hero-r{grid-column:9/span 4;align-self:end;display:flex;flex-direction:column;gap:24px}
+.kicker{display:flex;flex-wrap:wrap;gap:4px 16px;margin-bottom:24px}
+h1{font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.04;letter-spacing:-.03em;max-width:15ch;text-wrap:balance}
+.lede{font-size:17px;color:var(--ink-2);max-width:40ch}
+.lede strong{font-weight:500;color:var(--ink)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.avail{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.avail i{width:8px;height:8px;border-radius:50%;background:#2f8f4e;flex:none}
+.coords{position:absolute;font-family:var(--mono);font-size:11px;color:var(--ink-3);opacity:.85}
+.coords.tr{top:16px;right:20px}.coords.br{bottom:16px;right:20px}
+
+.shot-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;height:44px;padding:0 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shot-bar .mono b{font-weight:500;color:var(--ink)}
+.readout{font-variant-numeric:tabular-nums;min-width:15ch;text-align:right}
+.readout em{font-style:normal;color:var(--accent-ink)}
+.shot{position:relative;aspect-ratio:2/1;overflow:hidden;background:#fff}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.shot canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s var(--ease)}
+.shot.ready canvas{opacity:1}
+.shot.lens{cursor:crosshair}
+.shot-foot{display:flex;justify-content:space-between;gap:16px;padding:12px 20px;border-top:1px solid var(--line)}
+
+/* ---------- sections ---------- */
+.sec-head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:72px var(--pad) 40px;align-items:end}
+.sec-title{grid-column:1/span 5;font-weight:500;font-size:clamp(34px,3.6vw,48px);line-height:1;letter-spacing:-.03em}
+.sec-title .d{color:var(--accent)}
+.sec-intro{grid-column:7/span 6;color:var(--ink-2);max-width:48ch;justify-self:end;text-align:left}
+.sec-intro .mono{display:block;margin-bottom:8px}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);border-top:1px solid var(--line)}
+.cell{padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.cell:last-child{border-right:0}
+.grid>.cell.nr{border-right:0}
+
+/* work */
+.case{display:grid;grid-template-columns:repeat(12,1fr);border-bottom:1px solid var(--line)}
+.case-img{grid-column:span 8;display:block;position:relative;overflow:hidden;background:#f2f2f1;border-right:1px solid var(--line)}
+.case-img img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .6s var(--ease)}
+.case-img:hover img{transform:scale(1.015)}
+.case-info{grid-column:span 4;padding:32px;display:flex;flex-direction:column;gap:16px}
+.case.flip .case-img{order:2;border-right:0;border-left:1px solid var(--line)}
+.case.flip .case-info{order:1}
+.case h3{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.case p.sum{color:var(--ink-2)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+.meta dt{font-family:var(--mono);font-size:12px;color:var(--ink-3);padding-top:2px}
+.meta dd{color:var(--ink)}
+.scope{display:flex;flex-wrap:wrap;gap:8px}
+.scope li{font-family:var(--mono);font-size:12px;color:var(--ink-2);border:1px solid var(--line-2);border-radius:4px;padding:2px 8px}
+.go{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:500;margin-top:auto;width:max-content}
+.go:hover{color:var(--accent-ink)}
+.go .ico{transition:transform .2s var(--ease)}
+.go:hover .ico{transform:translate(2px,-2px)}
+.used{font-size:14px;color:var(--ink);padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.used .mono{display:block}
+.links{display:flex;flex-wrap:wrap;gap:8px 24px}
+.points{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.points .cell{border-bottom:0}
+.points h4{font-weight:500;font-size:16px;margin:8px 0 4px}
+.points p{color:var(--ink-2);font-size:15px}
+.code{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.private{display:grid;grid-template-columns:repeat(12,1fr);border-bottom:1px solid var(--line)}
+.private .a{grid-column:span 4;padding:32px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.private .b{grid-column:span 8;padding:32px;display:flex;flex-direction:column;gap:16px;justify-content:center}
+.private h3{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.lock{display:inline-flex;align-items:center;gap:8px}
+
+/* services */
+.svc{grid-column:span 6;display:flex;flex-direction:column;gap:12px;padding:40px 32px}
+.svc:nth-child(2n){border-right:0}
+.svc h3{font-size:22px;font-weight:500;letter-spacing:-.015em;line-height:1.2}
+.svc p{color:var(--ink-2);max-width:52ch}
+.inc{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:8px}
+.inc li{font-size:14px;padding:8px 0;border-top:1px solid var(--line);display:flex;gap:8px}
+.inc li::before{content:"/";font-family:var(--mono);color:var(--accent-ink)}
+
+/* process */
+.step{grid-column:span 3;display:flex;flex-direction:column;gap:8px;padding:32px}
+.step h3{font-size:18px;font-weight:500;margin-top:24px}
+.step p{color:var(--ink-2);font-size:15px}
+
+/* about */
+.bio{grid-column:span 7;display:flex;flex-direction:column;gap:20px;padding:40px 32px}
+.bio p.big{font-size:22px;line-height:1.4;letter-spacing:-.01em;max-width:34ch}
+.bio p{color:var(--ink-2);max-width:56ch}
+.edu{grid-column:span 5;padding:40px 32px;border-right:0}
+.list>li{padding:12px 0;border-top:1px solid var(--line)}
+.list>li:first-child{border-top:0;padding-top:0}
+.list .t{font-weight:500}
+.list .s{color:var(--ink-2);font-size:15px}
+.label{display:block;margin-bottom:16px}
+
+.xp{grid-column:span 12;padding:0;border-right:0}
+.xp-row{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:24px 32px;border-top:1px solid var(--line)}
+.xp-row:first-child{border-top:0}
+.xp-row .when{grid-column:span 3}
+.xp-row .who{grid-column:span 4}
+.xp-row .who .t{font-weight:500}
+.xp-row .who .s{color:var(--ink-2);font-size:15px}
+.xp-row ul{grid-column:span 5;font-size:15px;color:var(--ink-2)}
+.xp-row ul li{padding-left:16px;position:relative}
+.xp-row ul li::before{content:"–";position:absolute;left:0;color:var(--ink-3)}
+
+.paper{grid-column:span 6;display:flex;flex-direction:column;gap:12px;padding:32px}
+.paper:nth-child(2n){border-right:0}
+.paper h4{font-size:19px;font-weight:500;line-height:1.3;letter-spacing:-.01em;max-width:40ch}
+.paper p{color:var(--ink-2);font-size:15px}
+.paper p.mono{font-size:12px;color:var(--ink-3)}
+.authors{font-size:14px;color:var(--ink-2)}
+.authors a{text-decoration-color:var(--line-2);text-underline-offset:3px}
+.authors a.me{color:var(--ink);font-weight:500}
+
+.proj{width:100%;border-collapse:collapse;font-size:15px}
+.proj th{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--ink-3);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line)}
+.proj td{padding:16px;border-bottom:1px solid var(--line);vertical-align:top}
+.proj tr:last-child td{border-bottom:0}
+.proj th:first-child,.proj td:first-child{padding-left:32px}
+.proj th:last-child,.proj td:last-child{padding-right:32px}
+.proj .n{font-weight:500;white-space:nowrap}
+.proj .d{color:var(--ink-2);max-width:56ch}
+.proj .stat{display:block;margin-top:4px;color:var(--accent-ink);font-family:var(--mono);font-size:12px}
+.proj .tech{font-family:var(--mono);font-size:12px;color:var(--ink-3);max-width:24ch}
+.proj .lk{white-space:nowrap;font-size:14px}
+.proj .lk a{display:inline-block;margin-right:12px;text-underline-offset:3px;text-decoration-color:var(--line-2)}
+.proj .lk a:hover{color:var(--accent-ink)}
+
+.skills{grid-column:span 7;padding:32px}
+.sk{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+.sk:first-of-type{border-top:0}
+.sk dt{font-size:14px;font-weight:500}
+.sk dd{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink-2)}
+.certs{grid-column:span 5;padding:32px;border-right:0}
+.cert{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.cert:first-of-type{border-top:0;padding-top:0}
+.cert a,.cert span.t{text-decoration:none;font-weight:500}
+.cert a:hover{color:var(--accent-ink)}
+.cert .i{color:var(--ink-3);font-size:13px}
+.cert .dt{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-align:right;white-space:nowrap}
+
+/* faq */
+.faq{grid-column:span 12;padding:0;border-right:0}
+.faq-cols{display:grid;grid-template-columns:1fr 1fr}
+.faq details{border-bottom:1px solid var(--line);padding:0 32px}
+.faq details:nth-child(odd){border-right:1px solid var(--line)}
+.faq details:nth-last-child(-n+2){border-bottom:0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 0;font-weight:500;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ico{transition:transform .2s var(--ease);color:var(--ink-3)}
+.faq details[open] summary .ico{transform:rotate(45deg)}
+.faq details p{color:var(--ink-2);padding:0 0 24px;max-width:56ch}
+
+/* contact */
+.contact{display:grid;grid-template-columns:repeat(12,1fr);position:relative;overflow:hidden}
+.contact-l{grid-column:span 7;padding:72px var(--pad) 56px;border-right:1px solid var(--line);position:relative;z-index:1;background:var(--surface)}
+.contact-r{grid-column:span 5;padding:72px 40px 56px;position:relative;display:flex;flex-direction:column;gap:24px}
+.contact h2{font-weight:500;font-size:clamp(34px,3.8vw,52px);line-height:1.02;letter-spacing:-.03em;margin-bottom:16px}
+.contact-l>p{color:var(--ink-2);max-width:46ch;margin-bottom:32px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:8px}
+.f.full{grid-column:1/-1}
+.f label{font-size:14px;font-weight:500}
+.f input,.f select,.f textarea{height:44px;padding:0 12px;border:1px solid var(--line-2);border-radius:8px;background:#fff;font-size:15px;transition:border-color .15s}
+.f textarea{height:auto;min-height:132px;padding:12px;resize:vertical;line-height:1.5}
+.f select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:40px}
+.f input:hover,.f select:hover,.f textarea:hover{border-color:rgba(20,20,20,.3)}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--ink)}
+.form-foot{grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+.mail{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:8px;padding:4px 4px 4px 16px;background:#fff;max-width:100%}
+.mail a{text-decoration:none;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:0;border-radius:6px;background:#f2f2f1;cursor:pointer;font-size:13px;color:var(--ink-2);flex:none}
+.copy:hover{background:#e9e9e8;color:var(--ink)}
+.copy .ok{display:none}
+.copy.done .ok{display:block}.copy.done .cp{display:none}
+.side-list{display:flex;flex-direction:column}
+.side-list>a,.side-list>span{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line);text-decoration:none;font-size:15px}
+.side-list a:hover{color:var(--accent-ink)}
+.field{margin-top:auto;align-self:flex-end;width:100%;max-width:320px;aspect-ratio:1;pointer-events:none;opacity:.6}
+.field canvas{width:100%;height:100%}
+
+footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px 24px 32px}
+footer .links a{text-decoration:none;font-size:14px;color:var(--ink-2)}
+footer .links a:hover{color:var(--ink)}
+
+/* ---------- motion ---------- */
+.js [data-r]{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0) * 70ms)}
+.js [data-r].in{opacity:1;transform:none}
+.js .rule{transform:scaleX(0);transition:transform 1.1s var(--ease)}
+.js .band.in>.rule{transform:scaleX(1)}
+@supports (animation-timeline: scroll()){
+  .progress{animation:grow linear both;animation-timeline:scroll(root)}
+  @keyframes grow{to{transform:scaleX(1)}}
+}
+@supports (animation-timeline: view()){
+  .js .rule{transition:none;animation:draw linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+  @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+@media (prefers-reduced-motion: reduce){
+  .js [data-r]{opacity:1;transform:none;transition:none}
+  .js .rule{transform:none;transition:none;animation:none}
+  .progress{display:none}
+  .shot canvas{transition:none}
+  .case-img img,.go .ico{transition:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  :root{--pad:32px}
+  .nav a{padding:8px 8px}
+  .hero-l{grid-column:1/-1}
+  .hero-r{grid-column:1/-1;margin-top:32px;max-width:560px}
+  .case-img{grid-column:span 7}.case-info{grid-column:span 5}
+  .step{grid-column:span 6}
+  .step:nth-child(2n){border-right:0}
+  .bio,.edu,.skills,.certs{grid-column:span 12;border-right:0}
+  .proj .tech{display:none}
+}
+@media (max-width:720px){
+  :root{--pad:16px}
+  .frame{margin:0 12px}
+  .top-in{padding:0 16px;gap:12px;height:56px}
+  .nav{display:none}
+  .top .btn{margin-left:auto;height:36px;padding:0 12px;font-size:14px}
+  .hero{padding:40px var(--pad) 32px;display:block}
+  .hero::before{display:none}
+  .coords{display:none}
+  h1{font-size:36px}
+  .lede{font-size:16px}
+  .hero-r{margin-top:24px;gap:20px}
+  .shot{aspect-ratio:4/5}
+  .shot-bar{padding:0 16px;height:40px}
+  .shot-bar .hide-s{display:none}
+  .shot-foot{padding:12px 16px;flex-direction:column;gap:4px}
+  .sec-head{display:block;padding:56px var(--pad) 28px}
+  .sec-intro{margin-top:16px}
+  .cell,.case-info,.private .a,.private .b{padding:24px 16px}
+  .case,.private{display:block}
+  .case-img,.case.flip .case-img{border:0;border-bottom:1px solid var(--line)}
+  .points{grid-template-columns:1fr}
+  .points .cell{border-right:0;border-bottom:1px solid var(--line)}
+  .points .cell:last-child{border-bottom:0}
+  .private .a{border-right:0;border-bottom:1px solid var(--line)}
+  .grid{display:block}
+  .cell{border-right:0}
+  .svc{padding:32px 16px}
+  .inc{grid-template-columns:1fr}
+  .bio{padding:32px 16px}
+  .bio p.big{font-size:19px}
+  .xp-row{display:block;padding:20px 16px}
+  .xp-row .who{margin:4px 0 8px}
+  .paper{padding:24px 16px}
+  .proj thead{display:none}
+  .proj,.proj tbody,.proj tr,.proj td{display:block}
+  .proj tr{padding:20px 16px;border-bottom:1px solid var(--line)}
+  .proj tr:last-child{border-bottom:0}
+  .proj td,.proj td:first-child,.proj td:last-child{padding:0;border:0}
+  .proj .d{margin:4px 0 8px}
+  .proj .tech{display:block;margin-bottom:8px;max-width:none}
+  .sk{grid-template-columns:1fr;gap:4px}
+  .faq-cols{display:block}
+  .faq details,.faq details:nth-child(odd){border-right:0;padding:0 16px;border-bottom:1px solid var(--line)}
+  .faq details:last-child{border-bottom:0}
+  .faq summary{font-size:16px;padding:20px 0}
+  .contact{display:block}
+  .contact-l{padding:56px var(--pad) 40px;border-right:0;border-bottom:1px solid var(--line)}
+  .contact-r{padding:32px var(--pad) 40px}
+  form{grid-template-columns:1fr}
+  .field{max-width:220px;opacity:.5}
+  footer{padding:24px 16px 32px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<div class="frame">
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top" aria-label="Aditya Mer, home"><img src="../assets/logo.png" width="28" height="28" alt="">Aditya Mer</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-ink" href="#contact">Start a project</a>
+  </div>
+  <span class="progress" aria-hidden="true"></span>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="band hero-band" aria-labelledby="h1">
+  <div class="hero">
+    <span class="coords tr" aria-hidden="true">[ 19.07° N, 72.87° E ]</span>
+    <div class="hero-l">
+      <p class="kicker mono"><span>[ freelance ]</span><span>web and AI developer, Mumbai</span></p>
+      <h1 id="h1">Websites, online stores and web apps, with AI where it saves time</h1>
+    </div>
+    <div class="hero-r">
+      <p class="lede">I design and build for organisations and small businesses, in Mumbai and anywhere else. Most recently the <strong>IASCC</strong> website and CMS, the <strong>Younique India</strong> store, and <strong>Flier</strong>, my mail-merge app.</p>
+      <div class="ctas">
+        <a class="btn btn-p" href="#contact">Start a project</a>
+        <a class="btn btn-s" href="#work">See the work</a>
+      </div>
+      <p class="avail"><i aria-hidden="true"></i>Taking on new projects</p>
+    </div>
+  </div>
+
+  <div class="shot-bar">
+    <span class="mono"><b>[ iascc.in ]</b><span class="hide-s">&nbsp; website and custom CMS, 2025</span></span>
+    <span class="mono readout" aria-hidden="true">source <em>&rarr;</em> site <span id="pct">0%</span></span>
+  </div>
+  <figure class="shot" id="shot">
+    <picture>
+      <source media="(max-width: 720px)" srcset="../assets/iascc-mobile.webp" width="560" height="1211">
+      <img src="../assets/iascc.webp" width="1600" height="1000" alt="The IASCC home page: Integrated Association of Supportive Care in Cancer, with Join IASCC and Upcoming Events buttons" fetchpriority="high" decoding="async">
+    </picture>
+    <canvas aria-hidden="true"></canvas>
+  </figure>
+  <div class="shot-foot">
+    <span class="mono">Drawn from the live iascc.in page in code glyphs <span class="code">. : / = &lt; &gt; { } #</span></span>
+    <span class="mono" id="hint">Scroll, or point at it, to see the site</span>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="band" id="work" aria-labelledby="work-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="sec-head">
+    <h2 class="sec-title" id="work-h" data-r><span class="d">.</span>work</h2>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ 3 client projects, 1 product ]</span>Sites and software that people use every day, built from scratch and handed over so the team can run them.</p>
+  </div>
+
+  <article class="case" aria-labelledby="c-iascc">
+    <a class="case-img" href="https://iascc.in" target="_blank" rel="noopener" data-r>
+      <img src="../assets/iascc.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="IASCC website home page">
+    </a>
+    <div class="case-info" data-r style="--i:1">
+      <span class="mono">[ 01 ] Website and custom CMS</span>
+      <h3 id="c-iascc">IASCC</h3>
+      <p class="sum">India's national affiliate of MASCC. I designed and built the site from scratch, with a CMS the team uses to publish events, news, newsletters and research grants themselves.</p>
+      <ul class="scope"><li>Design and build</li><li>Custom CMS</li><li>Membership and contact pages</li></ul>
+      <dl class="meta"><dt>sector</dt><dd>Cancer-care nonprofit</dd><dt>year</dt><dd>2025</dd></dl>
+      <a class="go" href="https://iascc.in" target="_blank" rel="noopener">iascc.in <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </div>
+  </article>
+
+  <article class="case flip" aria-labelledby="c-yi">
+    <a class="case-img" href="https://www.youniqueindia.co.in" target="_blank" rel="noopener" data-r style="--i:1">
+      <img src="../assets/younique.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="Younique India online store home page">
+    </a>
+    <div class="case-info" data-r>
+      <span class="mono">[ 02 ] Online store</span>
+      <h3 id="c-yi">Younique India</h3>
+      <p class="sum">A storefront for an 18k gold-plated, anti-tarnish jewellery brand that ships across India, with search, collections, customer sign-in and order tracking.</p>
+      <ul class="scope"><li>Storefront design</li><li>Catalogue and collections</li><li>Accounts and order tracking</li></ul>
+      <dl class="meta"><dt>sector</dt><dd>Jewellery retail</dd></dl>
+      <a class="go" href="https://www.youniqueindia.co.in" target="_blank" rel="noopener">youniqueindia.co.in <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </div>
+  </article>
+
+  <article class="case" aria-labelledby="c-flier">
+    <a class="case-img" href="https://sendflier.tech" target="_blank" rel="noopener" data-r>
+      <img src="../assets/flier.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="Flier home page: personalised email campaigns through Gmail">
+    </a>
+    <div class="case-info" data-r style="--i:1">
+      <span class="mono">[ 03 ] My own product, open source</span>
+      <h3 id="c-flier">Flier</h3>
+      <p class="sum">A mail-merge product I designed and built end to end. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent from your own Gmail.</p>
+      <p class="used"><span class="mono">in use at</span>Tata Memorial Hospital</p>
+      <dl class="meta"><dt>stack</dt><dd>Next.js, TypeScript, Gmail API, Google OAuth</dd></dl>
+      <div class="links">
+        <a class="go" href="https://sendflier.tech" target="_blank" rel="noopener">sendflier.tech <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="go" href="https://github.com/Aditya190803/EchoMail" target="_blank" rel="noopener">Source on GitHub <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </article>
+  <div class="points">
+    <div class="cell" data-r><span class="code">name,email,event</span><h4>Spreadsheet in, personal emails out</h4><p>CSV columns become {{variables}}, and every message can be previewed before it goes.</p></div>
+    <div class="cell" data-r style="--i:1"><span class="code">gmail.users.messages.send</span><h4>Sent through the official Gmail API</h4><p>Google sign-in and Gmail's own API, so messages arrive like normal email from your address.</p></div>
+    <div class="cell" data-r style="--i:2"><span class="code">sent 312 / 480</span><h4>Progress and results you can see</h4><p>Live sending progress, scheduled sends, and open and click tracking for every campaign.</p></div>
+  </div>
+
+  <article class="private" aria-labelledby="c-theska">
+    <div class="a" data-r>
+      <span class="mono">[ 04 ] Internal software</span>
+      <h3 id="c-theska">Theska</h3>
+      <span class="mono lock"><svg class="ico"><use href="#i-lock"/></svg>private project</span>
+    </div>
+    <div class="b" data-r style="--i:1">
+      <p class="sum" style="color:var(--ink-2);max-width:60ch">Internal software built for the company's own team, shaped around the way they already work. The project is private, so I share the details on a call rather than here.</p>
+      <a class="go" href="#contact">Ask about it on a call <svg class="ico"><use href="#i-right"/></svg></a>
+    </div>
+  </article>
+</section>
+
+<!-- SERVICES -->
+<section class="band" id="services" aria-labelledby="svc-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="sec-head">
+    <h2 class="sec-title" id="svc-h" data-r><span class="d">.</span>services</h2>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ 4 kinds of project ]</span>One person from the first call to launch day, so nothing gets lost between a designer, a developer and an agency.</p>
+  </div>
+  <div class="grid">
+    <div class="cell svc" data-r>
+      <span class="mono">[ 01 ]</span>
+      <h3>Websites for organisations and firms</h3>
+      <p>A site that explains what you do in seconds, looks credible to the people you want to reach, and that your team can update without calling me.</p>
+      <ul class="inc"><li>Design and page structure</li><li>A CMS your team can edit</li><li>SEO and analytics</li><li>Hosting and launch</li></ul>
+    </div>
+    <div class="cell svc" data-r style="--i:1">
+      <span class="mono">[ 02 ]</span>
+      <h3>Online stores</h3>
+      <p>Product pages that sell, a checkout that stays out of the way, and an admin that matches how you actually run the shop.</p>
+      <ul class="inc"><li>Catalogue and checkout</li><li>Payments and shipping</li><li>Orders and stock admin</li><li>Mobile-first design</li></ul>
+    </div>
+    <div class="cell svc" data-r>
+      <span class="mono">[ 03 ]</span>
+      <h3>Web apps and internal tools</h3>
+      <p>When spreadsheets and copy-pasting slow your team down, I build the tool that replaces them, the way Flier replaced manual email.</p>
+      <ul class="inc"><li>Dashboards and portals</li><li>Logins, roles and permissions</li><li>Google, payment and CRM integrations</li><li>Automated tests</li></ul>
+    </div>
+    <div class="cell svc" data-r style="--i:1">
+      <span class="mono">[ 04 ]</span>
+      <h3>AI and data work</h3>
+      <p>Assistants that answer from your own documents, data pulled out of PDFs and forms, and dashboards built on data you already have. I'll tell you plainly when AI isn't the answer.</p>
+      <ul class="inc"><li>Chat over your documents</li><li>Document and form processing</li><li>ML models and evaluation</li><li>Dashboards and reports</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="band" id="process" aria-labelledby="pr-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="sec-head">
+    <h2 class="sec-title" id="pr-h" data-r><span class="d">.</span>process</h2>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ 4 steps, fixed quote ]</span>You know the scope and the price in writing before anything is built.</p>
+  </div>
+  <ol class="grid">
+    <li class="cell step" data-r><span class="mono">01 / 04</span><h3>A short call</h3><p>We talk through what you need, who it's for and what a good result looks like. No cost and no obligation.</p></li>
+    <li class="cell step" data-r style="--i:1"><span class="mono">02 / 04</span><h3>A written proposal</h3><p>You get the scope, milestones, timeline and a fixed quote in writing before any work starts.</p></li>
+    <li class="cell step" data-r style="--i:2"><span class="mono">03 / 04</span><h3>Build on a preview link</h3><p>I design the key screens first, then build in small steps on a private link, so you see progress every week.</p></li>
+    <li class="cell step" data-r style="--i:3"><span class="mono">04 / 04</span><h3>Launch and handover</h3><p>I launch, show your team how to update everything, and stay on hand for fixes and new features.</p></li>
+  </ol>
+</section>
+
+<!-- ABOUT -->
+<section class="band" id="about" aria-labelledby="ab-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="sec-head">
+    <h2 class="sec-title" id="ab-h" data-r><span class="d">.</span>about</h2>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ Aditya Mer, Mumbai ]</span>Full-stack developer and ML engineer. Research published at IEEE and Taylor &amp; Francis.</p>
+  </div>
+  <div class="grid">
+    <div class="cell bio" data-r>
+      <p class="big">I design and ship websites, online stores and web apps for organisations and businesses, and bring applied AI in only where it does real work.</p>
+      <p>I studied AI and data science at K. J. Somaiya Institute of Technology, spent two years researching misinformation with machine learning, and built IASCC's website and CMS as an intern before going freelance. That mix is why I can build a clean marketing site and also tell you whether a document assistant would actually help your team.</p>
+      <div class="links">
+        <a class="go" href="https://github.com/aditya190803" target="_blank" rel="noopener">GitHub <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="go" href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener">LinkedIn <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="go" href="/Aditya_Mer_Resume.pdf">Résumé (PDF) <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="cell edu" data-r style="--i:1">
+      <span class="mono label">[ education ]</span>
+      <ul class="list">
+        <li><div class="t">B.Tech in Artificial Intelligence &amp; Data Science</div><div class="s">K. J. Somaiya Institute of Technology, Mumbai</div><div class="mono">2021–2025</div></li>
+        <li><div class="t">HSC (Higher Secondary Certificate)</div><div class="s">Jai Hind College, Mumbai</div><div class="mono">2019–2021</div></li>
+        <li><div class="t">SSC (Secondary School Certificate)</div><div class="s">Chandaramji High School</div><div class="mono">2009–2019</div></li>
+      </ul>
+    </div>
+
+    <div class="cell xp">
+      <div class="mono" style="padding:24px 32px 0">[ experience ]</div>
+      <div class="xp-row" data-r style="border-top:0">
+        <span class="mono when">June 2025 – Sept 2025<br>Hybrid</span>
+        <div class="who"><div class="t">Web Developer Intern</div><div class="s">IASCC</div></div>
+        <ul><li>Designed and developed IASCC's main website from scratch</li><li>Built custom CMS for blogs, newsletters, and research publications</li><li>Focused on performance optimization and UI/UX improvements</li></ul>
+      </div>
+      <div class="xp-row" data-r>
+        <span class="mono when">May 2023 – May 2025<br>Mumbai, India</span>
+        <div class="who"><div class="t">Research Intern</div><div class="s">Society for Data Science</div></div>
+        <ul><li>Researched misinformation spread using advanced ML techniques</li><li>Analyzed 21,000+ news articles for fake news patterns</li><li>Developed ColBERT and SVM models for detection</li><li>Contributed to IEEE conference paper publication</li></ul>
+      </div>
+      <div class="xp-row" data-r>
+        <span class="mono when">Sep 2023 – Dec 2023<br>Mumbai, India</span>
+        <div class="who"><div class="t">Software Development Intern</div><div class="s">YANISA EXECUTION Pvt Ltd</div></div>
+        <ul><li>Built scalable web applications</li><li>Developed no-code CRM for client management</li><li>Collaborated on feature delivery and performance optimization</li></ul>
+      </div>
+      <div class="xp-row" data-r>
+        <span class="mono when">July 2023<br>Remote</span>
+        <div class="who"><div class="t">Data Science &amp; ML Intern</div><div class="s">YBI Foundation</div></div>
+        <ul><li>Developed ML models using Python, TensorFlow, and PyTorch</li><li>Implemented data preprocessing pipelines for large datasets</li><li>Applied regression and classification techniques</li></ul>
+      </div>
+      <div class="xp-row" data-r>
+        <span class="mono when">Dec 2022 – Jan 2023<br>Mumbai, India</span>
+        <div class="who"><div class="t">Azure, Java, and Web Development Intern</div><div class="s">Claidroid Technologies Pvt Ltd</div></div>
+        <ul><li>Gained experience with Azure cloud services and Java</li><li>Built library management app using Azure App Services</li><li>Applied enterprise-grade software engineering principles</li></ul>
+      </div>
+    </div>
+
+    <div class="cell xp" style="padding:24px 32px 8px;border-bottom:0"><span class="mono">[ published research ]</span></div>
+    <article class="cell paper" data-r>
+      <span class="mono">IEEE TENSYMP 2024 · Published</span>
+      <h4>Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media</h4>
+      <p>A structured dataset of fact-checked claims from news media, built so misinformation detection models can be trained and benchmarked on text-based news.</p>
+      <p class="authors"><a href="https://www.linkedin.com/in/oambhanushali/">Oam Bhanushali</a>, <a class="me" href="https://www.linkedin.com/in/adityamer/">Aditya Mer</a>, <a href="https://www.linkedin.com/in/rishikesh-giridhar/">Rishikesh Giridhar</a>, <a href="https://www.linkedin.com/in/bhavormi-somaiya/">Bhavormi Somaiya</a>, <a href="https://www.linkedin.com/in/arish-manasia/">Arish Manasia</a>, <a href="https://www.linkedin.com/in/shivamsingh21022003/">Shivam Singh</a></p>
+      <p class="mono">Misinformation Detection / Dataset / NLP / Machine Learning</p>
+      <a class="go" href="https://ieeexplore.ieee.org/document/10752132" target="_blank" rel="noopener">Read on IEEE Xplore <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </article>
+    <article class="cell paper" data-r style="--i:1">
+      <span class="mono">Taylor &amp; Francis (CRC Press) 2025 · Book chapter</span>
+      <h4>FastWrite: Automation in Code Documentation</h4>
+      <p>A chapter on FastWrite, an AI-powered Python module that generates code documentation, with intelligent code analysis across multiple LLM providers.</p>
+      <p class="authors"><a href="https://www.linkedin.com/in/rishikesh-giridhar/">Rishikesh Giridhar</a>, <a href="https://www.linkedin.com/in/sravan-kotta/">Sravan Kotta</a>, <a class="me" href="https://www.linkedin.com/in/adityamer/">Aditya Mer</a>, <a href="https://www.linkedin.com/in/oambhanushali/">Oam Bhanushali</a></p>
+      <p class="mono">Code Documentation / Automation / GenAI / LLMs / Software Engineering</p>
+      <a class="go" href="https://www.taylorfrancis.com/chapters/edit/10.1201/9781003774679-63/fastwrite-automation-code-documentation-rishikesh-giridhar-sravan-kotta-aditya-mer-oam-bhanushali-sejal-shah" target="_blank" rel="noopener">Read on Taylor &amp; Francis <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </article>
+
+    <div class="cell xp">
+      <div style="padding:24px 32px 12px" class="mono">[ open source and side projects ]</div>
+      <table class="proj">
+        <thead><tr><th>project</th><th>what it does</th><th>built with</th><th>links</th></tr></thead>
+        <tbody>
+          <tr data-r><td class="n">FastWrite</td><td class="d">AI-powered Python module that generates documentation from code, with context-aware output and support for OpenAI, Groq, Gemini and more.<span class="stat">6,000+ PyPI downloads in its first month</span></td><td class="tech">Python, AI, PyPI, LLMs</td><td class="lk"><a href="https://pypi.org/project/FastWrite/">PyPI</a><a href="https://github.com/R-G-KJSIT/FastWrite">GitHub</a></td></tr>
+          <tr data-r><td class="n">EchoMail</td><td class="d">The open-source version of Flier: personalised bulk email through the Gmail API, with CSV fields, previews and live progress.</td><td class="tech">Next.js, TypeScript, Gmail API, React</td><td class="lk"><a href="https://echomail.adityamer.dev">Demo</a><a href="https://github.com/Aditya190803/EchoMail">GitHub</a></td></tr>
+          <tr data-r><td class="n">ATS System</td><td class="d">Resume scanner that uses Gemini to score a resume against a job description and point out missing skills.</td><td class="tech">Gemini AI, Streamlit, Python, NLP</td><td class="lk"><a href="https://ats.adityamer.dev/">Demo</a><a href="https://github.com/Aditya190803/ATS-System">GitHub</a></td></tr>
+          <tr data-r><td class="n">Verify News</td><td class="d">News verification platform that checks text, images, audio and video for misinformation.</td><td class="tech">React, TypeScript, LangSearch, Gemini AI</td><td class="lk"><a href="https://verify-news.adityamer.dev">Demo</a><a href="https://github.com/Aditya190803/Verify-News">GitHub</a></td></tr>
+          <tr data-r><td class="n">AI Research Agent</td><td class="d">Autonomous CrewAI agent that runs literature reviews, synthesises findings and writes research summaries.</td><td class="tech">CrewAI, Python, Autonomous Agents, LLMs</td><td class="lk"><a href="https://ai-research-agent.adityamer.dev">Demo</a><a href="https://github.com/Aditya190803/AI-Research-Agent">GitHub</a></td></tr>
+          <tr data-r><td class="n">Mini App Factory</td><td class="d">Static website generator that builds small sites from a prompt or a template.</td><td class="tech">AI, Web Development, GenAI, Templates</td><td class="lk"><a href="https://mini-app-factory.adityamer.dev">Demo</a><a href="https://github.com/Aditya190803/mini-app-factory">GitHub</a></td></tr>
+          <tr data-r><td class="n">Chat with PDF</td><td class="d">Ask questions of a PDF and get answers from its contents, using retrieval-augmented generation.</td><td class="tech">Gemini, Langchain, Streamlit, RAG</td><td class="lk"><a href="https://adityamer.dev/Chat-with-PDF/">Demo</a><a href="https://github.com/Aditya190803/Chat-with-PDF">GitHub</a></td></tr>
+          <tr data-r><td class="n">Chat with Website</td><td class="d">Chatbot that reads a website, across several pages, and answers questions about it.</td><td class="tech">RAG, ChatGroq, Streamlit, Web Scraping</td><td class="lk"><a href="https://adityamer.dev/Chat-with-Website">Demo</a><a href="https://github.com/aditya190803/Chat-with-Website">GitHub</a></td></tr>
+          <tr data-r><td class="n">OSFM-Net</td><td class="d">Python module for network system management, running as a server or a client, with remote desktop and app management via Winget.</td><td class="tech">Python, Network Management, Remote Desktop</td><td class="lk"><a href="https://pypi.org/project/osfm/">PyPI</a><a href="https://github.com/Aditya190803/osfm/tree/osfm-net">GitHub</a></td></tr>
+          <tr data-r><td class="n">Handwritten Digit Recognition</td><td class="d">Draw a digit on a canvas and a TensorFlow model predicts it in real time.</td><td class="tech">TensorFlow, Streamlit, Python, Computer Vision</td><td class="lk"><a href="https://adityamer.dev/Handwritten-Digit-Recognition/">Demo</a><a href="https://github.com/Aditya190803/Handwritten-Digit-Recognition">GitHub</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cell skills" data-r>
+      <span class="mono label">[ skills and stack ]</span>
+      <dl>
+        <div class="sk"><dt>Languages</dt><dd>Python, JavaScript, TypeScript, C++, Java, SQL, HTML/CSS</dd></div>
+        <div class="sk"><dt>Web development</dt><dd>React, Next.js, Node.js, Streamlit, Tailwind CSS, REST APIs, GraphQL</dd></div>
+        <div class="sk"><dt>Generative AI</dt><dd>LLMs, RAG, Prompt Engineering, Langchain, CrewAI, Transformers, Fine-tuning, NLP</dd></div>
+        <div class="sk"><dt>Machine learning</dt><dd>TensorFlow, PyTorch, Scikit-learn, Keras, PyTorch Lightning, Pandas, NumPy, Computer Vision, GANs</dd></div>
+        <div class="sk"><dt>Cloud and DevOps</dt><dd>Azure, AWS, Docker, Kubernetes, Git, CI/CD, GCP</dd></div>
+        <div class="sk"><dt>Data and tools</dt><dd>PostgreSQL, NoSQL, Apache Spark, Statistical Modeling, Time Series Analysis, Linux</dd></div>
+      </dl>
+    </div>
+    <div class="cell certs" data-r style="--i:1">
+      <span class="mono label">[ certifications ]</span>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/specialization/QKTOLUC5EZ7J">Large Language Models Specialization</a><span class="dt">Jul 2025</span><span class="i">H2O.ai</span></div>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/specialization/Z93W2EAHBXFE">Natural Language Processing</a><span class="dt">Jan 2025</span><span class="i">Stanford University</span></div>
+      <div class="cert"><span class="t">OCI 2024 Generative AI Certified Professional</span><span class="dt">Jun 2024</span><span class="i">Oracle · ID 100690232OCI2024GAIOCP</span></div>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A">Machine Learning Specialization</a><span class="dt">Apr 2024</span><span class="i">Stanford University</span></div>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/verify/W993KKKHASNW">Introduction to Web Development</a><span class="dt">Oct 2022</span><span class="i">Meta</span></div>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/verify/G4E3EE6UKMAX">Programming with JavaScript</a><span class="dt">Oct 2022</span><span class="i">Meta</span></div>
+      <div class="cert"><a href="https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9">Version Control</a><span class="dt">Oct 2022</span><span class="i">Meta</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="band" id="faq" aria-labelledby="faq-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="sec-head">
+    <h2 class="sec-title" id="faq-h" data-r><span class="d">.</span>faq</h2>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ before you write ]</span>The questions clients usually ask on the first call.</p>
+  </div>
+  <div class="grid">
+    <div class="cell faq">
+      <div class="faq-cols">
+        <details><summary>How do you price a project?<svg class="ico"><use href="#i-plus"/></svg></summary><p>Each project gets a fixed quote based on its scope. After our call I send a written proposal with deliverables, timeline and price, so you know the full cost first.</p></details>
+        <details><summary>Can my team update the site after launch?<svg class="ico"><use href="#i-plus"/></svg></summary><p>Yes. Content you change often, such as news, events, products or team members, gets an editor, and I walk your team through it.</p></details>
+        <details><summary>Do you work with clients outside Mumbai?<svg class="ico"><use href="#i-plus"/></svg></summary><p>Yes. The work happens over calls and shared preview links, so I work with clients anywhere and overlap with your hours for calls.</p></details>
+        <details><summary>Who owns the code and the data?<svg class="ico"><use href="#i-plus"/></svg></summary><p>You do. Your data stays yours throughout, and once the project is delivered and paid for, the code and documentation are yours too.</p></details>
+        <details><summary>Will you sign an NDA?<svg class="ico"><use href="#i-plus"/></svg></summary><p>Yes. I'm happy to sign one before you share details about your product, data or business.</p></details>
+        <details><summary>Do you look after the site once it's live?<svg class="ico"><use href="#i-plus"/></svg></summary><p>If you'd like me to. I can handle hosting, updates, backups and small changes each month, or hand everything over to your team.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="band" id="contact" aria-labelledby="ct-h">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <div class="contact">
+    <div class="contact-l">
+      <span class="mono label">[ .contact ]</span>
+      <h2 id="ct-h" data-r>Let's work together</h2>
+      <p data-r style="--i:1">Tell me what you're building and who it's for. I reply within two working days with a few questions or a time for a call.</p>
+      <form action="mailto:adityamer.work@gmail.com" method="post" enctype="text/plain" data-r style="--i:2">
+        <div class="f"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="f"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" autocomplete="email" required></div>
+        <div class="f full"><label for="f-type">Project type</label>
+          <select id="f-type" name="type">
+            <option>Website for an organisation or firm</option>
+            <option>Online store</option>
+            <option>Web app or internal tool</option>
+            <option>AI and data work</option>
+            <option>Not sure yet</option>
+          </select></div>
+        <div class="f full"><label for="f-msg">Message</label><textarea id="f-msg" name="message" placeholder="What you need, rough timeline, any links" required></textarea></div>
+        <div class="form-foot"><button class="btn btn-p" type="submit">Start a project <svg class="ico"><use href="#i-right"/></svg></button><span class="mono">Goes straight to my inbox</span></div>
+      </form>
+    </div>
+    <div class="contact-r">
+      <p class="avail"><i aria-hidden="true"></i>Taking on new projects</p>
+      <div>
+        <span class="mono label" style="margin-bottom:8px">[ or email me directly ]</span>
+        <div class="mail"><a href="mailto:adityamer.work@gmail.com">adityamer.work@gmail.com</a>
+          <button class="copy" type="button" data-copy="adityamer.work@gmail.com" aria-label="Copy email address"><svg class="ico cp"><use href="#i-copy"/></svg><svg class="ico ok"><use href="#i-check"/></svg><span class="copy-t">Copy</span></button></div>
+      </div>
+      <div class="side-list" style="position:relative">
+        <span><span>Based in</span><span class="mono">Mumbai, India · IST</span></span>
+        <a href="https://github.com/aditya190803" target="_blank" rel="noopener">GitHub <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener">LinkedIn <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a href="/Aditya_Mer_Resume.pdf">Résumé <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="field" aria-hidden="true"><canvas id="field"></canvas></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="band">
+  <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
+  <span class="mono">© 2026 Aditya Mer · Mumbai, India</span>
+  <span class="links" style="display:flex;gap:20px"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#top">Back to top</a></span>
+</footer>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* reveal once + hairline fallback */
+  const io = new IntersectionObserver((es) => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('[data-r], .band').forEach((el) => reduce ? el.classList.add('in') : io.observe(el));
+
+  /* copy email */
+  document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); } catch (_) {}
+    b.classList.add('done'); b.querySelector('.copy-t').textContent = 'Copied';
+    setTimeout(() => { b.classList.remove('done'); b.querySelector('.copy-t').textContent = 'Copy'; }, 1800);
+  }));
+
+  /* ---------- glyph renderer ---------- */
+  const CHARS = '.:/=<>{}#';
+  const INK = '20,20,20';
+  const ORANGE = '240,112,80';
+  const ALPHAS = [0.22, 0.42, 0.66, 0.92];
+
+  // one atlas per cell size: rows 0-3 ink at rising alpha, row 4 orange
+  function atlas(cell, dpr, weight) {
+    const c = document.createElement('canvas');
+    const s = Math.round(cell * dpr);
+    c.width = s * CHARS.length; c.height = s * 5;
+    const g = c.getContext('2d');
+    g.font = `${weight} ${Math.round(cell * 0.98 * dpr)}px "JetBrains Mono", monospace`;
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    for (let r = 0; r < 5; r++) {
+      g.fillStyle = r < 4 ? `rgba(${INK},${ALPHAS[r]})` : `rgb(${ORANGE})`;
+      for (let i = 0; i < CHARS.length; i++) g.fillText(CHARS[i], i * s + s / 2, r * s + s / 2 + dpr * 0.5);
+    }
+    return { c, s };
+  }
+
+  // sample the image at one value per cell; returns [charIndex|-1, row] pairs
+  function sample(img, crop, cols, rows, opts) {
+    const c = document.createElement('canvas'); c.width = cols; c.height = rows;
+    const g = c.getContext('2d', { willReadFrequently: true });
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(img, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, cols, rows);
+    const px = g.getImageData(0, 0, cols, rows).data;
+    const out = new Int8Array(cols * rows * 2);
+    for (let i = 0, n = cols * rows; i < n; i++) {
+      const r = px[i * 4], gr = px[i * 4 + 1], b = px[i * 4 + 2];
+      const mx = Math.max(r, gr, b), mn = Math.min(r, gr, b);
+      const d = 1 - (0.2126 * r + 0.7152 * gr + 0.0722 * b) / 255;
+      const sat = mx ? (mx - mn) / mx : 0;
+      // soft edge: just above the floor, keep only some cells (hashed, so it is stable)
+      const h = ((i * 2654435761) >>> 0) / 4294967296;
+      if (d < opts.floor || (d < opts.floor * 2.2 && h > (d - opts.floor) / (opts.floor * 1.2))) { out[i * 2] = -1; continue; }
+      const k = Math.min(1, (d - opts.floor) / 0.62);
+      out[i * 2] = Math.min(CHARS.length - 1, Math.floor(Math.pow(k, 0.75) * CHARS.length));
+      out[i * 2 + 1] = (sat > 0.32 && d > 0.14) ? 4 : d < 0.07 ? 0 : d < 0.22 ? 1 : d < 0.45 ? 2 : 3;
+    }
+    return out;
+  }
+
+  function paintCell(g, A, data, i, x, y, s, swap) {
+    let ch = data[i * 2];
+    if (ch < 0) return;
+    if (swap) ch = Math.min(CHARS.length - 1, Math.max(0, ch + (swap > 0 ? 1 : -1)));
+    g.drawImage(A.c, ch * A.s, data[i * 2 + 1] * A.s, A.s, A.s, x * s, y * s, A.s, A.s);
+  }
+
+  function layer(W, H, dpr, cell, data, A, cols, rows) {
+    const c = document.createElement('canvas'); c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
+    const g = c.getContext('2d');
+    g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) paintCell(g, A, data, y * cols + x, x, y, A.s, 0);
+    return { c, g };
+  }
+
+  function coverTop(iw, ih, W, H) {
+    const s = Math.max(W / iw, H / ih);
+    const sw = W / s, sh = H / s;
+    return { sx: (iw - sw) / 2, sy: 0, sw, sh };
+  }
+
+  const fontReady = (document.fonts && document.fonts.load) ? document.fonts.load('500 12px "JetBrains Mono"').catch(() => {}) : Promise.resolve();
+
+  /* ---------- hero: code glyphs resolve into the real site ---------- */
+  const shot = document.getElementById('shot');
+  const cv = shot.querySelector('canvas');
+  const img = shot.querySelector('img');
+  const pctEl = document.getElementById('pct');
+  const hint = document.getElementById('hint');
+
+  let st = null;           // state for current size
+  let progress = 0, lens = null, dirty = false, visible = true, lastPct = -1;
+
+  function build() {
+    const W = shot.clientWidth, H = shot.clientHeight;
+    if (!W || !H || !img.naturalWidth) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const small = W < 721;
+    const cellA = small ? 9 : 12, cellB = small ? 5 : 6, block = small ? 36 : 48;
+    const crop = coverTop(img.naturalWidth, img.naturalHeight, W, H);
+    const colsA = Math.ceil(W / cellA), rowsA = Math.ceil(H / cellA);
+    let dataA;
+    try { dataA = sample(img, crop, colsA, rowsA, { floor: 0.025 }); }
+    catch (e) { shot.classList.add('nocanvas'); return; } // tainted canvas: leave the plain screenshot
+    const AA = atlas(cellA, dpr, 500);
+    const LA = layer(W, H, dpr, cellA, dataA, AA, colsA, rowsA);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    // reveal blocks: top to bottom with a little noise, fixed seed so it is stable
+    const bc = Math.ceil(W / block), br = Math.ceil(H / block);
+    const t = new Float32Array(bc * br);
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) t[y * bc + x] = (y / br) * 0.62 + rnd() * 0.2;
+    st = { W, H, dpr, cellA, cellB, block, crop, colsA, rowsA, dataA, AA, LA, LB: null, bc, br, t };
+    shot.classList.add('ready');
+    dirty = true; schedule();
+    // fine layer (cells shrink) built after first paint, off the critical path
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 60));
+    const mine = st;
+    idle(() => {
+      if (st !== mine) return;
+      const colsB = Math.ceil(W / cellB), rowsB = Math.ceil(H / cellB);
+      const dataB = sample(img, crop, colsB, rowsB, { floor: 0.02 });
+      mine.LB = layer(W, H, dpr, cellB, dataB, atlas(cellB, dpr, 400), colsB, rowsB);
+      dirty = true; schedule();
+    });
+  }
+
+  const W_BAND = 0.16; // how long a block spends as fine glyphs
+  function blockState(i, x, y) {
+    let s = (progress - st.t[i]) / W_BAND;
+    if (lens) {
+      const cx = (x + 0.5) * st.block, cy = (y + 0.5) * st.block;
+      const d = Math.hypot(cx - lens.x, cy - lens.y) / lens.r;
+      if (d < 1) s = Math.max(s, (1 - d) * 2.2);
+    }
+    return s;
+  }
+
+  const PERF = /[?&]perf/.test(location.search) ? (window.__glyph = []) : null;
+  function compose() {
+    dirty = false;
+    if (!st) return;
+    const t0 = PERF && performance.now();
+    const g = cv.getContext('2d');
+    const { dpr, block, bc, br } = st;
+    const bs = block * dpr;
+    g.globalCompositeOperation = 'copy';
+    g.drawImage(st.LA.c, 0, 0);
+    g.globalCompositeOperation = 'source-over';
+    const fine = new Path2D(), clear = new Path2D();
+    let nf = 0, nc = 0;
+    for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) {
+      const s = blockState(y * bc + x, x, y);
+      if (s >= 1) { clear.rect(x * bs, y * bs, bs, bs); nc++; }
+      else if (s > 0) { fine.rect(x * bs, y * bs, bs, bs); nf++; }
+    }
+    if (nf) {
+      g.save(); g.clip(fine);
+      if (st.LB) g.drawImage(st.LB.c, 0, 0);
+      else { g.fillStyle = 'rgba(255,255,255,.5)'; g.fill(fine); }
+      g.restore();
+    }
+    if (nc) { g.globalCompositeOperation = 'destination-out'; g.fill(clear); g.globalCompositeOperation = 'source-over'; }
+    const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
+    if (pct !== lastPct) { lastPct = pct; pctEl.textContent = pct + '%'; }
+    if (PERF) PERF.push(performance.now() - t0);
+  }
+
+  let raf = 0;
+  function schedule() { if (!raf) raf = requestAnimationFrame(() => { raf = 0; if (dirty) compose(); }); }
+
+  // scroll -> progress: reads only scrollY; offsets cached on resize
+  let start = 0, range = 1;
+  function measure() {
+    const r = shot.getBoundingClientRect();
+    const top = r.top + window.scrollY;
+    start = 0;
+    range = Math.max(320, top + r.height * 0.55 - innerHeight * 0.3);
+  }
+  function onScroll() {
+    if (!visible) return;
+    const p = Math.min(1.25, Math.max(0, (window.scrollY - start) / range) * 1.25);
+    if (p !== progress) { progress = p; dirty = true; schedule(); }
+  }
+
+  // ~8 fps twinkle: a few cells swap to a neighbouring glyph, only while the picture is still code
+  let tick = 0;
+  function twinkle() {
+    if (!st || !visible || progress >= 1.1 || document.hidden) return;
+    const { LA, AA, dataA, colsA, rowsA } = st;
+    const n = colsA * rowsA;
+    for (let k = 0; k < 18; k++) {
+      const i = (Math.random() * n) | 0;
+      if (dataA[i * 2] < 0) continue;
+      const x = i % colsA, y = (i / colsA) | 0;
+      LA.g.fillStyle = '#fff'; LA.g.fillRect(x * AA.s, y * AA.s, AA.s, AA.s);
+      paintCell(LA.g, AA, dataA, i, x, y, AA.s, (tick + k) % 3 === 0 ? 0 : (k % 2 ? 1 : -1));
+    }
+    tick++; dirty = true; schedule();
+  }
+
+  async function initHero() {
+    try { await img.decode(); } catch (_) {}
+    await fontReady;
+    build();
+    if (!st) return;
+    if (reduce) {
+      // static: half code, half site, no motion
+      progress = 0.62; dirty = true; schedule();
+      hint.textContent = 'Half code, half the finished site';
+      return;
+    }
+    measure(); onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) onScroll(); }).observe(shot);
+    setInterval(twinkle, 125);
+    if (fine) {
+      shot.classList.add('lens');
+      shot.addEventListener('pointermove', (e) => {
+        const r = shot.getBoundingClientRect();
+        lens = { x: e.clientX - r.left, y: e.clientY - r.top, r: 150 };
+        dirty = true; schedule();
+      });
+      shot.addEventListener('pointerleave', () => { lens = null; dirty = true; schedule(); });
+    }
+  }
+
+  let rz = 0, lastW = shot.clientWidth;
+  addEventListener('resize', () => {
+    clearTimeout(rz);
+    rz = setTimeout(() => {
+      if (shot.clientWidth === lastW) { if (!reduce) measure(); return; }
+      lastW = shot.clientWidth;
+      build(); if (!reduce) { measure(); onScroll(); }
+    }, 150);
+  });
+
+  initHero();
+
+  /* ---------- contact: the logo as a faint, static glyph field ---------- */
+  const field = document.getElementById('field');
+  const fio = new IntersectionObserver(async ([e]) => {
+    if (!e.isIntersecting) return;
+    fio.disconnect();
+    const logo = new Image(); logo.src = '../assets/logo.png';
+    try { await logo.decode(); } catch (_) { return; }
+    await fontReady;
+    const W = field.clientWidth, H = field.clientHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cell = W < 300 ? 8 : 10;
+    const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+    let data;
+    try { data = sample(logo, { sx: 0, sy: 0, sw: logo.naturalWidth, sh: logo.naturalHeight }, cols, rows, { floor: 0.16 }); }
+    catch (_) { return; }
+    const A = atlas(cell, dpr, 500);
+    field.width = Math.round(W * dpr); field.height = Math.round(H * dpr);
+    const g = field.getContext('2d');
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) paintCell(g, A, data, y * cols + x, x, y, A.s, 0);
+  }, { rootMargin: '200px' });
+  fio.observe(field);
+})();
+</script>
+</body>
+</html>
