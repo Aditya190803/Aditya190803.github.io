@@ -117,24 +117,25 @@ section,.ft{position:relative;view-timeline-name:--sec}
 .avail{margin-top:auto;padding-top:28px;display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
 .avail i{width:6px;height:6px;background:var(--accent);flex:none}
 /* the work, rising out of the grid */
-.stage{grid-area:1/6/9/13;position:relative;overflow:hidden;z-index:1;--lx:4.75}
+.stage{grid-area:1/6/9/13;position:relative;overflow:hidden;z-index:1;--lx:4.75;--wl:.25}
 .win{position:absolute;display:block;background:var(--paper);border:1px solid var(--line-2)}
 .win .bar{height:28px;display:flex;align-items:center;gap:5px;padding:0 10px;border-bottom:1px solid var(--line)}
 .win .bar i{width:7px;height:7px;border:1px solid var(--line-2)}
 .win .url{margin:0 auto;transform:translateX(-12px);font-family:var(--mono);font-size:11px;color:var(--ink-3)}
 .win .img{position:relative}
 .win img{width:100%;height:auto}
-.win-d{left:calc(var(--cell)*.25);right:calc(var(--cell)*.25);top:calc(var(--cell)*2)}
+.win-d{left:calc(var(--cell)*var(--wl));right:calc(var(--cell)*.25);top:calc(var(--cell)*2)}
 .win-p{left:0;width:calc(var(--cell)*2);top:calc(var(--cell)*5);box-shadow:0 0 0 calc(var(--cell)*.12) var(--paper)}
 .win-p .bar{height:16px;justify-content:center}
 .win-p .bar i{width:22px;height:4px;border:0;background:var(--line-2)}
 .win:hover{border-color:var(--ink-3)}
 /* callout: a dashed box on the screenshot, a leader up to a labelled cell */
 .hl{position:absolute;left:56%;top:1.8%;width:30.5%;height:6%;border:1.5px solid var(--accent)}
-.hl::before{content:"";position:absolute;bottom:100%;left:calc(var(--cell)*var(--lx) - var(--cell)*.25 - 56% * 0 - 1px);width:1px;height:calc(var(--cell)*.6 + 28px);background:var(--accent)}
+.ld{position:absolute;left:calc(var(--cell)*(var(--lx) - var(--wl)) - 1px);top:calc(var(--cell)*-.6);width:1px;height:calc(var(--cell)*.6 + 29px + (100% - 29px)*.018);background:var(--accent)}
 .co{display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;position:relative;z-index:3;font-family:var(--mono);font-size:11px;line-height:1;color:var(--ink-2);white-space:nowrap}
-.co::before{content:"[ "}
+.co span::before{content:"[ "}
 .co span::after{content:" ]"}
+.r180 svg{transform:rotate(180deg)}
 .co i{position:absolute;left:50%;bottom:-4px;width:7px;height:7px;margin-left:-3.5px;background:var(--accent)}
 .co.side{align-items:center;justify-content:flex-start;padding:0 0 0 18px}
 .co.side i{left:-4px;top:50%;bottom:auto;margin:-3.5px 0 0}
@@ -352,17 +353,14 @@ html.js .in>.rl .ln{transform:none}
 }
 @keyframes draw{from{transform:scaleX(0)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){
-  html.js .rv,html.js .rl .ln,html.js .hero .px-f{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+  html.js .rv,html.js .rl .ln,html.js .hero .px-f,html.js .win{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+  .cov{display:none}
 }
 
 /* ---------- responsive ---------- */
-@media (min-width:1100px){.m-show{display:none}}
 @media (max-width:1099px){
-  .hero-g{grid-template-rows:repeat(4,var(--cell)) auto}
-  .hero-g>*{grid-area:var(--gt,var(--ga))}
-  .hero-g>.hero-t{grid-area:5/1/6/-1;border:0;border-top:1px solid var(--line-2);padding:40px 40px 40px}
-  .hero h1{font-size:clamp(32px,5.4vw,48px)}
-  .t-hide{display:none}
+  .sub1{font-size:16px}
+  .wk-in{padding:0 32px 32px}
   .sh,.pad{padding-left:32px;padding-right:32px}
   .case,.case.flip,.theska,.merge,.bio,.sk,.faq,.ct{grid-template-columns:1fr}
   .case.flip .shot{order:0}
@@ -391,15 +389,26 @@ html.js .in>.rl .ln{transform:none}
   .foot>div:first-child{padding-left:32px}
 }
 @media (max-width:759px){
-  .hero-g>*{grid-area:var(--gm,var(--gt))}
-  .hero-g>.hero-t{grid-area:5/1/6/-1}
-  .hero-g::before,.hero-g::after,.gl,.m-hide{display:none}
+  .hero-g{grid-template-rows:auto repeat(6,var(--cell))}
+  .hero-g>*{grid-area:var(--gm,var(--ga))}
+  .hero-g>.hero-t{grid-area:1/1/2/-1;border:0;border-bottom:1px solid var(--line-2);margin:0;padding:28px 20px 32px}
+  .hero-g::before,.hero-g::after{display:none}
   .dm svg{shape-rendering:auto}
-  .hero-g>.hero-t{padding:32px 20px 36px}
   .lbl,.lbl.r{justify-self:start;align-self:start}
-  .hero h1{font-size:34px;line-height:1.08}
-  .lead{font-size:16px;margin-top:20px}
-  .acts{margin-top:28px}
+  .hero h1{font-size:44px;line-height:1.02}
+  .sub1{font-size:16px;margin-top:14px}
+  .acts{margin-top:24px}
+  .stage{grid-area:2/1/8/-1;--lx:4.5;--wl:.75}
+  .win-d{right:calc(var(--cell)*.25);top:var(--cell)}
+  .win .bar{height:20px;padding:0 7px;gap:4px}
+  .win .bar i{width:5px;height:5px}
+  .win .url{font-size:10px}
+  .ld{height:calc(var(--cell)*.6 + 21px + (100% - 21px)*.018)}
+  .win-p{left:calc(var(--cell)*.25);width:calc(var(--cell)*1.75);top:calc(var(--cell)*3)}
+  .win-p .bar{height:12px}
+  .co{padding-bottom:12px;font-size:10px}
+  .lead{font-size:17px}
+  .wk-in{padding:0 20px 28px}
   .acts .btn{height:44px}
   .lbl{font-size:10px;padding:7px 6px}
   .sh{padding:56px 20px 24px;flex-direction:column;align-items:flex-start;gap:12px}
@@ -465,35 +474,31 @@ html.js .in>.rl .ln{transform:none}
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
   <div class="hero-g">
-    <div class="gl l" aria-hidden="true"><span>[ Mumbai, IN ]</span><span>[ 19.08° N, 72.88° E ]</span></div>
-    <div class="gl r" aria-hidden="true"><span>[ taking on new projects ]</span><span>[ FastWrite, 6,000+ PyPI downloads ]</span></div>
-
-    <!-- AM monogram, drawn after the logo: solid A, outlined M -->
-    <div class="dm lg a" data-g="A" aria-hidden="true" style="--ga:2/9/span 2/span 2;--gt:1/7/span 2/span 2;--gm:1/2/span 2/span 2"></div>
-    <div class="dm lg m" data-g="M" aria-hidden="true" style="--ga:4/10/span 2/span 2;--gt:3/8/span 2/span 2;--gm:3/3/span 2/span 2"></div>
-
-    <div class="dm sm cellw" data-g="web" aria-hidden="true" style="--ga:1/3;--gt:2/2;--gm:1/5"></div>
-    <span class="lbl" style="--ga:1/4/2/7;--gt:1/2/2/5;--gm:2/5/3/7">[ iascc.in ]</span>
-
-    <div class="dm sm cellw" data-g="mail" aria-hidden="true" style="--ga:1/12;--gt:1/11;--gm:4/6"></div>
-    <span class="lbl r" style="--ga:1/9/2/12;--gt:2/9/3/12;--gm:3/5/4/7">[ sendflier.tech ]</span>
-
-    <div class="dm sm cellw t-hide" data-g="paper" aria-hidden="true" style="--ga:6/8"></div>
-    <span class="lbl t-hide" style="--ga:7/8/8/10">[ IEEE TENSYMP ’24 ]</span>
-
-    <div class="dm sm cellw" data-g="cart" aria-hidden="true" style="--ga:7/12;--gt:4/12;--gm:4/1"></div>
-    <span class="lbl r b m-hide" style="--ga:7/9/8/12;--gt:3/10/4/13">[ youniqueindia.co.in ]</span>
-    <span class="lbl b m-show" style="--ga:6/12/7/13;--gt:3/2/4/5;--gm:3/1/4/3">[ Mumbai, IN ]</span>
-
     <div class="hero-t">
-      <h1>Websites, online stores and web apps for organisations and small businesses</h1>
-      <p class="lead">I’m Aditya Mer, a freelance web and AI developer in Mumbai, working with clients anywhere. I built the <a href="https://iascc.in">IASCC</a> website and CMS, the <a href="https://www.youniqueindia.co.in">Younique India</a> store, and Flier, my own mail-merge app. AI comes in where it saves time.</p>
+      <h1>I build what your team runs</h1>
+      <p class="sub1">Websites, online stores and internal tools, from Mumbai.</p>
       <div class="acts">
         <a class="btn btn-p" href="#contact">Start a project</a>
-        <a class="btn btn-s" href="#work">See the work <svg class="ico"><use href="#i-r"/></svg></a>
+        <a class="lnk" href="#work">See the work <svg class="ico"><use href="#i-r"/></svg></a>
       </div>
-      <p class="avail"><i></i>Taking on new projects. Replies from adityamer.work@gmail.com</p>
     </div>
+
+    <!-- the work rises out of the grid: IASCC, desktop and phone -->
+    <div class="stage">
+      <a class="win win-d" href="#work" aria-label="IASCC website, see the case study">
+        <span class="bar" aria-hidden="true"><i></i><i></i><i></i><span class="url">iascc.in</span></span>
+        <span class="img"><img src="../assets/iascc.webp" width="1600" height="1000" alt="" fetchpriority="high"><svg class="cov" data-c="16" data-r="10" aria-hidden="true"></svg><span class="hl"></span></span>
+        <span class="ld"></span>
+      </a>
+      <a class="win win-p" href="#work" aria-label="IASCC on a phone, see the case study">
+        <span class="bar" aria-hidden="true"><i></i></span>
+        <span class="img"><img src="../assets/iascc-mobile.webp" width="560" height="1211" alt="" decoding="async"><svg class="cov" data-c="5" data-r="11" aria-hidden="true"></svg></span>
+      </a>
+    </div>
+    <p class="co" style="--ga:2/10/3/12;--gm:2/4/3/7"><span>custom CMS</span><i></i></p>
+    <p class="co side" style="--ga:8/8/9/10;--gm:7/3/8/6"><b></b><i></i><span>mobile view</span></p>
+    <div class="dm sm cellw" data-g="cnr" aria-hidden="true" style="--ga:2/6;--gm:2/1"></div>
+    <div class="dm sm cellw r180" data-g="cnr" aria-hidden="true" style="--ga:8/12;--gm:7/6"></div>
   </div>
 </section>
 
@@ -501,6 +506,8 @@ html.js .in>.rl .ln{transform:none}
 <section id="work">
   <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
   <header class="sh"><h2 class="rv"><i></i>work</h2><p class="mono rv" style="--i:1">3 client projects, 1 product of my own</p></header>
+  <div class="wk-in"><p class="lead rv">I’m Aditya Mer, a freelance web and AI developer in Mumbai, working with clients anywhere. I built the <a href="https://iascc.in">IASCC</a> website and CMS, the <a href="https://www.youniqueindia.co.in">Younique India</a> store, and Flier, my own mail-merge app. AI comes in where it saves time.</p>
+    <p class="avail rv" style="--i:1;padding-top:16px"><i></i>Taking on new projects. Replies from adityamer.work@gmail.com</p></div>
 
   <article class="case bt">
     <div class="shot">
@@ -760,7 +767,7 @@ html.js .in>.rl .ln{transform:none}
   <div class="rl"><i class="ln"></i><b></b><b></b><b></b><b></b></div>
   <div class="foot">
   <div><span class="k">Drawn by</span><span>Aditya Mer, freelance web and AI developer</span></div>
-  <div><span class="k">Location</span><span>Mumbai, India</span></div>
+  <div><span class="k">Location</span><span>Mumbai, India</span><span class="k">19.08° N, 72.88° E</span></div>
   <div><span class="k">Email</span><a href="mailto:adityamer.work@gmail.com">Write to me</a></div>
   <div><span class="k">Elsewhere</span><a href="https://github.com/aditya190803">GitHub</a></div>
   <div><span class="k">Sheet</span><span>1 of 1 · © <span id="yr">2026</span> Aditya Mer</span></div>
@@ -780,6 +787,7 @@ html.js .in>.rl .ln{transform:none}
     mail:['#######','##...##','#.#.#.#','#..#..#','#.....#','#.....#','#######'],
     paper:['#####..','#...##.','#....##','#.###.#','#.....#','#.###.#','#######'],
     cart:['##.....','.######','.#....#','.#...#.','.#####.','.......','..#..#.'],
+    cnr:['......#','....#..','..#.#.#','.#.##.#','#.####.','.######','#######'],
     app:['#######','#######','#.....#','#.##..#','#.....#','#.####.','#######']
   };
   function outline(m){var h=m.length,w=m[0].length,o=[];for(var y=0;y<h;y++){var r='';for(var x=0;x<w;x++){var on=m[y][x]=='#',e=!on?0:(y==0||x==0||y==h-1||x==w-1||m[y-1][x]!='#'||m[y+1][x]!='#'||m[y][x-1]!='#'||m[y][x+1]!='#');r+=e?'#':'.'}o.push(r)}return o}
@@ -795,6 +803,15 @@ html.js .in>.rl .ln{transform:none}
         f+=r+' class="px-f '+(scr?'s':'l')+'" style="--d:'+dl+'s'+(scr?';--a:'+Math.round(rnd()*240)+'px':'')+'"/>';}
       else f+=r+' class="px-f"/>';}
     el.innerHTML='<svg viewBox="0 0 '+n*p+' '+n*p+'">'+b+f+'</svg>';
+  });
+  // cover pixels over the screenshots: most clear on load (bottom rows first), the rest as you scroll
+  d.querySelectorAll('.cov').forEach(function(sv){
+    var c=+sv.dataset.c,r=+sv.dataset.r,o='';
+    for(var y=0;y<r;y++)for(var x=0;x<c;x++){
+      var scr=rnd()<.2,k=rnd(),cl=scr&&k<.35?' o':(k>.85?' g':''),dl=(.2+(1-y/r)*.8+rnd()*.45).toFixed(2);
+      o+='<rect x="'+x+'" y="'+y+'" width="1" height="1" class="cv '+(scr?'s':'l')+cl+'" style="--d:'+dl+'s'+(scr?';--a:'+Math.round(rnd()*260)+'px':'')+'"/>';
+    }
+    sv.setAttribute('viewBox','0 0 '+c+' '+r);sv.setAttribute('preserveAspectRatio','none');sv.innerHTML=o;
   });
   // reveal once + hairline fallback
   var rv=d.querySelectorAll('.rv'),secs=d.querySelectorAll('section,.ft');
