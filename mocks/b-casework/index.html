@@ -11,12 +11,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wdth,wght@87.5,400&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
 <style>
+@font-face{font-family:"Hanken Fallback";src:local("Arial"),local("Liberation Sans"),local("Helvetica");size-adjust:100.3%}
+@font-face{font-family:"Martian Fallback";src:local("Menlo"),local("DejaVu Sans Mono"),local("Courier New");size-adjust:108%}
 :root{
   --ground:#FAFAFA; --paper:#FFFFFF; --ink:#141414; --ink-2:#474747; --ink-3:#6B6B6B;
   --line:rgba(20,20,20,.09); --dash:rgba(20,20,20,.18);
   --accent:#F07050; --accent-ink:#C2410C;
-  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --sans:"Hanken Grotesk","Hanken Fallback",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Martian Mono","Martian Fallback",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --pad:32px; --hh:64px; --stick:88px; --cell:96px;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -308,7 +310,7 @@ footer{border-top:1px dashed var(--dash);position:relative;background:var(--pape
 }
 
 /* ---------- responsive ---------- */
-@media (max-width:600px){.hide-s{display:none}.sec-rule .ln{display:none}.crop p{display:none}}
+@media (max-width:600px){.hide-s{display:none}.sec-rule .ln{display:none}.crop{display:none}}
 @media (max-width:1100px){
   :root{--pad:24px}
   .nav a{padding:0 14px}
@@ -403,7 +405,7 @@ footer{border-top:1px dashed var(--dash);position:relative;background:var(--pape
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-in">
       <div class="hero-copy">
-        <p class="who mono">Aditya Mer · Freelance web and AI developer · Mumbai</p>
+        <p class="who mono">Aditya Mer · Freelance web and AI developer<span class="hide-s"> · Mumbai</span></p>
         <h1 id="h1">Websites, online stores and internal tools for organisations and small businesses</h1>
         <p class="lede">I built <a href="https://iascc.in">IASCC</a>’s website and the CMS its team publishes with, the <a href="https://www.youniqueindia.co.in">Younique India</a> store, and <a href="https://sendflier.tech">Flier</a>, a Gmail mail-merge app. I take a project from the first call to launch, and add AI only where it saves your team time.</p>
         <div class="actions">
@@ -715,14 +717,16 @@ footer{border-top:1px dashed var(--dash);position:relative;background:var(--pape
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -4% 0px'});
     rv.forEach(function(e){io.observe(e)});
   }
-  /* stacked cards: fallback when CSS scroll-driven animations are missing */
+  /* stacked cards: fallback when CSS scroll-driven animations are missing.
+     The root reaches far below the viewport, so a marker counts as "intersecting" while it is below the pin line,
+     and a jump past it (anchor link) still flips the state. */
   var css=window.CSS&&CSS.supports;
   if(!reduce&&!(css&&CSS.supports('animation-timeline: view()')&&CSS.supports('timeline-scope: --a'))&&'IntersectionObserver' in window){
     var cards=d.querySelectorAll('.card'), stick=parseInt(getComputedStyle(d.documentElement).getPropertyValue('--stick'))||88;
     var so=new IntersectionObserver(function(es){es.forEach(function(e){
       var c=cards[+e.target.getAttribute('data-m')-1];
-      c.classList.toggle('covered',!e.isIntersecting&&e.boundingClientRect.top<e.rootBounds.top);
-    })},{rootMargin:(-stick)+'px 0px 0px 0px'});
+      c.classList.toggle('covered',!e.isIntersecting);
+    })},{rootMargin:(-stick)+'px 0px 100000px 0px'});
     d.querySelectorAll('.mk').forEach(function(m){so.observe(m)});
   }
   /* copy email */

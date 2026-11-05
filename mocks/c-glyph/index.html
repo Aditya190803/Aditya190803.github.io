@@ -8,7 +8,7 @@
 <link rel="icon" href="../assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="../assets/iascc.webp" media="(min-width: 721px)">
 <link rel="preload" as="image" href="../assets/iascc-mobile.webp" media="(max-width: 720px)">
 <script>document.documentElement.classList.add('js')</script>
@@ -53,7 +53,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .band>.cross.l{left:-5px}.band>.cross.r{right:-5px}
 
 /* ---------- header ---------- */
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
 .top-in{display:flex;align-items:center;gap:32px;height:64px;padding:0 24px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:500;letter-spacing:-.01em}
 .brand img{width:28px;height:28px;border-radius:4px}
@@ -156,7 +156,7 @@ h1{font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.04;letter-spac
 .svc p{color:var(--ink-2);max-width:52ch}
 .inc{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:8px}
 .inc li{font-size:14px;padding:8px 0;border-top:1px solid var(--line);display:flex;gap:8px}
-.inc li::before{content:"/";font-family:var(--mono);color:var(--accent-ink)}
+.inc li::before{content:"/";font-family:var(--mono);color:var(--ink-3)}
 
 /* process */
 .step{grid-column:span 3;display:flex;flex-direction:column;gap:8px;padding:32px}
@@ -202,7 +202,7 @@ h1{font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.04;letter-spac
 .proj th:last-child,.proj td:last-child{padding-right:32px}
 .proj .n{font-weight:500;white-space:nowrap}
 .proj .d{color:var(--ink-2);max-width:56ch}
-.proj .stat{display:block;margin-top:4px;color:var(--accent-ink);font-family:var(--mono);font-size:12px}
+.proj .stat{display:block;margin-top:4px;color:var(--ink);font-family:var(--mono);font-size:12px}
 .proj .tech{font-family:var(--mono);font-size:12px;color:var(--ink-3);max-width:24ch}
 .proj .lk{white-space:nowrap;font-size:14px}
 .proj .lk a{display:inline-block;margin-right:12px;text-underline-offset:3px;text-decoration-color:var(--line-2)}
@@ -677,7 +677,7 @@ footer .links a:hover{color:var(--ink)}
   <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
   <div class="contact">
     <div class="contact-l">
-      <span class="mono label">[ .contact ]</span>
+      <span class="mono label">[ start a project ]</span>
       <h2 id="ct-h" data-r>Let's work together</h2>
       <p data-r style="--i:1">Tell me what you're building and who it's for. I reply within two working days with a few questions or a time for a call.</p>
       <form action="mailto:adityamer.work@gmail.com" method="post" enctype="text/plain" data-r style="--i:2">
@@ -794,8 +794,19 @@ footer .links a:hover{color:var(--ink)}
     const c = document.createElement('canvas'); c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
     const g = c.getContext('2d');
     g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
-    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) paintCell(g, A, data, y * cols + x, x, y, A.s, 0);
-    return { c, g };
+    // paint in slices of ~8ms so no single task gets long
+    return new Promise((done) => {
+      let y = 0;
+      const slice = () => {
+        const end = performance.now() + 8;
+        while (y < rows && performance.now() < end) {
+          for (let x = 0; x < cols; x++) paintCell(g, A, data, y * cols + x, x, y, A.s, 0);
+          y++;
+        }
+        if (y < rows) setTimeout(slice, 0); else done({ c, g });
+      };
+      slice();
+    });
   }
 
   function coverTop(iw, ih, W, H) {
@@ -813,10 +824,12 @@ footer .links a:hover{color:var(--ink)}
   const pctEl = document.getElementById('pct');
   const hint = document.getElementById('hint');
 
+  const PERF = /[?&]perf/.test(location.search) ? (window.__glyph = []) : null;
   let st = null;           // state for current size
   let progress = 0, lens = null, dirty = false, visible = true, lastPct = -1;
 
-  function build() {
+  async function build() {
+    const b0 = performance.now();
     const W = shot.clientWidth, H = shot.clientHeight;
     if (!W || !H || !img.naturalWidth) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -828,7 +841,10 @@ footer .links a:hover{color:var(--ink)}
     try { dataA = sample(img, crop, colsA, rowsA, { floor: 0.025 }); }
     catch (e) { shot.classList.add('nocanvas'); return; } // tainted canvas: leave the plain screenshot
     const AA = atlas(cellA, dpr, 500);
-    const LA = layer(W, H, dpr, cellA, dataA, AA, colsA, rowsA);
+    const token = {};
+    st = token;
+    const LA = await layer(W, H, dpr, cellA, dataA, AA, colsA, rowsA);
+    if (st !== token) return;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     // reveal blocks: top to bottom with a little noise, fixed seed so it is stable
     const bc = Math.ceil(W / block), br = Math.ceil(H / block);
@@ -836,17 +852,22 @@ footer .links a:hover{color:var(--ink)}
     let seed = 7;
     const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
     for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) t[y * bc + x] = (y / br) * 0.62 + rnd() * 0.2;
-    st = { W, H, dpr, cellA, cellB, block, crop, colsA, rowsA, dataA, AA, LA, LB: null, bc, br, t };
+    if (PERF) window.__build = performance.now() - b0;
+    st = { W, H, dpr, cellA, cellB, block, crop, colsA, rowsA, dataA, AA, LA, LB: null, bc, br, t, live: true };
     shot.classList.add('ready');
     dirty = true; schedule();
     // fine layer (cells shrink) built after first paint, off the critical path
     const idle = window.requestIdleCallback || ((f) => setTimeout(f, 60));
     const mine = st;
-    idle(() => {
+    idle(async () => {
       if (st !== mine) return;
       const colsB = Math.ceil(W / cellB), rowsB = Math.ceil(H / cellB);
       const dataB = sample(img, crop, colsB, rowsB, { floor: 0.02 });
-      mine.LB = layer(W, H, dpr, cellB, dataB, atlas(cellB, dpr, 400), colsB, rowsB);
+      const f0 = performance.now();
+      const LB = await layer(W, H, dpr, cellB, dataB, atlas(cellB, dpr, 400), colsB, rowsB);
+      if (st !== mine) return;
+      mine.LB = LB;
+      if (PERF) window.__buildFine = performance.now() - f0;
       dirty = true; schedule();
     });
   }
@@ -862,10 +883,9 @@ footer .links a:hover{color:var(--ink)}
     return s;
   }
 
-  const PERF = /[?&]perf/.test(location.search) ? (window.__glyph = []) : null;
   function compose() {
     dirty = false;
-    if (!st) return;
+    if (!st || !st.live) return;
     const t0 = PERF && performance.now();
     const g = cv.getContext('2d');
     const { dpr, block, bc, br } = st;
@@ -912,7 +932,7 @@ footer .links a:hover{color:var(--ink)}
   // ~8 fps twinkle: a few cells swap to a neighbouring glyph, only while the picture is still code
   let tick = 0;
   function twinkle() {
-    if (!st || !visible || progress >= 1.1 || document.hidden) return;
+    if (!st || !st.live || !visible || progress >= 1.1 || document.hidden) return;
     const { LA, AA, dataA, colsA, rowsA } = st;
     const n = colsA * rowsA;
     for (let k = 0; k < 18; k++) {
@@ -928,11 +948,11 @@ footer .links a:hover{color:var(--ink)}
   async function initHero() {
     try { await img.decode(); } catch (_) {}
     await fontReady;
-    build();
-    if (!st) return;
+    await build();
+    if (!st || !st.live) return;
     if (reduce) {
       // static: half code, half site, no motion
-      progress = 0.62; dirty = true; schedule();
+      progress = 0.45; dirty = true; schedule();
       hint.textContent = 'Half code, half the finished site';
       return;
     }
@@ -940,6 +960,7 @@ footer .links a:hover{color:var(--ink)}
     addEventListener('scroll', onScroll, { passive: true });
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) onScroll(); }).observe(shot);
     setInterval(twinkle, 125);
+    if (!fine) hint.textContent = 'Scroll to see the site';
     if (fine) {
       shot.classList.add('lens');
       shot.addEventListener('pointermove', (e) => {
