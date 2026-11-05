@@ -129,6 +129,8 @@ section { position: relative; }
 /* background graphics: kit-drawn confetti, idle on sway and float, never in the way */
 .confetti { position: absolute; pointer-events: none; z-index: 0; width: clamp(150px, 20vw, 280px); }
 .confetti canvas { width: 100%; }
+.hero-confetti { left: -200px; top: -20px; }
+@media (max-width: 1360px) { .hero-confetti { left: auto; right: -120px; top: auto; bottom: -60px; } }
 .above { position: relative; z-index: 1; }
 
 /* the scene stage: canvases share one 500 unit square, screenshots ride the tilted screens */
@@ -345,7 +347,7 @@ footer a:hover { color: var(--ink); }
 
 <!-- HERO -->
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <div class="confetti" style="left:-60px; top:40px" aria-hidden="true"><canvas data-icon="confettiA" data-offset="0"></canvas></div>
+  <div class="confetti hero-confetti" aria-hidden="true"><canvas data-icon="confettiA" data-offset="0"></canvas></div>
   <div class="wrap above">
     <div>
       <p class="eyebrow"><i aria-hidden="true"></i>Freelance web + AI developer · Mumbai, India</p>
@@ -469,7 +471,7 @@ footer a:hover { color: var(--ink); }
 
 <!-- SERVICES -->
 <section class="sec" id="services" aria-labelledby="svc-title">
-  <div class="confetti" style="right:-70px; top:-40px" aria-hidden="true"><canvas data-icon="confettiB" data-offset="30"></canvas></div>
+  <div class="confetti" style="right:-150px; top:-110px" aria-hidden="true"><canvas data-icon="confettiB" data-offset="30"></canvas></div>
   <div class="wrap above">
     <header class="head">
       <h2 class="h2" id="svc-title">What I can build for you.</h2>
@@ -627,7 +629,7 @@ footer a:hover { color: var(--ink); }
           <label>Your name<input name="name" autocomplete="name" required></label>
           <label>Email<input name="email" type="email" autocomplete="email" required></label>
         </div>
-        <label>Organisation <small>(optional)</small><input name="organisation" autocomplete="organization"></label>
+        <label><span>Organisation <small>(optional)</small></span><input name="organisation" autocomplete="organization"></label>
         <fieldset>
           <legend>What do you need?</legend>
           <div class="picks">
@@ -688,8 +690,8 @@ footer a:hover { color: var(--ink); }
     layers: [{
       p, tilt: FACE,
       shapes: [
-        { d: rect(-24, 92, 48, 52, 4), fill: 'grey', depth: 0.8 },
-        { d: rect(-86, 138, 172, 28, 12), fill: 'deep', depth: 1 },
+        { d: rect(-26, 90, 52, 78, 4), fill: 'grey', depth: 0.8 },
+        { d: rect(-92, 160, 184, 30, 14), fill: 'deep', depth: 1 },
         { d: rect(-162, -114, 324, 216, 24), fill: 'deep', depth: 1 },
         { d: rect(...MON_SCREEN), fill: 'white' },
         { d: ellipse(0, 93, 4), fill: 'tint', line: false },
@@ -727,7 +729,7 @@ footer a:hover { color: var(--ink); }
   })
 
   // a cursor lying on the monitor's screen, clicking the first button: jolted, with a twinkle on the click
-  const heroMonP = [196, 212]
+  const heroMonP = [196, 200]
   const CLICK = (() => { const [x, y] = onFace(FACE, [-24, 40]); return [heroMonP[0] + x, heroMonP[1] + y] })()
   const cursor = {
     name: 'cursor', frames: 180, line: LINE, extrude: EXT,
@@ -824,7 +826,7 @@ footer a:hover { color: var(--ink); }
     heroMonitor: monitor(heroMonP),
     heroPhone: phone([384, 318]),
     heroCursor: cursor,
-    workMonitor: monitor([250, 236]),
+    workMonitor: monitor([250, 218]),
     workBrowser: browser([236, 262]),
     flierBrowser: browser([250, 258]),
     bag, site, sparks, confettiA, confettiB, mark,
@@ -836,7 +838,7 @@ footer a:hover { color: var(--ink); }
   const SCREENS = {
     heroMonitor: [heroMonP, MON_SCREEN],
     heroPhone: [[384, 318], PHONE_SCREEN],
-    workMonitor: [[250, 236], MON_SCREEN],
+    workMonitor: [[250, 218], MON_SCREEN],
     workBrowser: [[236, 262], BROWSER_SCREEN],
     flierBrowser: [[250, 258], BROWSER_SCREEN],
   }
