@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aditya Mer, independent web and AI developer in Mumbai</title>
+<meta name="description" content="Websites, online stores and internal tools for organisations and small businesses. Designed and built by Aditya Mer in Mumbai, for clients anywhere.">
+<link rel="icon" href="../assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --ground:#FAFAF9;
+  --surface:#FFFFFF;
+  --ink:#141414;
+  --ink-2:#555553;
+  --ink-3:#737371;
+  --line:rgba(20,20,20,.09);
+  --line-2:rgba(20,20,20,.16);
+  --accent:#F07050;
+  --accent-ink:#C2410C;
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --frame:1280px;
+  --pad:48px;
+  --hdr:64px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;scroll-padding-top:var(--hdr)}
+body{position:relative;margin:0;background:var(--ground);color:var(--ink);font:400 17px/1.55 var(--sans);font-feature-settings:"ss01","tnum" 0;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+.mono{font-family:var(--mono);font-size:12px;line-height:1.5;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}
+.faint{color:var(--ink-3)}
+.icon{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
+
+/* ---------- frame: two long verticals ---------- */
+.frame-lines{position:absolute;inset:0;pointer-events:none;z-index:0}
+.frame-lines::before,.frame-lines::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.frame-lines::before{left:max(16px,calc(50% - var(--frame)/2))}
+.frame-lines::after{right:max(16px,calc(50% - var(--frame)/2))}
+.frame{position:relative;z-index:1;max-width:var(--frame);margin:0 auto}
+@media (max-width:1312px){.frame{margin:0 16px}}
+
+/* ---------- long hairline rules with + marks ---------- */
+.sec{position:relative}
+.rule{position:absolute;top:0;left:50%;width:100vw;margin-left:-50vw;height:1px;pointer-events:none}
+.rule i{position:absolute;inset:0;background:var(--line-2);transform-origin:0 50%}
+.plus{position:absolute;top:-6px;width:11px;height:11px;pointer-events:none;color:var(--ink-3)}
+.plus::before,.plus::after{content:"";position:absolute;background:currentColor}
+.plus::before{left:5px;top:0;width:1px;height:11px}
+.plus::after{top:5px;left:0;height:1px;width:11px}
+.plus.l{left:-5px}.plus.r{right:-5px}
+@media (max-width:1312px){.plus.l{left:-5px}.plus.r{right:-5px}}
+
+/* ---------- header ---------- */
+.hdr{position:sticky;top:0;z-index:20;background:rgba(250,250,249,.96);border-bottom:1px solid var(--line)}
+.hdr-in{height:var(--hdr);display:flex;align-items:center;gap:32px;padding:0 var(--pad)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:500;font-size:16px;letter-spacing:-.005em}
+.brand img{width:28px;height:28px;border-radius:4px}
+.nav{display:flex;gap:28px;margin-left:auto;font-size:15px;color:var(--ink-2)}
+.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:6px;font-size:15px;font-weight:500;border:1px solid transparent;cursor:pointer;transition:background-color .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#2a2a2a}
+.btn-line{border-color:var(--line-2);background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--surface);border-color:rgba(20,20,20,.3)}
+.btn-sm{height:36px;padding:0 16px;font-size:14px}
+.hdr .btn{margin-left:8px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:calc(100vh - var(--hdr));min-height:calc(100svh - var(--hdr));display:flex;flex-direction:column;justify-content:flex-end;padding:72px var(--pad) 64px;overflow:hidden;isolation:isolate}
+.draw{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible}
+.draw .ln{fill:none;stroke:rgba(20,20,20,.17);stroke-width:1;vector-effect:non-scaling-stroke}
+.draw .ln.soft{stroke:rgba(20,20,20,.09)}
+.draw .ln.acc{stroke:var(--accent);opacity:.9}
+.draw .pt{fill:var(--ink-3)}
+.draw text{font-family:var(--mono);font-size:12px;fill:var(--ink-3);letter-spacing:.01em}
+.draw text.o{fill:var(--accent-ink)}
+.draw text.big{font-size:13px}
+.js .draw .ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s var(--ease) forwards;animation-delay:calc(var(--i,0) * 90ms + 150ms)}
+.js .draw .lbl{opacity:0;animation:fade .8s var(--ease) forwards;animation-delay:1.5s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.hero-meta{margin-bottom:40px}
+.sep{font-style:normal}
+.h1{font-size:clamp(46px,6.9vw,100px);line-height:.98;font-weight:400;letter-spacing:-.045em;max-width:14ch;text-wrap:balance}
+.hero-foot{display:grid;gap:32px;margin-top:56px;max-width:640px}
+.lede{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:56ch}
+.lede strong{font-weight:500;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.avail{display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+
+/* ---------- section heads ---------- */
+.sec-pad{padding:128px var(--pad)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:24px;margin-bottom:72px}
+.h2{font-size:clamp(40px,5.4vw,76px);line-height:1;font-weight:400;letter-spacing:-.04em}
+.h2 b{font-weight:400;color:var(--accent)}
+.sec-sub{font-size:19px;color:var(--ink-2);max-width:46ch;margin-top:20px}
+.idx{color:var(--ink-3)}
+.h3{font-size:28px;line-height:1.15;font-weight:400;letter-spacing:-.02em}
+
+/* ---------- work strip ---------- */
+.work{--padx:max(32px,calc((100vw - var(--frame))/2 + var(--pad)));--iw:340px;--gap:64px;
+  --cw:min(clamp(520px,50vw,720px),calc((100vh - 360px) * 1.6));
+  --dist:calc(var(--padx) * 2 + var(--iw) + 4 * var(--cw) + 4 * var(--gap) - 100vw);
+  width:100vw;margin-left:calc(50% - 50vw);position:relative}
+.stick{padding:112px 0 96px}
+.track{display:flex;gap:var(--gap);padding:0 var(--padx);width:max-content}
+.intro{width:var(--iw);flex:none;display:flex;flex-direction:column;justify-content:space-between;padding-top:8px}
+.intro .h2{margin-bottom:24px}
+.intro p{color:var(--ink-2);font-size:17px;max-width:30ch}
+.hint{display:flex;align-items:center;gap:8px;color:var(--ink-3);margin-top:32px}
+.card{width:var(--cw);flex:none;display:flex;flex-direction:column;gap:24px}
+.shot{position:relative;aspect-ratio:16/10;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--surface)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.shot.private{display:grid;place-items:center;background:var(--surface)}
+.shot.private > svg{position:absolute;inset:0;width:100%;height:100%}
+.shot.private .ln{fill:none;stroke:rgba(20,20,20,.12);stroke-width:1;vector-effect:non-scaling-stroke}
+.shot.private span{position:relative;background:var(--surface);padding:4px 8px}
+.card-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px}
+.card-top{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;color:var(--ink-3)}
+.card h3{font-size:32px;line-height:1.1;font-weight:400;letter-spacing:-.025em}
+.card .kind{color:var(--ink-2);font-size:16px;margin-top:4px}
+.card .sum{grid-column:1/-1;color:var(--ink-2);font-size:16px;max-width:60ch}
+.card .scope{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 20px;color:var(--ink-3)}
+.card .note{grid-column:1/-1;display:flex;align-items:center;gap:8px;font-size:15px}
+.go{display:inline-flex;align-items:center;gap:6px;font-size:15px;align-self:start;margin-top:6px;border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:border-color .2s var(--ease)}
+.go:hover{border-color:var(--ink)}
+
+/* fallback (no scroll timelines): native horizontal scroller on desktop */
+@media (min-width:900px){
+  .stick{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin}
+  .card,.intro{scroll-snap-align:start;scroll-margin-left:var(--padx)}
+}
+@supports (animation-timeline: view()){
+  @media (min-width:900px) and (prefers-reduced-motion:no-preference){
+    .pin{height:calc(100vh + var(--dist));view-timeline:--strip block}
+    .stick{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:hidden;display:flex;align-items:center;padding:0;scroll-snap-type:none}
+    .track{animation:strip linear both;animation-timeline:--strip;animation-range:contain 0% contain 100%;will-change:transform}
+    @keyframes strip{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--dist)),0,0)}}
+    .progress{position:absolute;left:var(--padx);right:var(--padx);bottom:40px;height:1px;background:var(--line)}
+    .progress i{position:absolute;inset:0;background:var(--ink);transform-origin:0 50%;transform:scaleX(0);animation:grow linear both;animation-timeline:--strip;animation-range:contain 0% contain 100%}
+    @keyframes grow{to{transform:scaleX(1)}}
+  }
+}
+.progress{display:none}
+@supports (animation-timeline: view()){@media (min-width:900px) and (prefers-reduced-motion:no-preference){.progress{display:block}}}
+
+/* ---------- services ---------- */
+.svc{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.svc li{padding:48px 48px 56px 0;border-bottom:1px solid var(--line);display:grid;grid-template-rows:auto auto 1fr;gap:16px}
+.svc li:nth-child(even){padding-left:48px;padding-right:0;border-left:1px solid var(--line)}
+.svc .h3{max-width:18ch}
+.svc p{color:var(--ink-2);max-width:44ch}
+.inc{display:flex;flex-wrap:wrap;gap:8px;align-self:end;margin-top:16px}
+.inc span{border:1px solid var(--line-2);border-radius:4px;padding:4px 10px;color:var(--ink-2)}
+
+/* ---------- process ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:4px;height:1px;background:var(--line-2);transform-origin:0 50%}
+.steps li{position:relative;padding:40px 32px 0 0}
+.steps li::before{content:"";position:absolute;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--ground);border:1px solid var(--ink)}
+.steps li:first-child::before{background:var(--accent);border-color:var(--accent)}
+.steps .h3{font-size:24px;margin:16px 0 12px}
+.steps p{color:var(--ink-2);font-size:16px;max-width:30ch}
+
+/* ---------- about ---------- */
+.bio{font-size:clamp(26px,2.9vw,40px);line-height:1.22;letter-spacing:-.025em;max-width:30ch;margin-bottom:96px}
+.bio span{color:var(--ink-3)}
+.row{display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px;padding:40px 0;border-top:1px solid var(--line)}
+.row > .mono{color:var(--ink-3);padding-top:4px}
+.list > li{display:grid;grid-template-columns:180px minmax(0,1fr);gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.list > li:first-child{padding-top:0}
+.list > li:last-child{border-bottom:0;padding-bottom:0}
+.list .when{color:var(--ink-3);padding-top:3px}
+.list h4{font-weight:500;font-size:17px;line-height:1.4}
+.list p{color:var(--ink-2);font-size:15px;margin-top:4px}
+.list .sub{color:var(--ink-3);margin-top:6px}
+.links{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px}
+.links a{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);border-bottom:1px solid var(--line-2)}
+.links a:hover{color:var(--ink);border-color:var(--ink)}
+.links .icon{width:12px;height:12px}
+.paper h4 a{border-bottom:1px solid var(--line-2)}
+.paper h4 a:hover{border-color:var(--ink)}
+.proj{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.proj li{padding:20px 0;border-bottom:1px solid var(--line)}
+.proj li:nth-child(-n+2){padding-top:0}
+.proj .t{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.proj h4{font-weight:500;font-size:17px}
+.proj p{color:var(--ink-2);font-size:15px;margin-top:4px}
+.stat{color:var(--ink);margin-top:8px;display:flex;align-items:center;gap:8px}
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:32px 48px}
+.skills h4{font-weight:500;font-size:15px;margin-bottom:6px}
+.skills p{color:var(--ink-2);font-size:15px}
+.certs li{display:grid;grid-template-columns:minmax(0,1fr) 180px 120px;gap:24px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;align-items:baseline}
+.certs li:first-child{padding-top:0}
+.certs li:last-child{border-bottom:0}
+.certs a{border-bottom:1px solid var(--line-2);justify-self:start}
+.certs a:hover{border-color:var(--ink)}
+
+/* ---------- faq ---------- */
+.faq-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font-size:20px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .icon{transition:transform .25s var(--ease);color:var(--ink-3)}
+.faq details[open] summary .icon{transform:rotate(45deg)}
+.faq details p{color:var(--ink-2);padding:0 48px 28px 0;max-width:62ch}
+
+/* ---------- contact ---------- */
+.contact-h{font-size:clamp(52px,9vw,140px);line-height:.95;font-weight:400;letter-spacing:-.05em;margin-bottom:72px}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:64px}
+.mail{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mail a{font-size:clamp(20px,2vw,26px);letter-spacing:-.015em;border-bottom:1px solid var(--line-2)}
+.mail a:hover{border-color:var(--ink)}
+.copy{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--line-2);border-radius:4px;background:transparent;cursor:pointer;color:var(--ink-2)}
+.copy:hover{color:var(--ink);border-color:rgba(20,20,20,.3)}
+.contact-side p{color:var(--ink-2);max-width:40ch;margin-top:24px}
+.contact-side .avail{margin-top:32px}
+.elsewhere{margin-top:40px;display:grid;gap:8px}
+.elsewhere a{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2)}
+.elsewhere a:hover{color:var(--ink)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:32px}
+.f{display:grid;gap:8px}
+.f.full{grid-column:1/-1}
+.f label{color:var(--ink-3)}
+.f input,.f select,.f textarea{width:100%;border:0;border-bottom:1px solid var(--line-2);background:transparent;padding:8px 0 12px;font-size:17px;border-radius:0;outline:none;transition:border-color .2s var(--ease)}
+.f select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23737371' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;padding-right:24px}
+.f textarea{resize:vertical;min-height:120px}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--ink)}
+.form-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.form-foot .mono{color:var(--ink-3)}
+
+/* ---------- footer ---------- */
+.foot{padding:40px var(--pad) 48px;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;color:var(--ink-2);font-size:15px}
+.foot nav{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.foot nav a:hover{color:var(--ink)}
+
+/* ---------- motion: reveal + rules ---------- */
+.js .rv{opacity:0;transform:translate3d(0,14px,0);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--d,0) * 70ms)}
+.js .rv.in{opacity:1;transform:none}
+.js .rule i,.js .steps::before{transform:scaleX(0);transition:transform 1.2s var(--ease)}
+.js .rule.in i,.js .steps.in::before{transform:scaleX(1)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .row{grid-template-columns:1fr;gap:20px}
+  .skills{grid-template-columns:1fr 1fr}
+}
+@media (max-width:899px){
+  :root{--pad:20px;--hdr:56px}
+  .nav{display:none}
+  .hdr .btn{margin-left:auto}
+  .hero{padding-top:64px;padding-bottom:48px;justify-content:flex-start;min-height:0}
+  .hero-meta{margin-bottom:32px}
+  .hero-meta span{display:block}
+  .sep{display:none}
+  .draw text:not(.o),.draw .pt{display:none}
+  .h1{font-size:clamp(44px,12.4vw,76px);letter-spacing:-.04em}
+  .hero-foot{gap:32px;margin-top:40px}
+  .lede{font-size:17px}
+  .draw{inset:auto;left:-260px;top:-12px;width:760px;height:451px}
+  .sec-pad{padding:80px var(--pad)}
+  .sec-head{grid-template-columns:1fr;margin-bottom:48px}
+  .work{width:auto;margin-left:0;--cw:100%}
+  .stick{padding:80px var(--pad) 32px}
+  .track{flex-direction:column;width:auto;padding:0;gap:56px}
+  .intro{width:auto}
+  .hint{display:none}
+  .card-body{grid-template-columns:1fr}
+  .card h3{font-size:28px}
+  .svc{grid-template-columns:1fr}
+  .svc li,.svc li:nth-child(even){padding:40px 0;border-left:0}
+  .steps{grid-template-columns:1fr;gap:0}
+  .steps::before{left:4px;right:auto;top:0;bottom:0;width:1px;height:auto;transform-origin:50% 0}
+  .js .steps::before{transform:scaleY(0)}
+  .js .steps.in::before{transform:scaleY(1)}
+  .steps li{padding:0 0 40px 40px}
+  .steps .h3{margin-top:8px}
+  .bio{margin-bottom:56px}
+  .list > li{grid-template-columns:1fr;gap:4px}
+  .proj{grid-template-columns:1fr}
+  .proj li:nth-child(2){padding-top:20px}
+  .skills{grid-template-columns:1fr;gap:24px}
+  .certs li{grid-template-columns:1fr;gap:2px}
+  .faq-grid{grid-template-columns:1fr;gap:24px}
+  .faq summary{font-size:18px}
+  .faq details p{padding-right:0}
+  .contact-h{margin-bottom:48px}
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+  form{grid-template-columns:1fr;padding:24px}
+  .foot{grid-template-columns:1fr;gap:20px}
+  .foot nav{justify-content:flex-start}
+}
+@media (max-width:420px){.hdr .btn span.long{display:none}}
+
+/* ---------- reduced motion: everything static and visible ---------- */
+@media (prefers-reduced-motion:reduce){
+  .js .rv,.js .rv.in{opacity:1;transform:none;transition:none}
+  .js .rule i,.js .steps::before{transform:none;transition:none}
+  .js .draw .ln{animation:none;stroke-dasharray:none;stroke-dashoffset:0}
+  .js .draw .lbl{animation:none;opacity:1}
+  .faq summary .icon{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="frame-lines" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+</svg>
+
+<header class="hdr">
+  <div class="frame hdr-in">
+    <a class="brand" href="#top" aria-label="Aditya Mer, home"><img src="../assets/logo.png" alt="" width="28" height="28">Aditya Mer</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="#contact">Start a project</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="frame">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="h1">
+    <svg class="draw" viewBox="60 0 1280 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <!-- construction: circle, inner circle, arc, centre lines -->
+      <circle class="ln" pathLength="1" style="--i:0" cx="930" cy="340" r="270"/>
+      <circle class="ln soft" pathLength="1" style="--i:2" cx="930" cy="340" r="150"/>
+      <path class="ln soft" pathLength="1" style="--i:3" d="M 552 262 A 388 388 0 0 1 1180 44"/>
+      <path class="ln soft" pathLength="1" style="--i:1" d="M 600 340 H 1272"/>
+      <path class="ln soft" pathLength="1" style="--i:1" d="M 930 20 V 700"/>
+      <path class="ln" pathLength="1" style="--i:4" d="M 930 340 L 1151 185"/>
+      <!-- top dimension: across the diameter -->
+      <path class="ln soft" pathLength="1" style="--i:5" d="M 660 340 V 46 M 1200 340 V 46"/>
+      <path class="ln" pathLength="1" style="--i:6" d="M 660 56 H 860 M 1000 56 H 1200 M 660 50 V 62 M 1200 50 V 62 M 668 52 L 660 56 L 668 60 M 1192 52 L 1200 56 L 1192 60"/>
+      <!-- right dimension: vertical -->
+      <path class="ln soft" pathLength="1" style="--i:5" d="M 930 70 H 1252 M 930 610 H 1252"/>
+      <path class="ln" pathLength="1" style="--i:7" d="M 1240 70 V 610 M 1234 70 H 1246 M 1234 610 H 1246"/>
+      <!-- bottom ruler: years -->
+      <path class="ln" pathLength="1" style="--i:8" d="M 660 652 H 1200"/>
+      <path class="ln soft" pathLength="1" style="--i:9" d="M 660 644 V 660 M 768 644 V 660 M 876 644 V 660 M 984 644 V 660 M 1092 644 V 660 M 1200 644 V 660 M 687 648 V 656 M 714 648 V 656 M 741 648 V 656 M 795 648 V 656 M 822 648 V 656 M 849 648 V 656 M 903 648 V 656 M 930 648 V 656 M 957 648 V 656 M 1011 648 V 656 M 1038 648 V 656 M 1065 648 V 656 M 1119 648 V 656 M 1146 648 V 656 M 1173 648 V 656"/>
+      <g class="lbl">
+        <text class="o big" x="930" y="60" text-anchor="middle">2021 → 2026</text>
+        <text x="930" y="34" text-anchor="middle">B.Tech, internships, client work</text>
+        <text class="o big" x="1228" y="340" text-anchor="middle" transform="rotate(-90 1228 340)" dy="-6">6,000+</text>
+        <text x="1210" y="340" text-anchor="middle" transform="rotate(-90 1210 340)" dy="-6">FastWrite · PyPI · month one</text>
+        <circle class="pt" cx="930" cy="340" r="2.5"/>
+        <text x="1150" y="328" text-anchor="end">19.07° N, 72.88° E</text>
+        <circle class="pt" cx="1151" cy="185" r="2.5"/>
+        <text x="1004" y="172">[ iascc.in ]</text>
+        <circle class="pt" cx="803" cy="578" r="2.5"/>
+        <text x="816" y="604">[ sendflier.tech ]</text>
+        <text x="660" y="680" text-anchor="middle">21</text><text x="768" y="680" text-anchor="middle">22</text><text x="876" y="680" text-anchor="middle">23</text><text x="984" y="680" text-anchor="middle">24</text><text x="1092" y="680" text-anchor="middle">25</text><text x="1200" y="680" text-anchor="middle">26</text>
+      </g>
+    </svg>
+
+    <p class="hero-meta mono">Aditya Mer, independent developer<span class="faint"><i class="sep"> · </i>Mumbai, India · clients anywhere</span></p>
+    <h1 class="h1" id="h1">Websites, online stores and internal tools for organisations and small businesses</h1>
+    <div class="hero-foot">
+      <p class="lede">I design and build the whole thing, then hand it over so your team can run it. Recent work includes the site and CMS for <strong>IASCC</strong>, a cancer-care nonprofit, and a jewellery store that ships across India. I add AI where it saves time, and say so when it doesn't.</p>
+      <div>
+        <div class="actions">
+          <a class="btn btn-ink" href="#contact">Start a project <svg class="icon"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-line" href="#work">See the work</a>
+          <p class="avail mono"><span class="dot" aria-hidden="true"></span>Taking on new projects</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="sec work" id="work" aria-labelledby="work-h">
+    <div class="rule"><i></i></div>
+    <div class="pin">
+      <div class="stick">
+        <div class="track">
+          <div class="intro">
+            <div>
+              <h2 class="h2" id="work-h"><b>.</b>work</h2>
+              <p>Two client builds, one product of my own and one private tool. Each was designed and built by me, from the first call to launch.</p>
+            </div>
+            <p class="hint mono">Keep scrolling <svg class="icon"><use href="#i-arrow"/></svg></p>
+          </div>
+
+          <article class="card">
+            <a class="shot" href="https://iascc.in" target="_blank" rel="noopener"><img src="../assets/iascc.webp" alt="IASCC website home page" width="1600" height="1000" loading="lazy" decoding="async"></a>
+            <div class="card-body">
+              <div class="card-top mono"><span>01 / 04</span><span>Cancer-care nonprofit · 2025</span></div>
+              <div><h3>IASCC</h3><p class="kind">Website and custom CMS</p></div>
+              <a class="go" href="https://iascc.in" target="_blank" rel="noopener">iascc.in <svg class="icon"><use href="#i-out"/></svg></a>
+              <p class="sum">India's national affiliate of MASCC. I designed and built the site from scratch, with a CMS the team uses to publish events, news, newsletters and research grants themselves.</p>
+              <p class="scope mono"><span>Design and build</span><span>Custom CMS</span><span>Membership and contact pages</span></p>
+            </div>
+          </article>
+
+          <article class="card">
+            <a class="shot" href="https://www.youniqueindia.co.in" target="_blank" rel="noopener"><img src="../assets/younique.webp" alt="Younique India online store home page" width="1600" height="1000" loading="lazy" decoding="async"></a>
+            <div class="card-body">
+              <div class="card-top mono"><span>02 / 04</span><span>Jewellery retail</span></div>
+              <div><h3>Younique India</h3><p class="kind">Online store</p></div>
+              <a class="go" href="https://www.youniqueindia.co.in" target="_blank" rel="noopener">youniqueindia.co.in <svg class="icon"><use href="#i-out"/></svg></a>
+              <p class="sum">A storefront for an 18k gold-plated, anti-tarnish jewellery brand that ships across India, with search, collections, customer sign-in and order tracking.</p>
+              <p class="scope mono"><span>Storefront design</span><span>Catalogue and collections</span><span>Accounts and order tracking</span></p>
+            </div>
+          </article>
+
+          <article class="card">
+            <a class="shot" href="https://sendflier.tech" target="_blank" rel="noopener"><img src="../assets/flier.webp" alt="Flier mail-merge app" width="1600" height="1000" loading="lazy" decoding="async"></a>
+            <div class="card-body">
+              <div class="card-top mono"><span>03 / 04</span><span>Own product · open source</span></div>
+              <div><h3>Flier</h3><p class="kind">Mail merge from your own Gmail</p></div>
+              <a class="go" href="https://sendflier.tech" target="_blank" rel="noopener">sendflier.tech <svg class="icon"><use href="#i-out"/></svg></a>
+              <p class="sum">Upload a spreadsheet, write one message with {{variables}}, and every recipient gets a personal email sent from your Gmail through the official API. Live progress, scheduled sends, open and click tracking.</p>
+              <p class="note"><span class="dot" aria-hidden="true"></span>In use at Tata Memorial Hospital</p>
+              <p class="scope mono"><span>Next.js</span><span>TypeScript</span><span>Gmail API</span><span>Google OAuth</span><a href="https://github.com/Aditya190803/EchoMail" target="_blank" rel="noopener" style="border-bottom:1px solid var(--line-2)">Source on GitHub</a></p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="shot private" role="img" aria-label="Private project, no screenshot">
+              <svg viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true">
+                <path class="ln" d="M0 0 L800 500 M800 0 L0 500"/>
+                <rect class="ln" x="40" y="40" width="720" height="420"/>
+                <path class="ln" d="M40 100 H760 M200 100 V460"/>
+              </svg>
+              <span class="mono faint"><svg class="icon" style="width:12px;height:12px;vertical-align:-1px;margin-right:6px"><use href="#i-lock"/></svg>Private · details on a call</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top mono"><span>04 / 04</span><span>Private project</span></div>
+              <div><h3>Theska</h3><p class="kind">Internal software</p></div>
+              <a class="go" href="#contact">Ask about it <svg class="icon"><use href="#i-arrow"/></svg></a>
+              <p class="sum">Internal software built for the company's own team. The project is private, so I share the details on a call rather than here.</p>
+              <p class="scope mono"><span>Internal tool</span><span>Built to the team's workflow</span></p>
+            </div>
+          </article>
+        </div>
+        <div class="progress" aria-hidden="true"><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="sec sec-pad" id="services" aria-labelledby="svc-h">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <div class="sec-head">
+      <div><h2 class="h2 rv" id="svc-h"><b>.</b>services</h2><p class="sec-sub rv" style="--d:1">Four kinds of work, each quoted as a fixed project.</p></div>
+    </div>
+    <ul class="svc">
+      <li class="rv"><span class="mono faint">Websites</span><h3 class="h3">Websites for organisations and firms</h3><p>A site that explains what you do in seconds, looks credible to the people you want to reach, and that your team can update without calling me.</p><div class="inc mono"><span>Design and page structure</span><span>A CMS your team can edit</span><span>SEO and analytics</span><span>Hosting and launch</span></div></li>
+      <li class="rv" style="--d:1"><span class="mono faint">Stores</span><h3 class="h3">Online stores</h3><p>Product pages that sell, a checkout that stays out of the way, and an admin that matches how you actually run the shop.</p><div class="inc mono"><span>Catalogue and checkout</span><span>Payments and shipping</span><span>Orders and stock admin</span><span>Mobile-first design</span></div></li>
+      <li class="rv"><span class="mono faint">Apps</span><h3 class="h3">Web apps and internal tools</h3><p>When spreadsheets and copy-pasting slow your team down, I build the tool that replaces them, the way Flier replaced manual email.</p><div class="inc mono"><span>Dashboards and portals</span><span>Logins, roles and permissions</span><span>Google, payment and CRM integrations</span><span>Automated tests</span></div></li>
+      <li class="rv" style="--d:1"><span class="mono faint">AI and data</span><h3 class="h3">AI and data work</h3><p>Assistants that answer from your own documents, data pulled out of PDFs and forms, and dashboards built on data you already have. I'll tell you plainly when AI isn't the answer.</p><div class="inc mono"><span>Chat over your documents</span><span>Document and form processing</span><span>ML models and evaluation</span><span>Dashboards and reports</span></div></li>
+    </ul>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="sec sec-pad" id="process" aria-labelledby="proc-h">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <div class="sec-head">
+      <div><h2 class="h2 rv" id="proc-h"><b>.</b>process</h2><p class="sec-sub rv" style="--d:1">You know the scope and the price before any work starts.</p></div>
+    </div>
+    <ol class="steps">
+      <li class="rv"><span class="mono faint">Step 1 · free</span><h3 class="h3">A short call</h3><p>We talk through what you need, who it's for and what a good result looks like. No cost and no obligation.</p></li>
+      <li class="rv" style="--d:1"><span class="mono faint">Step 2</span><h3 class="h3">A written proposal</h3><p>You get the scope, milestones, timeline and a fixed quote in writing before any work starts.</p></li>
+      <li class="rv" style="--d:2"><span class="mono faint">Step 3 · weekly</span><h3 class="h3">Build on a preview link</h3><p>I design the key screens first, then build in small steps on a private link, so you see progress every week.</p></li>
+      <li class="rv" style="--d:3"><span class="mono faint">Step 4</span><h3 class="h3">Launch and handover</h3><p>I launch, show your team how to update everything, and stay on hand for fixes and new features.</p></li>
+    </ol>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="sec sec-pad" id="about" aria-labelledby="about-h">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <div class="sec-head">
+      <h2 class="h2 rv" id="about-h"><b>.</b>about</h2>
+    </div>
+    <p class="bio rv">I'm a full-stack developer and ML engineer. I design and ship websites, online stores and web apps for organisations and businesses, <span>and my applied AI research is published at IEEE and Taylor &amp; Francis.</span></p>
+
+    <div class="row rv">
+      <h3 class="mono">Experience</h3>
+      <ol class="list">
+        <li><span class="mono when">Jun – Sep 2025</span><div><h4>Web Developer Intern, IASCC</h4><p>Designed and built IASCC's main website from scratch, with a custom CMS for blogs, newsletters and research publications.</p><p class="mono sub">Hybrid</p></div></li>
+        <li><span class="mono when">May 2023 – May 2025</span><div><h4>Research Intern, Society for Data Science</h4><p>Researched how misinformation spreads, analysed 21,000+ news articles, built ColBERT and SVM detection models, and contributed to an IEEE conference paper.</p><p class="mono sub">Mumbai, India</p></div></li>
+        <li><span class="mono when">Sep – Dec 2023</span><div><h4>Software Development Intern, YANISA Execution Pvt Ltd</h4><p>Built web applications, including a no-code CRM for client management.</p><p class="mono sub">Mumbai, India</p></div></li>
+        <li><span class="mono when">Jul 2023</span><div><h4>Data Science and ML Intern, YBI Foundation</h4><p>ML models in Python, TensorFlow and PyTorch, with preprocessing pipelines for large datasets.</p><p class="mono sub">Remote</p></div></li>
+        <li><span class="mono when">Dec 2022 – Jan 2023</span><div><h4>Azure, Java and Web Development Intern, Claidroid Technologies</h4><p>Built a library management app on Azure App Services.</p><p class="mono sub">Mumbai, India</p></div></li>
+      </ol>
+    </div>
+
+    <div class="row rv">
+      <h3 class="mono">Education</h3>
+      <ol class="list">
+        <li><span class="mono when">2021 – 2025</span><div><h4>B.Tech in Artificial Intelligence and Data Science</h4><p>K. J. Somaiya Institute of Technology, Mumbai</p></div></li>
+        <li><span class="mono when">2019 – 2021</span><div><h4>HSC</h4><p>Jai Hind College, Mumbai</p></div></li>
+        <li><span class="mono when">2009 – 2019</span><div><h4>SSC</h4><p>Chandaramji High School</p></div></li>
+      </ol>
+    </div>
+
+    <div class="row rv">
+      <h3 class="mono">Published research</h3>
+      <ol class="list">
+        <li class="paper"><span class="mono when">IEEE · 2024</span><div><h4><a href="https://ieeexplore.ieee.org/document/10752132" target="_blank" rel="noopener">Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media</a></h4><p>IEEE Region 10 Symposium (TENSYMP), 2024. A structured dataset of fact-checked news claims for benchmarking misinformation detection.</p><p class="mono sub">O. Bhanushali, A. Mer, R. Giridhar, B. Somaiya, A. Manasia, S. Singh</p></div></li>
+        <li class="paper"><span class="mono when">CRC Press · 2025</span><div><h4><a href="https://www.taylorfrancis.com/chapters/edit/10.1201/9781003774679-63/fastwrite-automation-code-documentation-rishikesh-giridhar-sravan-kotta-aditya-mer-oam-bhanushali-sejal-shah" target="_blank" rel="noopener">FastWrite: Automation in Code Documentation</a></h4><p>Book chapter, Taylor &amp; Francis (CRC Press), 2025. Automated code documentation across several LLM providers.</p><p class="mono sub">R. Giridhar, S. Kotta, A. Mer, O. Bhanushali</p></div></li>
+      </ol>
+    </div>
+
+    <div class="row rv">
+      <h3 class="mono">Open source and side projects</h3>
+      <ul class="proj">
+        <li><div class="t"><h4>FastWrite</h4><span class="mono faint">Python · PyPI</span></div><p>Generates code documentation with LLMs (OpenAI, Groq, Gemini), with BLEU scoring to check quality.</p><p class="mono stat"><span class="dot" aria-hidden="true"></span>6,000+ PyPI downloads in its first month</p><div class="links mono"><a href="https://pypi.org/project/FastWrite/" target="_blank" rel="noopener">PyPI</a><a href="https://github.com/R-G-KJSIT/FastWrite" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>ATS System</h4><span class="mono faint">Gemini · Streamlit</span></div><p>Scores a résumé against a job description, finds skill gaps and checks ATS compatibility.</p><div class="links mono"><a href="https://ats.adityamer.dev/" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/ATS-System" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>Verify News</h4><span class="mono faint">React · Gemini</span></div><p>Checks text, images, audio and video for misinformation, with real-time fact-checking.</p><div class="links mono"><a href="https://verify-news.adityamer.dev" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/Verify-News" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>AI Research Agent</h4><span class="mono faint">CrewAI · Python</span></div><p>An agent that runs literature reviews, synthesises findings and writes research summaries.</p><div class="links mono"><a href="https://ai-research-agent.adityamer.dev" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/AI-Research-Agent" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>Chat with PDF</h4><span class="mono faint">RAG · Langchain</span></div><p>Ask questions of a PDF in plain language, answered from the document itself.</p><div class="links mono"><a href="https://adityamer.dev/Chat-with-PDF/" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/Chat-with-PDF" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>Mini App Factory</h4><span class="mono faint">GenAI · Web</span></div><p>Generates small static sites and apps from a prompt or a starting template.</p><div class="links mono"><a href="https://mini-app-factory.adityamer.dev" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/mini-app-factory" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>EchoMail</h4><span class="mono faint">Next.js · Gmail API</span></div><p>The open-source version of Flier: personalised bulk email from a CSV, sent through Gmail.</p><div class="links mono"><a href="https://echomail.adityamer.dev" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/EchoMail" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>Chat with Website</h4><span class="mono faint">RAG · ChatGroq</span></div><p>Scrapes a website and answers questions about its pages.</p><div class="links mono"><a href="https://adityamer.dev/Chat-with-Website" target="_blank" rel="noopener">Live</a><a href="https://github.com/aditya190803/Chat-with-Website" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>OSFM-Net</h4><span class="mono faint">Python · Networking</span></div><p>Server and client modes for managing machines on a network: remote desktop and app installs via Winget.</p><div class="links mono"><a href="https://pypi.org/project/osfm/" target="_blank" rel="noopener">PyPI</a><a href="https://github.com/Aditya190803/osfm/tree/osfm-net" target="_blank" rel="noopener">Code</a></div></li>
+        <li><div class="t"><h4>Handwritten Digit Recognition</h4><span class="mono faint">TensorFlow</span></div><p>Draw a digit on a canvas and a trained model reads it in real time.</p><div class="links mono"><a href="https://adityamer.dev/Handwritten-Digit-Recognition/" target="_blank" rel="noopener">Live</a><a href="https://github.com/Aditya190803/Handwritten-Digit-Recognition" target="_blank" rel="noopener">Code</a></div></li>
+      </ul>
+    </div>
+
+    <div class="row rv">
+      <h3 class="mono">Skills and stack</h3>
+      <div class="skills">
+        <div><h4>Web development</h4><p>React, Next.js, Node.js, Streamlit, Tailwind CSS, REST APIs, GraphQL</p></div>
+        <div><h4>Languages</h4><p>Python, JavaScript, TypeScript, C++, Java, SQL, HTML/CSS</p></div>
+        <div><h4>Generative AI</h4><p>LLMs, RAG, prompt engineering, Langchain, CrewAI, Transformers, fine-tuning, NLP</p></div>
+        <div><h4>Machine learning</h4><p>TensorFlow, PyTorch, scikit-learn, Keras, PyTorch Lightning, Pandas, NumPy, computer vision, GANs</p></div>
+        <div><h4>Cloud and DevOps</h4><p>Azure, AWS, GCP, Docker, Kubernetes, Git, CI/CD</p></div>
+        <div><h4>Data and tools</h4><p>PostgreSQL, NoSQL, Apache Spark, statistical modelling, time series analysis, Linux</p></div>
+      </div>
+    </div>
+
+    <div class="row rv">
+      <h3 class="mono">Certifications</h3>
+      <ul class="certs">
+        <li><a href="https://www.coursera.org/account/accomplishments/specialization/QKTOLUC5EZ7J" target="_blank" rel="noopener">Large Language Models Specialization</a><span class="muted">H2O.ai</span><span class="mono faint">Jul 2025</span></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/specialization/Z93W2EAHBXFE" target="_blank" rel="noopener">Natural Language Processing</a><span class="muted">Stanford University</span><span class="mono faint">Jan 2025</span></li>
+        <li><span>OCI 2024 Generative AI Certified Professional</span><span class="muted">Oracle</span><span class="mono faint">Jun 2024</span></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A" target="_blank" rel="noopener">Machine Learning Specialization</a><span class="muted">Stanford University</span><span class="mono faint">Apr 2024</span></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/verify/W993KKKHASNW" target="_blank" rel="noopener">Introduction to Web Development</a><span class="muted">Meta</span><span class="mono faint">Oct 2022</span></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/verify/G4E3EE6UKMAX" target="_blank" rel="noopener">Programming with JavaScript</a><span class="muted">Meta</span><span class="mono faint">Oct 2022</span></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9" target="_blank" rel="noopener">Version Control</a><span class="muted">Meta</span><span class="mono faint">Oct 2022</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec sec-pad" id="faq" aria-labelledby="faq-h">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <div class="faq-grid">
+      <div><h2 class="h2 rv" id="faq-h"><b>.</b>faq</h2><p class="sec-sub rv" style="--d:1">Something else on your mind? Ask it on the first call.</p></div>
+      <div class="faq rv">
+        <details><summary>How do you price a project?<svg class="icon"><use href="#i-plus"/></svg></summary><p>Each project gets a fixed quote based on its scope. After our call I send a written proposal with deliverables, timeline and price, so you know the full cost first.</p></details>
+        <details><summary>Can my team update the site after launch?<svg class="icon"><use href="#i-plus"/></svg></summary><p>Yes. Content you change often, such as news, events, products or team members, gets an editor, and I walk your team through it.</p></details>
+        <details><summary>Do you work with clients outside Mumbai?<svg class="icon"><use href="#i-plus"/></svg></summary><p>Yes. The work happens over calls and shared preview links, so I work with clients anywhere and overlap with your hours for calls.</p></details>
+        <details><summary>Who owns the code and the data?<svg class="icon"><use href="#i-plus"/></svg></summary><p>You do. Your data stays yours throughout, and once the project is delivered and paid for, the code and documentation are yours too.</p></details>
+        <details><summary>Will you sign an NDA?<svg class="icon"><use href="#i-plus"/></svg></summary><p>Yes. I'm happy to sign one before you share details about your product, data or business.</p></details>
+        <details><summary>Do you look after the site once it's live?<svg class="icon"><use href="#i-plus"/></svg></summary><p>If you'd like me to. I can handle hosting, updates, backups and small changes each month, or hand everything over to your team.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="sec sec-pad" id="contact" aria-labelledby="contact-h">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <h2 class="contact-h rv" id="contact-h">Let's work together</h2>
+    <div class="contact-grid">
+      <div class="contact-side rv">
+        <p class="mono faint" style="margin:0 0 12px">Email</p>
+        <div class="mail">
+          <a href="mailto:adityamer.work@gmail.com" id="email">adityamer.work@gmail.com</a>
+          <button class="copy mono" type="button" id="copy" aria-live="polite"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+        <p>Tell me what you're planning and who it's for. I'll reply to set up a short call, then send a written proposal with a fixed quote.</p>
+        <p class="avail mono"><span class="dot" aria-hidden="true"></span>Taking on new projects · Mumbai, India</p>
+        <div class="elsewhere mono">
+          <a href="https://github.com/aditya190803" target="_blank" rel="noopener"><svg class="icon"><use href="#i-out"/></svg>GitHub</a>
+          <a href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener"><svg class="icon"><use href="#i-out"/></svg>LinkedIn</a>
+          <a href="/resume"><svg class="icon"><use href="#i-out"/></svg>Résumé</a>
+        </div>
+      </div>
+      <form class="rv" style="--d:1" id="form" novalidate>
+        <div class="f"><label class="mono" for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="f"><label class="mono" for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="f full"><label class="mono" for="f-type">Project type</label>
+          <select id="f-type" name="type">
+            <option>Website for an organisation or firm</option>
+            <option>Online store</option>
+            <option>Web app or internal tool</option>
+            <option>AI and data work</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="f full"><label class="mono" for="f-msg">Message</label><textarea id="f-msg" name="message" rows="4" placeholder="What you need, who it's for, and any dates"></textarea></div>
+        <div class="form-foot">
+          <span class="mono" id="form-note">Opens in your email app</span>
+          <button class="btn btn-ink" type="submit">Start a project <svg class="icon"><use href="#i-arrow"/></svg></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="sec foot">
+    <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
+    <a class="brand" href="#top"><img src="../assets/logo.png" alt="" width="28" height="28" loading="lazy">Aditya Mer</a>
+    <nav aria-label="Footer"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="https://sendflier.tech" target="_blank" rel="noopener">Flier</a><a href="https://github.com/aditya190803" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener">LinkedIn</a></nav>
+    <span class="mono faint">© 2026 · Mumbai, India</span>
+  </footer>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv,.rule,.steps');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function(e){ io.observe(e); });
+  }
+
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function(){
+    var label = copy.querySelector('span'), use = copy.querySelector('use');
+    var done = function(){
+      label.textContent = 'Copied'; use.setAttribute('href', '#i-check');
+      setTimeout(function(){ label.textContent = 'Copy'; use.setAttribute('href', '#i-copy'); }, 1800);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText('adityamer.work@gmail.com').then(done, done); else done();
+  });
+
+  document.getElementById('form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var f = ev.target.elements;
+    var body = 'Name: ' + f['name'].value + '\nEmail: ' + f.email.value + '\nProject type: ' + f.type.value + '\n\n' + f.message.value;
+    location.href = 'mailto:adityamer.work@gmail.com?subject=' + encodeURIComponent('New project: ' + f.type.value) + '&body=' + encodeURIComponent(body);
+  });
+})();
+</script>
+</body>
+</html>
