@@ -71,8 +71,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0)}
 
 /* ---------- hero ---------- */
-.hero{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:72px var(--pad) 56px;position:relative;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+.hero-band{position:relative;isolation:isolate;padding-bottom:48px}
+.hero-band::before{content:"";position:absolute;inset:0;z-index:-1;
   background-image:
     radial-gradient(circle at 48px 48px, rgba(20,20,20,.16) 1px, transparent 1.5px),
     linear-gradient(var(--line) 1px, transparent 1px),
@@ -81,28 +81,28 @@ button,input,select,textarea{font:inherit;color:inherit}
   -webkit-mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 100%);
           mask-image:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 100%);
   opacity:.55}
-.hero-l{grid-column:1/span 8}
-.hero-r{grid-column:9/span 4;align-self:end;display:flex;flex-direction:column;gap:24px}
-.kicker{display:flex;flex-wrap:wrap;gap:4px 16px;margin-bottom:24px}
-h1{font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.04;letter-spacing:-.03em;max-width:15ch;text-wrap:balance}
-.lede{font-size:17px;color:var(--ink-2);max-width:40ch}
-.lede strong{font-weight:500;color:var(--ink)}
-.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px 48px;flex-wrap:wrap;padding:44px var(--pad) 32px}
+h1{font-weight:500;font-size:clamp(38px,4.4vw,58px);line-height:1.04;letter-spacing:-.03em;text-wrap:balance}
+.sub{margin-top:12px;font-size:18px;color:var(--ink-2)}
+.ctas{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding-bottom:2px}
+.see{display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:15px;text-decoration:none;color:var(--ink);padding:8px 0}
+.see:hover{color:var(--accent-ink)}
+.see .ico{transition:transform .2s var(--ease)}
+.see:hover .ico{transform:translateY(2px)}
 .avail{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
 .avail i{width:8px;height:8px;border-radius:50%;background:#2f8f4e;flex:none}
-.coords{position:absolute;font-family:var(--mono);font-size:11px;color:var(--ink-3);opacity:.85}
-.coords.tr{top:16px;right:20px}.coords.br{bottom:16px;right:20px}
 
-.shot-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;height:44px;padding:0 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.win{margin:0 var(--pad);border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:#fff}
+.shot-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;height:40px;padding:0 16px;border-bottom:1px solid var(--line)}
 .shot-bar .mono b{font-weight:500;color:var(--ink)}
+.tag::before{content:"[ "}.tag::after{content:" ]"}
 .readout{font-variant-numeric:tabular-nums;min-width:15ch;text-align:right}
-.readout em{font-style:normal;color:var(--accent-ink)}
-.shot{position:relative;aspect-ratio:2/1;overflow:hidden;background:#fff}
+.readout .arr::before{content:"\2192";font-style:normal;color:var(--accent-ink);margin:0 .6ch}
+.shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#fff}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
 .shot canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s var(--ease)}
 .shot.ready canvas{opacity:1}
 .shot.lens{cursor:crosshair}
-.shot-foot{display:flex;justify-content:space-between;gap:16px;padding:12px 20px;border-top:1px solid var(--line)}
 
 /* ---------- sections ---------- */
 .sec-head{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:72px var(--pad) 40px;align-items:end}
@@ -284,15 +284,13 @@ footer .links a:hover{color:var(--ink)}
   .js .rule{transform:none;transition:none;animation:none}
   .progress{display:none}
   .shot canvas{transition:none}
-  .case-img img,.go .ico{transition:none}
+  .case-img img,.go .ico,.see .ico{transition:none}
 }
 
 /* ---------- responsive ---------- */
 @media (max-width:1080px){
   :root{--pad:32px}
   .nav a{padding:8px 8px}
-  .hero-l{grid-column:1/-1}
-  .hero-r{grid-column:1/-1;margin-top:32px;max-width:560px}
   .case-img{grid-column:span 7}.case-info{grid-column:span 5}
   .step{grid-column:span 6}
   .step:nth-child(2n){border-right:0}
@@ -305,16 +303,15 @@ footer .links a:hover{color:var(--ink)}
   .top-in{padding:0 16px;gap:12px;height:56px}
   .nav{display:none}
   .top .btn{margin-left:auto;height:36px;padding:0 12px;font-size:14px}
-  .hero{padding:40px var(--pad) 32px;display:block}
-  .hero::before{display:none}
-  .coords{display:none}
-  h1{font-size:36px}
-  .lede{font-size:16px}
-  .hero-r{margin-top:24px;gap:20px}
+  .hero-band{padding-bottom:24px}
+  .hero-band::before{display:none}
+  .hero{display:block;padding:28px var(--pad) 24px}
+  h1{font-size:38px;max-width:11ch}
+  .sub{font-size:16px;max-width:30ch}
+  .ctas{margin-top:20px}
+  .win{margin:0 var(--pad)}
   .shot{aspect-ratio:4/5}
-  .shot-bar{padding:0 16px;height:40px}
-  .shot-bar .hide-s{display:none}
-  .shot-foot{padding:12px 16px;flex-direction:column;gap:4px}
+  .shot-bar{padding:0 12px;height:36px}
   .sec-head{display:block;padding:56px var(--pad) 28px}
   .sec-intro{margin-top:16px}
   .cell,.case-info,.private .a,.private .b{padding:24px 16px}
@@ -385,35 +382,28 @@ footer .links a:hover{color:var(--ink)}
 <!-- HERO -->
 <section class="band hero-band" aria-labelledby="h1">
   <div class="hero">
-    <span class="coords tr" aria-hidden="true">[ 19.07° N, 72.87° E ]</span>
-    <div class="hero-l">
-      <p class="kicker mono"><span>[ freelance ]</span><span>web and AI developer, Mumbai</span></p>
-      <h1 id="h1">Websites, online stores and web apps, with AI where it saves time</h1>
+    <div class="hero-t">
+      <h1 id="h1">I build what your team runs</h1>
+      <p class="sub">Websites, stores and internal tools. Freelance, from Mumbai.</p>
     </div>
-    <div class="hero-r">
-      <p class="lede">I design and build for organisations and small businesses, in Mumbai and anywhere else. Most recently the <strong>IASCC</strong> website and CMS, the <strong>Younique India</strong> store, and <strong>Flier</strong>, my mail-merge app.</p>
-      <div class="ctas">
-        <a class="btn btn-p" href="#contact">Start a project</a>
-        <a class="btn btn-s" href="#work">See the work</a>
-      </div>
-      <p class="avail"><i aria-hidden="true"></i>Taking on new projects</p>
+    <div class="ctas">
+      <a class="btn btn-p" href="#contact">Start a project</a>
+      <a class="see" href="#work">See the work<svg class="ico"><use href="#i-down"/></svg></a>
     </div>
   </div>
 
-  <div class="shot-bar">
-    <span class="mono"><b>[ iascc.in ]</b><span class="hide-s">&nbsp; website and custom CMS, 2025</span></span>
-    <span class="mono readout" aria-hidden="true">source <em>&rarr;</em> site <span id="pct">0%</span></span>
-  </div>
-  <figure class="shot" id="shot">
-    <picture>
-      <source media="(max-width: 720px)" srcset="../assets/iascc-mobile.webp" width="560" height="1211">
-      <img src="../assets/iascc.webp" width="1600" height="1000" alt="The IASCC home page: Integrated Association of Supportive Care in Cancer, with Join IASCC and Upcoming Events buttons" fetchpriority="high" decoding="async">
-    </picture>
-    <canvas aria-hidden="true"></canvas>
-  </figure>
-  <div class="shot-foot">
-    <span class="mono">Drawn from the live iascc.in page in code glyphs <span class="code">. : / = &lt; &gt; { } #</span></span>
-    <span class="mono" id="hint">Scroll, or point at it, to see the site</span>
+  <div class="win">
+    <div class="shot-bar">
+      <span class="mono tag"><b>iascc.in</b></span>
+      <span class="mono readout">source<i class="arr" aria-hidden="true"></i>site <span id="pct">40%</span></span>
+    </div>
+    <figure class="shot" id="shot">
+      <picture>
+        <source media="(max-width: 720px)" srcset="../assets/iascc-mobile.webp" width="560" height="1211">
+        <img src="../assets/iascc.webp" width="1600" height="1000" alt="The IASCC home page I built, drawn in code glyphs that resolve into the real site as you scroll" fetchpriority="high" decoding="async">
+      </picture>
+      <canvas aria-hidden="true"></canvas>
+    </figure>
   </div>
 </section>
 
@@ -422,7 +412,7 @@ footer .links a:hover{color:var(--ink)}
   <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
   <div class="sec-head">
     <h2 class="sec-title" id="work-h" data-r><span class="d">.</span>work</h2>
-    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ 3 client projects, 1 product ]</span>Sites and software that people use every day, built from scratch and handed over so the team can run them.</p>
+    <p class="sec-intro" data-r style="--i:1"><span class="mono">[ 3 client projects, 1 product ]</span>Sites and software for organisations and small businesses, built from scratch and handed over so the team can run them.</p>
   </div>
 
   <article class="case" aria-labelledby="c-iascc">
@@ -434,7 +424,7 @@ footer .links a:hover{color:var(--ink)}
       <h3 id="c-iascc">IASCC</h3>
       <p class="sum">India's national affiliate of MASCC. I designed and built the site from scratch, with a CMS the team uses to publish events, news, newsletters and research grants themselves.</p>
       <ul class="scope"><li>Design and build</li><li>Custom CMS</li><li>Membership and contact pages</li></ul>
-      <dl class="meta"><dt>sector</dt><dd>Cancer-care nonprofit</dd><dt>year</dt><dd>2025</dd></dl>
+      <dl class="meta"><dt>sector</dt><dd>Cancer-care nonprofit</dd><dt>year</dt><dd>2025</dd><dt>above</dt><dd>The hero picture is this page, drawn in the glyphs <span class="code">. : / = &lt; &gt; { } #</span></dd></dl>
       <a class="go" href="https://iascc.in" target="_blank" rel="noopener">iascc.in <svg class="ico"><use href="#i-arrow"/></svg></a>
     </div>
   </article>
@@ -719,7 +709,7 @@ footer .links a:hover{color:var(--ink)}
 
 <footer class="band">
   <i class="rule"></i><i class="cross l"></i><i class="cross r"></i>
-  <span class="mono">© 2026 Aditya Mer · Mumbai, India</span>
+  <span class="mono">© 2026 Aditya Mer · Mumbai, India · [ 19.07° N, 72.87° E ]</span>
   <span class="links" style="display:flex;gap:20px"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#top">Back to top</a></span>
 </footer>
 </div>
@@ -749,15 +739,15 @@ footer .links a:hover{color:var(--ink)}
   const ALPHAS = [0.22, 0.42, 0.66, 0.92];
 
   // one atlas per cell size: rows 0-3 ink at rising alpha, row 4 orange
-  function atlas(cell, dpr, weight) {
+  function atlas(cell, dpr, weight, alphas = ALPHAS, scale = 0.98) {
     const c = document.createElement('canvas');
     const s = Math.round(cell * dpr);
-    c.width = s * CHARS.length; c.height = s * 5;
+    c.width = s * CHARS.length; c.height = s * 6;
     const g = c.getContext('2d');
-    g.font = `${weight} ${Math.round(cell * 0.98 * dpr)}px "JetBrains Mono", monospace`;
+    g.font = `${weight} ${Math.round(cell * scale * dpr)}px "JetBrains Mono", monospace`;
     g.textAlign = 'center'; g.textBaseline = 'middle';
-    for (let r = 0; r < 5; r++) {
-      g.fillStyle = r < 4 ? `rgba(${INK},${ALPHAS[r]})` : `rgb(${ORANGE})`;
+    for (let r = 0; r < 6; r++) { // row 5: the faint ground dot
+      g.fillStyle = r < 4 ? `rgba(${INK},${alphas[r]})` : r === 4 ? `rgb(${ORANGE})` : `rgba(${INK},.16)`;
       for (let i = 0; i < CHARS.length; i++) g.fillText(CHARS[i], i * s + s / 2, r * s + s / 2 + dpr * 0.5);
     }
     return { c, s };
@@ -821,15 +811,63 @@ footer .links a:hover{color:var(--ink)}
   const fontReady = (document.fonts && document.fonts.load) ? document.fonts.load('500 12px "JetBrains Mono"').catch(() => {}) : Promise.resolve();
 
   /* ---------- hero: code glyphs resolve into the real site ---------- */
+  // denser, darker sampling for the hero: each cell looks at 2x2 sub-samples and
+  // leans on the darkest one, so thin type (nav links, headline, buttons) survives
+  const HERO_ALPHAS = [0.42, 0.64, 0.86, 1];
+  function sampleHero(img, crop, cols, rows) {
+    const c = document.createElement('canvas'); c.width = cols * 2; c.height = rows * 2;
+    const g = c.getContext('2d', { willReadFrequently: true });
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(img, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, cols * 2, rows * 2);
+    const px = g.getImageData(0, 0, cols * 2, rows * 2).data, w = cols * 2;
+    const out = new Int8Array(cols * rows * 2);
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      let sum = 0, max = 0, sat = 0;
+      for (let k = 0; k < 4; k++) {
+        const j = ((y * 2 + (k >> 1)) * w + x * 2 + (k & 1)) * 4;
+        const r = px[j], gr = px[j + 1], b = px[j + 2];
+        const d = 1 - (0.2126 * r + 0.7152 * gr + 0.0722 * b) / 255;
+        const mx = Math.max(r, gr, b), mn = Math.min(r, gr, b);
+        sum += d; if (d > max) { max = d; sat = (mx - mn) / 255; } // chroma, so navy text stays ink
+      }
+      const d = max * 0.65 + (sum / 4) * 0.35, i = y * cols + x;
+      // page ground becomes an even field of faint dots, so the edge reads as one clean line
+      if (d < 0.08) { out[i * 2] = 0; out[i * 2 + 1] = 5; continue; }
+      const k = Math.min(1, (d - 0.08) / 0.45);
+      out[i * 2] = Math.min(CHARS.length - 1, Math.floor(Math.pow(k, 0.6) * CHARS.length));
+      out[i * 2 + 1] = (sat > 0.22 && d > 0.16) ? 4 : d < 0.07 ? 0 : d < 0.2 ? 1 : d < 0.42 ? 2 : 3;
+    }
+    return out;
+  }
+
   const shot = document.getElementById('shot');
   const cv = shot.querySelector('canvas');
   const img = shot.querySelector('img');
   const pctEl = document.getElementById('pct');
-  const hint = document.getElementById('hint');
 
   const PERF = /[?&]perf/.test(location.search) ? (window.__glyph = []) : null;
+  const P0 = 0.4, BAND = 0.07, END = 1 + BAND; // the picture starts 40% resolved
   let st = null;           // state for current size
-  let progress = 0, lens = null, dirty = false, visible = true, lastPct = -1;
+  let progress = P0, lens = null, dirty = false, visible = true, lastPct = -1;
+
+  // u = (x/W + y/H) / 2 runs 0 at the top-left corner to 1 at the bottom-right;
+  // the part of the window where u < c, as a polygon
+  function below(W, H, c) {
+    const P = [[0, 0], [W, 0], [W, H], [0, H]], out = [];
+    const f = (p) => (p[0] / W + p[1] / H) / 2 - c;
+    for (let i = 0; i < 4; i++) {
+      const a = P[i], b = P[(i + 1) % 4], fa = f(a), fb = f(b);
+      if (fa < 0) out.push(a);
+      if ((fa < 0) !== (fb < 0)) { const t = fa / (fa - fb); out.push([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])]); }
+    }
+    return out;
+  }
+  function addPoly(path, pts, k) {
+    if (pts.length < 3) return;
+    path.moveTo(pts[0][0] * k, pts[0][1] * k);
+    for (let i = 1; i < pts.length; i++) path.lineTo(pts[i][0] * k, pts[i][1] * k);
+    path.closePath();
+  }
 
   async function build() {
     const b0 = performance.now();
@@ -837,38 +875,32 @@ footer .links a:hover{color:var(--ink)}
     lastW = W;
     if (!W || !H || !img.naturalWidth) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const small = W < 721;
-    const cellA = small ? 9 : 12, cellB = small ? 5 : 6, block = small ? 36 : 48;
+    const small = W < 600;
+    const cellA = small ? 5 : 7, cellB = small ? 3 : 4;
     const crop = coverTop(img.naturalWidth, img.naturalHeight, W, H);
     const colsA = Math.ceil(W / cellA), rowsA = Math.ceil(H / cellA);
     let dataA;
-    try { dataA = sample(img, crop, colsA, rowsA, { floor: 0.025 }); }
-    catch (e) { shot.classList.add('nocanvas'); return; } // tainted canvas: leave the plain screenshot
-    const AA = atlas(cellA, dpr, 500);
+    try { dataA = sampleHero(img, crop, colsA, rowsA); }
+    catch (e) { shot.classList.add('nocanvas'); pctEl.textContent = '100%'; return; } // tainted canvas: leave the plain screenshot
+    const AA = atlas(cellA, dpr, 500, HERO_ALPHAS, 1.22);
     const token = {};
     st = token;
     const LA = await layer(W, H, dpr, cellA, dataA, AA, colsA, rowsA);
     if (st !== token) return;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    // reveal blocks: top to bottom with a little noise, fixed seed so it is stable
-    const bc = Math.ceil(W / block), br = Math.ceil(H / block);
-    const t = new Float32Array(bc * br);
-    let seed = 7;
-    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-    for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) t[y * bc + x] = (y / br) * 0.62 + rnd() * 0.2;
     if (PERF) window.__build = performance.now() - b0;
-    st = { W, H, dpr, cellA, cellB, block, crop, colsA, rowsA, dataA, AA, LA, LB: null, bc, br, t, live: true };
+    st = { W, H, dpr, cellA, cellB, crop, colsA, rowsA, dataA, AA, LA, LB: null, live: true };
     shot.classList.add('ready');
     dirty = true; schedule();
-    // fine layer (cells shrink) built after first paint, off the critical path
+    // fine layer (the band just ahead of the edge) built after first paint
     const idle = window.requestIdleCallback || ((f) => setTimeout(f, 60));
     const mine = st;
     idle(async () => {
       if (st !== mine) return;
       const colsB = Math.ceil(W / cellB), rowsB = Math.ceil(H / cellB);
-      const dataB = sample(img, crop, colsB, rowsB, { floor: 0.02 });
+      const dataB = sampleHero(img, crop, colsB, rowsB);
       const f0 = performance.now();
-      const LB = await layer(W, H, dpr, cellB, dataB, atlas(cellB, dpr, 400), colsB, rowsB);
+      const LB = await layer(W, H, dpr, cellB, dataB, atlas(cellB, dpr, 500, HERO_ALPHAS, 1.15), colsB, rowsB);
       if (st !== mine) return;
       mine.LB = LB;
       if (PERF) window.__buildFine = performance.now() - f0;
@@ -876,42 +908,33 @@ footer .links a:hover{color:var(--ink)}
     });
   }
 
-  const W_BAND = 0.16; // how long a block spends as fine glyphs
-  function blockState(i, x, y) {
-    let s = (progress - st.t[i]) / W_BAND;
-    if (lens) {
-      const cx = (x + 0.5) * st.block, cy = (y + 0.5) * st.block;
-      const d = Math.hypot(cx - lens.x, cy - lens.y) / lens.r;
-      if (d < 1) s = Math.max(s, (1 - d) * 2.2);
-    }
-    return s;
-  }
-
   function compose() {
     dirty = false;
     if (!st || !st.live) return;
     const t0 = PERF && performance.now();
     const g = cv.getContext('2d');
-    const { dpr, block, bc, br } = st;
-    const bs = block * dpr;
+    const { W, H, dpr } = st;
+    const c = Math.min(END, progress);
     g.globalCompositeOperation = 'copy';
     g.drawImage(st.LA.c, 0, 0);
     g.globalCompositeOperation = 'source-over';
+    // fine glyphs: a band ahead of the edge, and a ring around the pointer lens
     const fine = new Path2D(), clear = new Path2D();
-    let nf = 0, nc = 0;
-    for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) {
-      const s = blockState(y * bc + x, x, y);
-      if (s >= 1) { clear.rect(x * bs, y * bs, bs, bs); nc++; }
-      else if (s > 0) { fine.rect(x * bs, y * bs, bs, bs); nf++; }
+    addPoly(fine, below(W, H, c + BAND), dpr);
+    if (lens) fine.arc(lens.x * dpr, lens.y * dpr, (lens.r + 26) * dpr, 0, Math.PI * 2);
+    g.save(); g.clip(fine);
+    if (st.LB) g.drawImage(st.LB.c, 0, 0);
+    g.restore();
+    // clear: the resolved corner, and the lens itself
+    addPoly(clear, below(W, H, c), dpr);
+    if (lens) { clear.moveTo((lens.x + lens.r) * dpr, lens.y * dpr); clear.arc(lens.x * dpr, lens.y * dpr, lens.r * dpr, 0, Math.PI * 2); }
+    g.globalCompositeOperation = 'destination-out'; g.fill(clear); g.globalCompositeOperation = 'source-over';
+    // the edge: one clean 1px orange line
+    if (c > 0 && c < 1) {
+      g.strokeStyle = `rgba(${ORANGE},.9)`; g.lineWidth = dpr;
+      g.beginPath(); g.moveTo(2 * c * W * dpr, 0); g.lineTo(0, 2 * c * H * dpr); g.stroke();
     }
-    if (nf) {
-      g.save(); g.clip(fine);
-      if (st.LB) g.drawImage(st.LB.c, 0, 0);
-      else { g.fillStyle = 'rgba(255,255,255,.5)'; g.fill(fine); }
-      g.restore();
-    }
-    if (nc) { g.globalCompositeOperation = 'destination-out'; g.fill(clear); g.globalCompositeOperation = 'source-over'; }
-    const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
+    const pct = Math.round(Math.min(1, c) * 100);
     if (pct !== lastPct) { lastPct = pct; pctEl.textContent = pct + '%'; }
     if (PERF) PERF.push(performance.now() - t0);
   }
@@ -920,26 +943,25 @@ footer .links a:hover{color:var(--ink)}
   function schedule() { if (!raf) raf = requestAnimationFrame(() => { raf = 0; if (dirty) compose(); }); }
 
   // scroll -> progress: reads only scrollY; offsets cached on resize
-  let start = 0, range = 1;
+  let range = 1;
   function measure() {
     const r = shot.getBoundingClientRect();
     const top = r.top + window.scrollY;
-    start = 0;
     range = Math.max(320, top + r.height * 0.55 - innerHeight * 0.3);
   }
   function onScroll() {
     if (!visible) return;
-    const p = Math.min(1.25, Math.max(0, (window.scrollY - start) / range) * 1.25);
+    const p = P0 + (END - P0) * Math.min(1, window.scrollY / range);
     if (p !== progress) { progress = p; dirty = true; schedule(); }
   }
 
   // ~8 fps twinkle: a few cells swap to a neighbouring glyph, only while the picture is still code
   let tick = 0;
   function twinkle() {
-    if (!st || !st.live || !visible || progress >= 1.1 || document.hidden) return;
+    if (!st || !st.live || !visible || progress >= 1 || document.hidden) return;
     const { LA, AA, dataA, colsA, rowsA } = st;
     const n = colsA * rowsA;
-    for (let k = 0; k < 18; k++) {
+    for (let k = 0; k < 24; k++) {
       const i = (Math.random() * n) | 0;
       if (dataA[i * 2] < 0) continue;
       const x = i % colsA, y = (i / colsA) | 0;
@@ -954,22 +976,16 @@ footer .links a:hover{color:var(--ink)}
     await fontReady;
     await build();
     if (!st || !st.live) return;
-    if (reduce) {
-      // static: half code, half site, no motion
-      progress = 0.45; dirty = true; schedule();
-      hint.textContent = 'Half code, half the finished site';
-      return;
-    }
+    if (reduce) { progress = P0; dirty = true; schedule(); return; } // static: 40% site, the rest code
     measure(); onScroll();
     addEventListener('scroll', onScroll, { passive: true });
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) onScroll(); }).observe(shot);
     setInterval(twinkle, 125);
-    if (!fine) hint.textContent = 'Scroll to see the site';
     if (fine) {
       shot.classList.add('lens');
       shot.addEventListener('pointermove', (e) => {
         const r = shot.getBoundingClientRect();
-        lens = { x: e.clientX - r.left, y: e.clientY - r.top, r: 150 };
+        lens = { x: e.clientX - r.left, y: e.clientY - r.top, r: 120 };
         dirty = true; schedule();
       });
       shot.addEventListener('pointerleave', () => { lens = null; dirty = true; schedule(); });

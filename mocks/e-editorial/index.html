@@ -27,6 +27,8 @@
   --pad:48px;
   --hdr:64px;
   --ease:cubic-bezier(.2,.7,.2,1);
+  --stick-pt:clamp(32px,6vh,64px);
+  --peek:clamp(140px,24vh,240px);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{overflow-x:clip;-webkit-text-size-adjust:100%;scroll-padding-top:var(--hdr)}
@@ -78,11 +80,11 @@ ul,ol{padding:0;list-style:none}
 .hdr .btn{margin-left:8px}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:calc(100vh - var(--hdr));min-height:calc(100svh - var(--hdr));display:flex;flex-direction:column;justify-content:flex-end;padding:72px var(--pad) 64px;overflow:hidden;isolation:isolate}
+/* height leaves room so the first work card peeks up from the bottom edge */
+.hero{position:relative;min-height:max(480px,calc(100vh - var(--hdr) - var(--stick-pt) - var(--peek)));min-height:max(480px,calc(100svh - var(--hdr) - var(--stick-pt) - var(--peek)));display:flex;flex-direction:column;justify-content:flex-end;padding:48px var(--pad) 48px;overflow:hidden;isolation:isolate}
 .draw{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible}
 .draw .ln{fill:none;stroke:rgba(20,20,20,.17);stroke-width:1;vector-effect:non-scaling-stroke}
 .draw .ln.soft{stroke:rgba(20,20,20,.09)}
-.draw .ln.acc{stroke:var(--accent);opacity:.9}
 .draw .pt{fill:var(--ink-3)}
 .draw text{font-family:var(--mono);font-size:12px;fill:var(--ink-3);letter-spacing:.01em}
 .draw text.o{fill:var(--accent-ink)}
@@ -91,13 +93,12 @@ ul,ol{padding:0;list-style:none}
 .js .draw .lbl{opacity:0;animation:fade .8s var(--ease) forwards;animation-delay:1.5s}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
-.hero-meta{margin-bottom:40px}
-.sep{font-style:normal}
-.h1{font-size:clamp(46px,6.9vw,100px);line-height:.98;font-weight:400;letter-spacing:-.045em;max-width:14ch;text-wrap:balance}
-.hero-foot{display:grid;gap:32px;margin-top:56px;max-width:640px}
-.lede{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:56ch}
-.lede strong{font-weight:500;color:var(--ink)}
-.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.h1{font-size:clamp(56px,min(11.4vw,18.5vh),168px);line-height:.92;font-weight:400;letter-spacing:-.05em;text-wrap:balance;margin-left:-.04em}
+.hero-foot{display:flex;flex-wrap:wrap;align-items:center;gap:20px 48px;margin-top:40px}
+.lede{font-size:19px;line-height:1.5;color:var(--ink-2)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
+.cue{display:inline-flex;align-items:center;gap:8px;font-size:15px;color:var(--ink-2);border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:color .2s var(--ease),border-color .2s var(--ease)}
+.cue:hover{color:var(--ink);border-color:var(--ink)}
 .avail{display:flex;align-items:center;gap:8px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
 
@@ -115,15 +116,16 @@ ul,ol{padding:0;list-style:none}
   --cw:min(clamp(520px,50vw,720px),calc((100vh - 360px) * 1.6));
   --dist:calc(var(--padx) * 2 + var(--iw) + 4 * var(--cw) + 4 * var(--gap) - 100vw);
   width:100vw;margin-left:calc(50% - 50vw);position:relative}
-.stick{padding:112px 0 96px}
+.stick{padding:var(--stick-pt) 0 96px}
 .track{display:flex;gap:var(--gap);padding:0 var(--padx);width:max-content}
-.intro{width:var(--iw);flex:none;display:flex;flex-direction:column;justify-content:space-between;padding-top:8px}
+.intro{width:var(--iw);flex:none;display:flex;flex-direction:column;justify-content:flex-end}
 .intro .h2{margin-bottom:24px}
 .intro p{color:var(--ink-2);font-size:17px;max-width:30ch}
 .hint{display:flex;align-items:center;gap:8px;color:var(--ink-3);margin-top:32px}
 .card{width:var(--cw);flex:none;display:flex;flex-direction:column;gap:24px}
 .shot{position:relative;aspect-ratio:16/10;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--surface)}
-.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s var(--ease)}
+a.shot:hover img{transform:scale(1.015)}
 .shot.private{display:grid;place-items:center;background:var(--surface)}
 .shot.private > svg{position:absolute;inset:0;width:100%;height:100%}
 .shot.private .ln{fill:none;stroke:rgba(20,20,20,.12);stroke-width:1;vector-effect:non-scaling-stroke}
@@ -146,7 +148,7 @@ ul,ol{padding:0;list-style:none}
 @supports (animation-timeline: view()){
   @media (min-width:900px) and (prefers-reduced-motion:no-preference){
     .pin{height:calc(100vh + var(--dist));view-timeline:--strip block}
-    .stick{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:hidden;display:flex;align-items:center;padding:0;scroll-snap-type:none}
+    .stick{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:hidden;display:flex;align-items:flex-start;padding:var(--stick-pt) 0 0;scroll-snap-type:none}
     .track{animation:strip linear both;animation-timeline:--strip;animation-range:contain 0% contain 100%;will-change:transform}
     @keyframes strip{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--dist)),0,0)}}
     .progress{position:absolute;left:var(--padx);right:var(--padx);bottom:40px;height:1px;background:var(--line)}
@@ -263,21 +265,19 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
   :root{--pad:20px;--hdr:56px}
   .nav{display:none}
   .hdr .btn{margin-left:auto}
-  .hero{padding-top:64px;padding-bottom:48px;justify-content:flex-start;min-height:0}
-  .hero-meta{margin-bottom:32px}
-  .hero-meta span{display:block}
-  .sep{display:none}
+  .hero{padding-top:56px;padding-bottom:40px;justify-content:flex-start;min-height:0}
   .draw text:not(.o),.draw .pt{display:none}
-  .h1{font-size:clamp(44px,12.4vw,76px);letter-spacing:-.04em}
-  .hero-foot{gap:32px;margin-top:40px}
+  .h1{font-size:clamp(48px,14.2vw,84px);letter-spacing:-.045em}
+  .hero-foot{display:grid;gap:28px;margin-top:28px}
   .lede{font-size:17px}
-  .draw{inset:auto;left:-260px;top:-12px;width:760px;height:451px}
+  .draw{inset:auto;left:-260px;top:-12px;width:760px;height:404px}
   .sec-pad{padding:80px var(--pad)}
   .sec-head{grid-template-columns:1fr;margin-bottom:48px}
   .work{width:auto;margin-left:0;--cw:100%}
-  .stick{padding:80px var(--pad) 32px}
+  .stick{padding:40px var(--pad) 32px}
   .track{flex-direction:column;width:auto;padding:0;gap:56px}
-  .intro{width:auto}
+  .intro{width:auto;margin-bottom:-16px}
+  .intro .h2{margin-bottom:16px}
   .hint{display:none}
   .card-body{grid-template-columns:1fr}
   .card h3{font-size:28px}
@@ -312,6 +312,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
   .js .rule i,.js .steps::before{transform:none;transition:none}
   .js .draw .ln{animation:none;stroke-dasharray:none;stroke-dashoffset:0}
   .js .draw .lbl{animation:none;opacity:1}
+  .shot img{transition:none}
   .faq summary .icon{transition:none}
 }
 </style>
@@ -324,6 +325,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
 </svg>
@@ -343,13 +345,13 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
 
   <!-- HERO -->
   <section class="hero" aria-labelledby="h1">
-    <svg class="draw" viewBox="60 0 1280 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <svg class="draw" viewBox="60 20 1280 680" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
       <!-- construction: circle, inner circle, arc, centre lines -->
       <circle class="ln" pathLength="1" style="--i:0" cx="930" cy="340" r="270"/>
       <circle class="ln soft" pathLength="1" style="--i:2" cx="930" cy="340" r="150"/>
       <path class="ln soft" pathLength="1" style="--i:3" d="M 552 262 A 388 388 0 0 1 1180 44"/>
       <path class="ln soft" pathLength="1" style="--i:1" d="M 600 340 H 1272"/>
-      <path class="ln soft" pathLength="1" style="--i:1" d="M 930 20 V 700"/>
+      <path class="ln soft" pathLength="1" style="--i:1" d="M 930 20 V 630"/>
       <path class="ln" pathLength="1" style="--i:4" d="M 930 340 L 1151 185"/>
       <!-- top dimension: across the diameter -->
       <path class="ln soft" pathLength="1" style="--i:5" d="M 660 340 V 46 M 1200 340 V 46"/>
@@ -357,34 +359,21 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
       <!-- right dimension: vertical -->
       <path class="ln soft" pathLength="1" style="--i:5" d="M 930 70 H 1252 M 930 610 H 1252"/>
       <path class="ln" pathLength="1" style="--i:7" d="M 1240 70 V 610 M 1234 70 H 1246 M 1234 610 H 1246"/>
-      <!-- bottom ruler: years -->
-      <path class="ln" pathLength="1" style="--i:8" d="M 660 652 H 1200"/>
-      <path class="ln soft" pathLength="1" style="--i:9" d="M 660 644 V 660 M 768 644 V 660 M 876 644 V 660 M 984 644 V 660 M 1092 644 V 660 M 1200 644 V 660 M 687 648 V 656 M 714 648 V 656 M 741 648 V 656 M 795 648 V 656 M 822 648 V 656 M 849 648 V 656 M 903 648 V 656 M 930 648 V 656 M 957 648 V 656 M 1011 648 V 656 M 1038 648 V 656 M 1065 648 V 656 M 1119 648 V 656 M 1146 648 V 656 M 1173 648 V 656"/>
       <g class="lbl">
         <text class="o big" x="930" y="60" text-anchor="middle">2021 → 2026</text>
-        <text x="930" y="34" text-anchor="middle">B.Tech, internships, client work</text>
         <text class="o big" x="1228" y="340" text-anchor="middle" transform="rotate(-90 1228 340)" dy="-6">6,000+</text>
-        <text x="1210" y="340" text-anchor="middle" transform="rotate(-90 1210 340)" dy="-6">FastWrite · PyPI · month one</text>
         <circle class="pt" cx="930" cy="340" r="2.5"/>
-        <text x="1150" y="328" text-anchor="end">19.07° N, 72.88° E</text>
         <circle class="pt" cx="1151" cy="185" r="2.5"/>
         <text x="1004" y="172">[ iascc.in ]</text>
-        <circle class="pt" cx="803" cy="578" r="2.5"/>
-        <text x="816" y="604">[ sendflier.tech ]</text>
-        <text x="660" y="680" text-anchor="middle">21</text><text x="768" y="680" text-anchor="middle">22</text><text x="876" y="680" text-anchor="middle">23</text><text x="984" y="680" text-anchor="middle">24</text><text x="1092" y="680" text-anchor="middle">25</text><text x="1200" y="680" text-anchor="middle">26</text>
       </g>
     </svg>
 
-    <p class="hero-meta mono">Aditya Mer, independent developer<span class="faint"><i class="sep"> · </i>Mumbai, India · clients anywhere</span></p>
-    <h1 class="h1" id="h1">Websites, online stores and internal tools for organisations and small businesses</h1>
+    <h1 class="h1" id="h1">I build what your team runs</h1>
     <div class="hero-foot">
-      <p class="lede">I design and build the whole thing, then hand it over so your team can run it. Recent work includes the site and CMS for <strong>IASCC</strong>, a cancer-care nonprofit, and a jewellery store that ships across India. I add AI where it saves time, and say so when it doesn't.</p>
-      <div>
-        <div class="actions">
-          <a class="btn btn-ink" href="#contact">Start a project <svg class="icon"><use href="#i-arrow"/></svg></a>
-          <a class="btn btn-line" href="#work">See the work</a>
-          <p class="avail mono"><span class="dot" aria-hidden="true"></span>Taking on new projects</p>
-        </div>
+      <p class="lede">Websites, online stores and internal tools. Freelance, from Mumbai.</p>
+      <div class="actions">
+        <a class="btn btn-ink" href="#contact">Start a project <svg class="icon"><use href="#i-arrow"/></svg></a>
+        <a class="cue" href="#work">See the work <svg class="icon"><use href="#i-down"/></svg></a>
       </div>
     </div>
   </section>
@@ -398,7 +387,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
           <div class="intro">
             <div>
               <h2 class="h2" id="work-h"><b>.</b>work</h2>
-              <p>Two client builds, one product of my own and one private tool. Each was designed and built by me, from the first call to launch.</p>
+              <p>Two client builds, one product of my own and one private tool. I designed and built each one, then handed it over for the team to run.</p>
             </div>
             <p class="hint mono">Keep scrolling <svg class="icon"><use href="#i-arrow"/></svg></p>
           </div>
@@ -494,7 +483,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
     <div class="sec-head">
       <h2 class="h2 rv" id="about-h"><b>.</b>about</h2>
     </div>
-    <p class="bio rv">I'm a full-stack developer and ML engineer. I design and ship websites, online stores and web apps for organisations and businesses, <span>and my applied AI research is published at IEEE and Taylor &amp; Francis.</span></p>
+    <p class="bio rv">I'm an independent full-stack developer and ML engineer in Mumbai, working with clients anywhere. I design and ship websites, online stores and web apps for organisations and businesses, <span>and my applied AI research is published at IEEE and Taylor &amp; Francis.</span></p>
 
     <div class="row rv">
       <h3 class="mono">Experience</h3>
@@ -626,7 +615,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surfac
     <div class="rule"><i></i></div><span class="plus l"></span><span class="plus r"></span>
     <a class="brand" href="#top"><img src="../assets/logo.png" alt="" width="28" height="28" loading="lazy">Aditya Mer</a>
     <nav aria-label="Footer"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="https://sendflier.tech" target="_blank" rel="noopener">Flier</a><a href="https://github.com/aditya190803" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/adityamer/" target="_blank" rel="noopener">LinkedIn</a></nav>
-    <span class="mono faint">© 2026 · Mumbai, India</span>
+    <span class="mono faint">© 2026 · Mumbai, India · 19.07° N, 72.88° E</span>
   </footer>
 
 </div>

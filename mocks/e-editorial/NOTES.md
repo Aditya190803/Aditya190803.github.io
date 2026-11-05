@@ -79,3 +79,20 @@ The full-page desktop capture collapses the pin, so the screenshot doesn't show 
 - Weights are 400/500 only.
 - There is one inline line-icon set at 16px with a 1.5 stroke.
 - Every fact comes from CONTENT.md or data.ts.
+
+## Hero v2 (revision 2 rules)
+This supersedes the hero description above.
+- **Composition:** the H1 `I build what your team runs` is set across two lines at up to 168px (`min(11.4vw, 18.5vh)`). Under it, one row holds the sub-line (`Websites, online stores and internal tools. Freelance, from Mumbai.`), `Start a project` and a quiet `See the work ↓` text link. The long paragraph, the meta line and the availability line are gone.
+- **Drawing:** it still draws itself in once. Only 3 labels remain: `2021 → 2026`, `6,000+` and `[ iascc.in ]`. The year ruler, the coordinates, `sendflier.tech` and the caption lines are removed.
+- **Invites exploring:** the hero's height is `100svh − header − --stick-pt − --peek` (min 480px). This lets the IASCC screenshot from the work strip peek up from the bottom edge (about 215px at 1440×900). The pinned stage is now top-aligned at the same `--stick-pt`, so the card scrolls straight into the pin without a jump. Screenshots zoom by 1.5% on hover. The `.work` intro text is bottom-aligned, so no extra words sit beside the peek.
+- **Moved content:**
+  - "Handed it over for the team to run" is now in the `.work` intro.
+  - "Independent, Mumbai, clients anywhere" is now in the about bio.
+  - The coordinates are now in the footer.
+  - IASCC, the jewellery store and FastWrite were already covered in the cards and the about section.
+- **Measured:**
+  - count.js reports 21 words on the first screen, or 25 including the 3 drawing labels.
+  - CLS is 0.0003 (1440), 0.0004 (390) and 0.0005 (1280×720).
+  - There is no overflow at 390 or 360.
+  - The H1 sets in 2 lines at 1024 to 1920 and in 3 lines at 390.
+  - With reduced motion, nothing is hidden, the dash offset is 0 and the strip is unpinned.
