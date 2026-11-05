@@ -67,7 +67,7 @@ header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--
   backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 18px var(--font-h);min-height:44px}
-.logo{width:40px;height:40px;flex:none;mix-blend-mode:multiply;border-radius:6px}
+.logo{width:40px;height:40px;flex:none;border-radius:8px}
 .mono b{position:absolute;font:700 22px/1 var(--font-h)}
 .mono .a{left:2px;top:0;color:var(--accent)}
 .mono .m{right:0;bottom:0;color:transparent;-webkit-text-stroke:1.4px var(--ink)}
@@ -190,7 +190,7 @@ a.shot:hover img{transform:scale(1.02)}
 .svc h3{font-size:24px;font-weight:600}
 .svc p{margin-top:10px;color:var(--ink-2);max-width:42ch}
 .svc ul{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-wrap:wrap;gap:8px}
-@media (max-width:760px){.svc{grid-template-columns:1fr}.svc article,.svc article:nth-child(even){padding:28px 0;border-right:0}}
+@media (max-width:760px){.svc{grid-template-columns:1fr}.svc article,.svc article:nth-child(even),.svc article:nth-child(odd){padding:28px 0;border-right:0}}
 
 /* ---------- Process ---------- */
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
@@ -265,7 +265,7 @@ form.card{background:var(--bg);color:var(--ink);border-radius:8px;padding:32px;d
 .form-foot small{color:var(--ink-2);font-size:14px}
 .form-status:empty{display:none}
 .form-status{font-size:15px;color:var(--primary-ink);min-height:1.4em}
-@media (max-width:860px){.contact-grid{grid-template-columns:1fr;gap:40px}.two{grid-template-columns:1fr}form.card{padding:24px 20px}}
+@media (max-width:860px){.contact .orbits{right:-560px;top:-400px}.contact-grid{grid-template-columns:1fr;gap:40px}.two{grid-template-columns:1fr}form.card{padding:24px 20px}}
 
 /* ---------- Footer ---------- */
 footer{background:var(--deep);color:var(--on-deep-2);border-top:1px solid rgba(234,243,241,.15);padding:28px 0 36px;font-size:15px}
