@@ -167,7 +167,7 @@ export const projects: Project[] = [
     featured: true,
     description: "AI-powered Python module for documentation generation with intelligent code analysis and automated documentation creation.",
     technologies: ["Python", "AI", "PyPI", "LLMs"],
-    stats: "6k+ Downloads in First Month!",
+    stats: "6,000+ PyPI downloads in its first month",
     github: "https://github.com/R-G-KJSIT/FastWrite",
     pypi: "https://pypi.org/project/FastWrite/",
     category: "GenAI",
@@ -181,7 +181,7 @@ export const projects: Project[] = [
   {
     title: "EchoMail",
     featured: true,
-    description: "Modern email marketing platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
+    description: "The open-source version of Flier: an email platform built with Next.js and TypeScript, integrating Gmail API to send personalized bulk emails with Gmail-like formatting and high deliverability.",
     technologies: ["Next.js", "TypeScript", "Gmail API", "React"],
     github: "https://github.com/Aditya190803/EchoMail",
     demo: "https://echomail.adityamer.dev",
@@ -396,7 +396,7 @@ export const certifications: Certification[] = [
     issuer: "Meta",
     date: "October 2022",
     credentialId: "W993KKKHASNW",
-    url: "https://www.coursera.org/account/accomplishments/specialization/EATQ4RWFDR6A",
+    url: "https://www.coursera.org/account/accomplishments/verify/W993KKKHASNW",
     skills: ["Cascading Style Sheets (CSS)", "HTML"],
   },
   {
@@ -496,7 +496,6 @@ export const flier = {
   domain: "sendflier.tech",
   url: "https://sendflier.tech",
   github: "https://github.com/Aditya190803/EchoMail",
-  image: "/work/flier.webp",
   /** From the owner's own records; remove this line if it should not be public. */
   usedBy: "Tata Memorial Hospital",
   summary:

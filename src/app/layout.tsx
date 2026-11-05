@@ -47,13 +47,13 @@ export const metadata: Metadata = {
     siteName: profile.name,
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/work/iascc.webp", width: 1600, height: 1000, alt: "The IASCC website, designed and built by Aditya Mer" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "The IASCC website, designed and built by Aditya Mer" }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/work/iascc.webp"],
+    images: ["/og.jpg"],
   },
 };
 

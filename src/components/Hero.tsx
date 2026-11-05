@@ -71,7 +71,7 @@ export default function Hero() {
               src={iascc.image!}
               domain={iascc.domain!}
               alt="Home page of iascc.in, the website for the Integrated Association of Supportive Care in Cancer"
-              priority
+              preload
               sizes="(min-width: 1024px) 600px, 100vw"
               className="shadow-[0_30px_60px_-30px_rgb(20_28_43/0.25)]"
             />

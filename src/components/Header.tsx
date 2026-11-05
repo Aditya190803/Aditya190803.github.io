@@ -53,10 +53,24 @@ export default function Header() {
         buttonRef.current?.focus();
       }
     };
+    // Close the sheet if the window grows to the desktop layout.
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onDesktop = (e: MediaQueryListEvent) => e.matches && setOpen(false);
+
+    // Keep focus inside the sheet: everything behind it becomes inert.
+    const behind = [document.getElementById("main"), document.querySelector("body > footer")].filter(
+      Boolean
+    ) as HTMLElement[];
+    behind.forEach((el) => (el.inert = true));
+    document.querySelector<HTMLElement>("#mobile-menu a")?.focus();
+
     document.addEventListener("keydown", onKey);
+    desktop.addEventListener("change", onDesktop);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      desktop.removeEventListener("change", onDesktop);
+      behind.forEach((el) => (el.inert = false));
       document.body.style.overflow = "";
     };
   }, [open]);
@@ -118,7 +132,6 @@ export default function Header() {
         id="mobile-menu"
         className="sheet fixed inset-x-0 bottom-0 top-[var(--nav)] z-40 overflow-y-auto bg-ground lg:hidden"
         data-open={open}
-        aria-hidden={!open}
         inert={!open}
       >
         <nav aria-label="Mobile" className="wrap py-6">

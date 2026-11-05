@@ -53,11 +53,10 @@ function Demo() {
           <p className="flex items-center gap-2 px-2 text-[13px] font-medium text-muted">
             <FileSpreadsheet size={15} aria-hidden /> guests.csv · {recipients.length} rows
           </p>
-          <div role="radiogroup" aria-label="Preview the email for" className="mt-3 grid grid-cols-2 gap-1 md:grid-cols-1">
+          <div role="group" aria-label="Preview the email for" className="mt-3 grid grid-cols-2 gap-1 md:grid-cols-1">
             <button
               type="button"
-              role="radio"
-              aria-checked={index === null}
+              aria-pressed={index === null}
               onClick={() => setIndex(null)}
               className={`flex min-h-11 items-center rounded-sm px-3 text-left text-[14px] transition-colors duration-150 ${
                 index === null ? "bg-white font-medium text-ink shadow-[0_0_0_1px_var(--line)]" : "text-ink-2 hover:bg-white/70"
@@ -69,8 +68,7 @@ function Demo() {
               <button
                 key={p.name}
                 type="button"
-                role="radio"
-                aria-checked={index === i}
+                aria-pressed={index === i}
                 onClick={() => setIndex(i)}
                 className={`flex min-h-11 items-center gap-2.5 rounded-sm px-3 text-left text-[14px] transition-colors duration-150 ${
                   index === i ? "bg-white font-medium text-ink shadow-[0_0_0_1px_var(--line)]" : "text-ink-2 hover:bg-white/70"
@@ -91,8 +89,8 @@ function Demo() {
         </div>
 
         {/* Message preview */}
-        <div className="p-5 sm:p-7" aria-live="polite">
-          <dl className="grid grid-cols-[64px_1fr] gap-y-2 border-b border-line pb-4 text-[14px]">
+        <div className="p-5 sm:p-7">
+          <dl aria-live="polite" className="grid grid-cols-[64px_1fr] gap-y-2 border-b border-line pb-4 text-[14px]">
             <dt className="text-muted">To</dt>
             <dd className="text-ink-2">{r ? `${r.name} <${r.email}>` : "Each row of guests.csv"}</dd>
             <dt className="text-muted">Subject</dt>
@@ -155,7 +153,7 @@ export default function Flier() {
               Try {flier.domain} <ArrowUpRight size={16} aria-hidden />
             </a>
             <a href={flier.github} target="_blank" rel="noreferrer" className="link inline-flex items-center gap-1.5">
-              <Github size={16} aria-hidden /> Read the source
+              <Github size={16} aria-hidden /> Source code (EchoMail)
             </a>
           </div>
         </div>

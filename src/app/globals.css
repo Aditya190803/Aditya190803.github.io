@@ -125,19 +125,11 @@ body {
   color: var(--accent-ink);
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-.on-dark :focus-visible {
-  outline-color: var(--d-accent);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
 @layer components {

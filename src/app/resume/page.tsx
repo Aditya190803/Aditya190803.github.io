@@ -156,13 +156,11 @@ export default function ResumePage() {
                 {w.summary}
                 {w.note ? ` ${w.note}` : null}
               </p>
-              <p className="t-small">
-                {w.isPrivate || !w.url ? (
-                  <span className="muted">Private project</span>
-                ) : (
+              {w.isPrivate || !w.url ? null : (
+                <p className="t-small">
                   <Ext href={w.url} />
-                )}
-              </p>
+                </p>
+              )}
             </Item>
           ))}
         </Section>
