@@ -93,3 +93,17 @@ Data sources: `mocks/CONTENT.md` (verified freelance facts) and `src/lib/data.ts
   - Images from `../assets/`.
 - `preview-desktop.jpg` (1440 full page) and `preview-mobile.jpg` (390 full page), plus `hero.jpg` (1440x900 first screen).
 - `NOTES.md`: the direction in 5 lines (product, character, world, moment, signature), what was borrowed from each reference, the animations used, and measured numbers (JS KB, CLS, long tasks).
+
+## Hero rules, revision 2 (owner feedback: "too much text, not appealing to explore")
+Measured before the change: 69–127 words and 9–34 text blocks on the first screen. Target: about 25 words.
+- **H1 is exactly:** `I build what your team runs`. No accent word and no period.
+- **One sub-line of 12 words or fewer**, e.g. `Websites, online stores and internal tools. Freelance, from Mumbai.`
+- **One primary button** (`Start a project`) plus **one quiet secondary** (`See the work` as a text link or scroll cue). Nothing stacked under them: no availability paragraph and no email line. Availability may appear as 3 words at most, e.g. `● Open for projects`.
+- **Total visible words in the hero: 25 or fewer, excluding the header.** That includes mono or bracket labels. Use at most 3 of them, 3 words or fewer each, and only real facts.
+- **The visual dominates:** at least 60% of the first screen is the graphic or the work, not text.
+- **The hero must invite exploring:**
+  - Something from the work is visible or peeking at the bottom edge (a screenshot rising from the bottom, the first case-study card, or the stack starting).
+  - The visual rewards scrolling or hovering.
+- **Move everything else** (client names, IASCC/Younique/Flier sentences, coordinates, research labels) into the work section or later.
+- **Mobile:** the H1, sub-line and buttons fit on the first screen, and the visual follows immediately.
+- **Measure** with `node /tmp/claude-0/-home-user-Aditya190803-github-io/c13a90ed-f8ea-55a3-ad9b-fe12281b7173/scratchpad/count.js`, run from /home/user/Aditya190803.github.io/mocks. It prints words on the first screen per mock; your mock's number must be 25 or fewer, header excluded.
