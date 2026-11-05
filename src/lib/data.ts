@@ -56,15 +56,16 @@ export interface ResearchPaper {
 
 export const profile = {
   name: "Aditya Mer",
-  title: "ML/DL Engineer & Gen AI Developer",
+  title: "Freelance web and AI developer",
+  resumeTitle: "Full-stack Developer & ML Engineer",
   location: "Mumbai, India",
   email: "adityamer.work@gmail.com",
   portfolio: "https://adityamer.dev",
   resumeUrl: "/Aditya_Mer_Resume.pdf",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
-  tagline: "Building scalable ML & GenAI systems from research to production",
-  bio: "I am an ML/DL Engineer and Gen AI Developer passionate about building intelligent systems that solve real-world problems. With a strong foundation in AI research and full-stack development, I bridge the gap between cutting-edge research and production-ready applications.",
+  tagline: "Websites, online stores and web apps, with AI where it saves time.",
+  bio: "Full-stack developer and ML engineer who designs and ships websites, online stores and web apps for organisations and businesses, with applied AI research published at IEEE and Taylor & Francis.",
 };
 
 export const education: Education[] = [
@@ -90,7 +91,7 @@ export const experience: Experience[] = [
     role: "Web Developer Intern",
     company: "IASCC",
     period: "June 2025 – Sept 2025",
-    location: "Hydrid",
+    location: "Hybrid",
     highlights: [
       "Designed and developed IASCC's main website from scratch",
       "Built custom CMS for blogs, newsletters, and research publications",
@@ -307,29 +308,6 @@ export const skills = {
   "Cloud & DevOps": ["Azure", "AWS", "Docker", "Kubernetes", "Git", "CI/CD", "GCP"],
   "Data & Tools": ["PostgreSQL", "NoSQL", "Apache Spark", "Statistical Modeling", "Time Series Analysis", "Linux"]
 };
-export interface Testimonial {
-  name: string;
-  role: string;
-  company: string;
-  content: string;
-  avatar?: string;
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    name: "Dr. Jane Smith",
-    role: "Senior Research Scientist",
-    company: "AI Research Lab",
-    content: "Aditya is an exceptional engineer with a deep understanding of ML fundamentals. His work on LLM inference optimization was truly impressive.",
-  },
-  {
-    name: "John Doe",
-    role: "Lead Developer",
-    company: "Tech Solutions Inc.",
-    content: "Working with Aditya was a pleasure. He bridges the gap between research and production seamlessly.",
-  },
-];
-
 export const research: { papers: ResearchPaper[] } = {
   papers: [
     {
@@ -436,5 +414,205 @@ export const certifications: Certification[] = [
     credentialId: "ZWQ647BYRZL9",
     url: "https://www.coursera.org/account/accomplishments/certificate/ZWQ647BYRZL9",
     skills: ["Git", "GitHub"],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Freelance content                                                   */
+/* Only facts that can be checked go here. Each fact appears once.     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Site-wide settings.
+ * - `cta`: the one wording for the main action, used in the header, hero and contact.
+ * - `bookingUrl`: paste a Cal.com / Calendly link to add a "Book a call" option to the contact section.
+ * - `availability`: the status line in the hero and contact section.
+ */
+export const site = {
+  brand: "Aditya Mer",
+  cta: "Start a project",
+  availability: "Taking on new projects",
+  bookingUrl: "",
+  city: "Mumbai, India",
+};
+
+export interface ClientWork {
+  slug: string;
+  client: string;
+  /** What kind of project it was, e.g. "Website and custom CMS". */
+  kind: string;
+  sector: string;
+  year?: string;
+  summary: string;
+  scope: string[];
+  url?: string;
+  domain?: string;
+  /** Screenshot in /public/work, 1600x1000 (16:10). Omit for private work. */
+  image?: string;
+  /** Private work has no public URL; details are shared on request. */
+  private?: boolean;
+}
+
+export const clientWork: ClientWork[] = [
+  {
+    slug: "iascc",
+    client: "IASCC",
+    kind: "Website and custom CMS",
+    sector: "Cancer-care nonprofit",
+    year: "2025",
+    summary:
+      "India's national affiliate of MASCC. I designed and built the site from scratch, with a CMS the team uses to publish events, news, newsletters and research grants themselves.",
+    scope: ["Design and build", "Custom CMS", "Membership and contact pages"],
+    url: "https://iascc.in",
+    domain: "iascc.in",
+    image: "/work/iascc.webp",
+  },
+  {
+    slug: "younique",
+    client: "Younique India",
+    kind: "Online store",
+    sector: "Jewellery retail",
+    summary:
+      "A storefront for an 18k gold-plated, anti-tarnish jewellery brand that ships across India, with search, collections, customer sign-in and order tracking.",
+    scope: ["Storefront design", "Catalogue and collections", "Accounts and order tracking"],
+    url: "https://www.youniqueindia.co.in",
+    domain: "youniqueindia.co.in",
+    image: "/work/younique.webp",
+  },
+  {
+    slug: "theska",
+    client: "Theska",
+    kind: "Internal software",
+    sector: "Private project",
+    summary:
+      "Internal software built for the company's own team. The project is private, so I share the details on a call rather than here.",
+    scope: ["Internal tool", "Built to the team's workflow"],
+    private: true,
+  },
+];
+
+export const flier = {
+  name: "Flier",
+  domain: "sendflier.tech",
+  url: "https://sendflier.tech",
+  github: "https://github.com/Aditya190803/EchoMail",
+  image: "/work/flier.webp",
+  /** From the owner's own records; remove this line if it should not be public. */
+  usedBy: "Tata Memorial Hospital",
+  summary:
+    "Flier is a mail-merge product I designed and built end to end. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent from your own Gmail.",
+  points: [
+    {
+      title: "Spreadsheet in, personal emails out",
+      body: "CSV columns become {{variables}}, and every message can be previewed before it goes.",
+    },
+    {
+      title: "Sent through the official Gmail API",
+      body: "Google sign-in and Gmail's own API, so messages arrive like normal email from your address.",
+    },
+    {
+      title: "Progress and results you can see",
+      body: "Live sending progress, scheduled sends, and open and click tracking for every campaign.",
+    },
+  ],
+  stack: ["Next.js", "TypeScript", "Gmail API", "Google OAuth"],
+  demo: {
+    subject: "{{name}}, your seat for {{event}}",
+    body: [
+      "Hi {{name}},",
+      "Thanks for registering for {{event}}. Your seat is confirmed, and the joining link will reach this inbox the day before.",
+      "See you there,",
+      "The events team",
+    ],
+    recipients: [
+      { name: "Priya", email: "priya@…", event: "the workshop on 14 Nov" },
+      { name: "Rahul", email: "rahul@…", event: "next week's webinar" },
+      { name: "Meera", email: "meera@…", event: "the annual meet-up" },
+      { name: "Arjun", email: "arjun@…", event: "Saturday's session" },
+    ],
+  },
+};
+
+export interface Service {
+  id: string;
+  title: string;
+  pitch: string;
+  includes: string[];
+}
+
+export const services: Service[] = [
+  {
+    id: "websites",
+    title: "Websites for organisations and firms",
+    pitch:
+      "A site that explains what you do in seconds, looks credible to the people you want to reach, and that your team can update without calling me.",
+    includes: ["Design and page structure", "A CMS your team can edit", "SEO and analytics", "Hosting and launch"],
+  },
+  {
+    id: "stores",
+    title: "Online stores",
+    pitch:
+      "Product pages that sell, a checkout that stays out of the way, and an admin that matches how you actually run the shop.",
+    includes: ["Catalogue and checkout", "Payments and shipping", "Orders and stock admin", "Mobile-first design"],
+  },
+  {
+    id: "apps",
+    title: "Web apps and internal tools",
+    pitch:
+      "When spreadsheets and copy-pasting slow your team down, I build the tool that replaces them, the way Flier replaced manual email.",
+    includes: ["Dashboards and portals", "Logins, roles and permissions", "Google, payment and CRM integrations", "Automated tests"],
+  },
+  {
+    id: "ai",
+    title: "AI and data work",
+    pitch:
+      "Assistants that answer from your own documents, data pulled out of PDFs and forms, and dashboards built on data you already have. I'll tell you plainly when AI isn't the answer.",
+    includes: ["Chat over your documents", "Document and form processing", "ML models and evaluation", "Dashboards and reports"],
+  },
+];
+
+export const steps = [
+  {
+    title: "A short call",
+    body: "We talk through what you need, who it's for and what a good result looks like. No cost and no obligation.",
+  },
+  {
+    title: "A written proposal",
+    body: "You get the scope, milestones, timeline and a fixed quote in writing before any work starts.",
+  },
+  {
+    title: "Build on a preview link",
+    body: "I design the key screens first, then build in small steps on a private link, so you see progress every week.",
+  },
+  {
+    title: "Launch and handover",
+    body: "I launch, show your team how to update everything, and stay on hand for fixes and new features.",
+  },
+];
+
+export const faqs = [
+  {
+    q: "How do you price a project?",
+    a: "Each project gets a fixed quote based on its scope. After our call I send a written proposal with deliverables, timeline and price, so you know the full cost first.",
+  },
+  {
+    q: "Can my team update the site after launch?",
+    a: "Yes. Content you change often, such as news, events, products or team members, gets an editor, and I walk your team through it.",
+  },
+  {
+    q: "Do you work with clients outside Mumbai?",
+    a: "Yes. The work happens over calls and shared preview links, so I work with clients anywhere and overlap with your hours for calls.",
+  },
+  {
+    q: "Who owns the code and the data?",
+    a: "You do. Your data stays yours throughout, and once the project is delivered and paid for, the code and documentation are yours too.",
+  },
+  {
+    q: "Will you sign an NDA?",
+    a: "Yes. I'm happy to sign one before you share details about your product, data or business.",
+  },
+  {
+    q: "Do you look after the site once it's live?",
+    a: "If you'd like me to. I can handle hosting, updates, backups and small changes each month, or hand everything over to your team.",
   },
 ];

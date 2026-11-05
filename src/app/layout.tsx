@@ -1,91 +1,101 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
-import BackToTop from "@/components/BackToTop";
-import PageTransition from "@/components/PageTransition";
+import { profile, services, site } from "@/lib/data";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const schibsted = Schibsted_Grotesk({
+  variable: "--font-schibsted",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  display: "swap",
 });
+
+const title = `${profile.name} | Freelance web and AI developer in Mumbai`;
+const description =
+  "Independent developer in Mumbai building websites, online stores, web apps and AI features for organisations and businesses. Fixed quotes, weekly previews, and a CMS your team can use.";
 
 export const metadata: Metadata = {
-  title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-  description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems, Generative AI, and Deep Learning solutions.",
+  metadataBase: new URL(profile.portfolio),
+  title,
+  description,
   keywords: [
-    "ML Engineer", 
-    "GenAI Developer", 
-    "AI Research", 
-    "Deep Learning", 
-    "Portfolio", 
-    "Aditya Mer", 
-    "Machine Learning", 
-    "Generative AI",
-    "Large Language Models",
-    "LLM",
-    "Computer Vision",
-    "NLP"
+    "freelance web developer Mumbai",
+    "freelance developer India",
+    "website with CMS",
+    "e-commerce developer",
+    "Next.js developer",
+    "AI developer",
+    "LLM apps",
+    "Aditya Mer",
   ],
-  authors: [{ name: "Aditya Mer" }],
-  creator: "Aditya Mer",
-  publisher: "Aditya Mer",
-  robots: "index, follow",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+  authors: [{ name: profile.name, url: profile.portfolio }],
+  creator: profile.name,
+  icons: { icon: "/logo.png", apple: "/logo.png" },
+  alternates: { canonical: profile.portfolio },
   openGraph: {
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems from research to production.",
-    url: "https://adityamer.dev",
-    siteName: "Aditya Mer Portfolio",
-    locale: "en_US",
+    title,
+    description,
+    url: profile.portfolio,
+    siteName: profile.name,
+    locale: "en_IN",
     type: "website",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Aditya Mer Portfolio Logo",
-      },
-    ],
+    images: [{ url: "/work/iascc.webp", width: 1600, height: 1000, alt: "The IASCC website, designed and built by Aditya Mer" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aditya Mer | ML/DL Engineer & GenAI Developer",
-    description: "Portfolio of Aditya Mer, an ML/DL Engineer and GenAI Developer specializing in building scalable AI systems.",
-    creator: "@aditya190803",
-    images: ["/logo.png"],
+    title,
+    description,
+    images: ["/work/iascc.webp"],
   },
-  alternates: {
-    canonical: "https://adityamer.dev",
-  },
-  metadataBase: new URL("https://adityamer.dev"),
 };
 
-export function generateViewport() {
-  return { width: 'device-width', initialScale: 1 };
-}
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f9fafb",
+};
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${site.brand} — freelance web and AI development`,
+  url: profile.portfolio,
+  email: profile.email,
+  areaServed: "Worldwide",
+  address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressCountry: "IN" },
+  founder: {
+    "@type": "Person",
+    name: profile.name,
+    jobTitle: profile.title,
+    sameAs: [profile.github, profile.linkedin],
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Services",
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, description: s.pitch },
+    })),
+  },
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <PageTransition>
-          {children}
-        </PageTransition>
-        <BackToTop />
+    <html lang="en-IN" className={`${schibsted.variable} ${instrumentSerif.variable}`}>
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </body>
     </html>
   );

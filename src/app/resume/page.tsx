@@ -1,256 +1,246 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Printer, Download, ArrowLeft, Mail, Phone, MapPin, Globe, Github, Linkedin, Copy, Check } from "lucide-react";
-import { profile, education, experience, projects, skills, research } from "@/lib/data";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { ArrowLeft, Download } from "lucide-react";
+import {
+  certifications,
+  clientWork,
+  education,
+  experience,
+  flier,
+  profile,
+  projects,
+  research,
+  skills,
+} from "@/lib/data";
+import PrintButton from "./PrintButton";
+import "./resume.css";
+
+export const metadata: Metadata = {
+  title: "Résumé | Aditya Mer",
+  description: `${profile.name}, ${profile.resumeTitle.toLowerCase()} in Mumbai. Freelance work, experience, projects, research, education and skills.`,
+  alternates: { canonical: `${profile.portfolio}/resume` },
+};
+
+/** "https://www.example.com/path/" -> "example.com/path" */
+function prettyUrl(url: string) {
+  return url
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/$/, "");
+}
+
+function Ext({ href, children }: { href: string; children?: ReactNode }) {
+  const external = /^https?:/.test(href);
+  return (
+    <a
+      href={href}
+      className="link break-words"
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children ?? prettyUrl(href)}
+    </a>
+  );
+}
+
+function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="cv-section mt-12 sm:mt-14">
+      <h2 className="t-title mb-3">{title}</h2>
+      <div className="rows">{children}</div>
+    </section>
+  );
+}
+
+/** One ruled row: title on the left, a small date or note on the right (stacked on phones). */
+function Item({
+  title,
+  meta,
+  children,
+}: {
+  title: ReactNode;
+  meta?: ReactNode;
+  children?: ReactNode;
+}) {
+  return (
+    <article className="cv-item py-5">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+        <h3 className="font-medium text-ink">{title}</h3>
+        {meta ? <p className="t-label tnum shrink-0 sm:text-right">{meta}</p> : null}
+      </div>
+      {children ? <div className="mt-2 grid gap-2">{children}</div> : null}
+    </article>
+  );
+}
+
+const freelance = [
+  ...clientWork.map((w) => ({
+    key: w.slug,
+    name: w.client,
+    kind: w.kind,
+    sector: w.sector,
+    year: w.year,
+    summary: w.summary,
+    url: w.url,
+    isPrivate: Boolean(w.private),
+    note: undefined as string | undefined,
+  })),
+  {
+    key: "flier",
+    name: flier.name,
+    kind: "Mail-merge web app",
+    sector: "Own product",
+    year: undefined,
+    summary: flier.summary,
+    url: flier.url,
+    isPrivate: false,
+    note: flier.usedBy ? `Used by ${flier.usedBy}.` : undefined,
+  },
+];
+
+const featured = projects.filter((p) => p.featured);
 
 export default function ResumePage() {
-  const [copied, setCopied] = useState(false);
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(profile.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <main className="min-h-screen bg-white text-black p-4 md:p-8 lg:p-12 print:p-0">
-      {/* Navigation / Actions */}
-      <div className="max-w-4xl mx-auto mb-8 flex flex-wrap items-center justify-between gap-4 print:hidden">
-        <Link
-          href="/"
-          className="flex items-center gap-2 px-4 py-2 border-3 border-black font-bold hover:bg-cream transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_#000]"
+    <main className="cv-page min-h-svh bg-ground px-4 pb-24 pt-6 sm:px-8 sm:pt-10">
+      <div className="cv-sheet mx-auto w-full max-w-[840px]">
+        {/* Action bar */}
+        <nav
+          aria-label="Résumé actions"
+          className="no-print flex flex-wrap items-center justify-between gap-4 border-b border-line pb-6"
         >
-          <ArrowLeft size={20} />
-          Back to Portfolio
-        </Link>
-        <div className="flex gap-3">
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 px-4 py-2 bg-black text-white font-bold hover:bg-coral transition-all border-3 border-black hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_#000]"
-          >
-            <Printer size={20} />
-            Print Resume
-          </button>
-          <a
-            href={profile.resumeUrl}
-            download
-            className="flex items-center gap-2 px-4 py-2 border-3 border-black font-bold hover:bg-yellow transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_#000]"
-          >
-            <Download size={20} />
-            Download PDF
-          </a>
-        </div>
-      </div>
-
-      {/* Resume Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-4xl mx-auto bg-white border-3 border-black shadow-brutal p-8 md:p-12 print:shadow-none print:border-none print:p-0"
-      >
-        {/* Header */}
-        <header className="border-b-3 border-black pb-8 mb-8">
-          <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">
-            {profile.name}
-          </h1>
-          <p className="text-xl md:text-2xl font-bold text-coral mb-6">
-            {profile.title}
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-sm md:text-base">
-            <div className="flex items-center gap-2 group">
-              <Mail size={16} className="shrink-0" />
-              <a href={`mailto:${profile.email}`} className="hover:underline font-medium">{profile.email}</a>
-              <button
-                onClick={copyEmail}
-                className="ml-2 p-1 hover:bg-cream border border-transparent hover:border-black transition-all print:hidden"
-                title="Copy Email"
-              >
-                {copied ? <Check size={14} className="text-mint" /> : <Copy size={14} />}
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              <Globe size={16} className="shrink-0" />
-              <a href={profile.portfolio} target="_blank" rel="noopener noreferrer" className="hover:underline font-medium">adityamer.dev</a>
-            </div>
-            <div className="flex items-center gap-2">
-              <Linkedin size={16} className="shrink-0" />
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline font-medium">linkedin.com/in/adityamer</a>
-            </div>
-            <div className="flex items-center gap-2">
-              <Github size={16} className="shrink-0" />
-              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:underline font-medium">github.com/aditya190803</a>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin size={16} className="shrink-0" />
-              <span className="font-medium">{profile.location}</span>
-            </div>
+          <Link href="/" className="link inline-flex items-center gap-2">
+            <ArrowLeft size={18} strokeWidth={1.75} aria-hidden="true" />
+            Back to site
+          </Link>
+          <div className="flex flex-wrap gap-3">
+            <PrintButton />
+            <a href={profile.resumeUrl} download className="btn btn--primary">
+              <Download size={18} strokeWidth={1.75} aria-hidden="true" />
+              Download PDF
+            </a>
           </div>
+        </nav>
+
+        {/* Header */}
+        <header className="pt-10 sm:pt-14">
+          <h1 className="cv-name t-h2">{profile.name}</h1>
+          <p className="t-lead mt-3">{profile.resumeTitle}</p>
+          <ul className="t-small mt-5 flex flex-wrap gap-x-5 gap-y-2 text-ink-2">
+            <li>{profile.location}</li>
+            <li>
+              <Ext href={`mailto:${profile.email}`}>{profile.email}</Ext>
+            </li>
+            <li>
+              <Ext href={profile.portfolio} />
+            </li>
+            <li>
+              <Ext href={profile.github} />
+            </li>
+            <li>
+              <Ext href={profile.linkedin} />
+            </li>
+          </ul>
+          <p className="t-body measure mt-6">{profile.bio}</p>
         </header>
 
-        {/* Summary */}
-        <section className="mb-10">
-          <h2 className="text-xl font-black uppercase tracking-widest mb-4 bg-mint inline-block px-2 py-1 border-2 border-black">
-            Professional Summary
-          </h2>
-          <p className="text-black/80 leading-relaxed font-medium">
-            {profile.bio}
-          </p>
-        </section>
+        <Section title="Freelance work">
+          {freelance.map((w) => (
+            <Item
+              key={w.key}
+              title={w.name}
+              meta={[w.kind, w.year].filter(Boolean).join(", ")}
+            >
+              <p className="t-small muted">{w.sector}</p>
+              <p className="t-body">
+                {w.summary}
+                {w.note ? ` ${w.note}` : null}
+              </p>
+              <p className="t-small">
+                {w.isPrivate || !w.url ? (
+                  <span className="muted">Private project</span>
+                ) : (
+                  <Ext href={w.url} />
+                )}
+              </p>
+            </Item>
+          ))}
+        </Section>
 
-        {/* Experience */}
-        <section className="mb-10">
-          <h2 className="text-xl font-black uppercase tracking-widest mb-6 bg-yellow inline-block px-2 py-1 border-2 border-black">
-            Work Experience
-          </h2>
-          <div className="space-y-8">
-            {experience.map((exp, i) => (
-              <div key={i} className="relative pl-6 border-l-3 border-black/10">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-black rounded-full" />
-                <div className="flex flex-wrap justify-between items-start gap-2 mb-2">
-                  <div>
-                    <h3 className="text-xl font-black">{exp.role}</h3>
-                    <p className="font-bold text-black/60">{exp.company}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-sm">{exp.period}</p>
-                    <p className="text-xs font-bold text-black/40 uppercase">{exp.location}</p>
-                  </div>
-                </div>
-                <ul className="list-disc list-inside space-y-1 text-black/70 font-medium">
-                  {exp.highlights.map((highlight, j) => (
-                    <li key={j} className="pl-2 -indent-5 ml-5">{highlight}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title="Experience">
+          {experience.map((e) => (
+            <Item
+              key={`${e.company}-${e.period}`}
+              title={
+                <>
+                  {e.role}, <span className="text-ink-2">{e.company}</span>
+                </>
+              }
+              meta={e.period}
+            >
+              <p className="t-small muted">{e.location}</p>
+              <ul className="t-body list-disc space-y-1 pl-5 marker:text-muted">
+                {e.highlights.map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
+              </ul>
+            </Item>
+          ))}
+        </Section>
 
-        {/* Education */}
-        <section className="mb-10">
-          <h2 className="text-xl font-black uppercase tracking-widest mb-6 bg-purple text-white inline-block px-2 py-1 border-2 border-black">
-            Education
-          </h2>
-          <div className="space-y-6">
-            {education.map((edu, i) => (
-              <div key={i} className="flex flex-wrap justify-between items-start gap-2">
-                <div>
-                  <h3 className="text-lg font-black">{edu.degree}</h3>
-                  <p className="font-bold text-black/60">{edu.institution}</p>
-                </div>
-                <p className="font-bold text-sm">{edu.period}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title="Selected projects">
+          {featured.map((p) => (
+            <Item key={p.title} title={p.title} meta={p.stats}>
+              <p className="t-body">{p.description}</p>
+              <p className="t-small flex flex-wrap gap-x-5 gap-y-1">
+                {p.demo ? <Ext href={p.demo} /> : null}
+                {p.github ? <Ext href={p.github} /> : null}
+                {p.pypi ? <Ext href={p.pypi} /> : null}
+              </p>
+            </Item>
+          ))}
+        </Section>
 
-        {/* Skills */}
-        <section className="mb-10">
-          <h2 className="text-xl font-black uppercase tracking-widest mb-6 bg-coral text-white inline-block px-2 py-1 border-2 border-black">
-            Technical Skills
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.entries(skills).map(([category, items]) => (
-              <div key={category}>
-                <h3 className="text-sm font-black uppercase tracking-wider text-black/40 mb-2">{category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill) => (
-                    <span key={skill} className="px-2 py-1 bg-cream border-2 border-black/10 text-xs font-bold hover:border-black hover:bg-white transition-colors cursor-default">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title="Research">
+          {research.papers.map((r) => (
+            <Item key={r.url} title={<Ext href={r.url}>{r.title}</Ext>} meta={r.year}>
+              <p className="t-small muted">{r.venue}</p>
+            </Item>
+          ))}
+        </Section>
 
-        {/* Research */}
-        <section className="mb-10">
-          <h2 className="text-xl font-black uppercase tracking-widest mb-6 bg-blue text-white inline-block px-2 py-1 border-2 border-black">
-            Research & Publications
-          </h2>
-          <div className="space-y-6">
-            {research.papers.map((paper, i) => (
-              <div key={i}>
-                <h3 className="text-lg font-black mb-1">{paper.title}</h3>
-                <p className="font-bold text-coral text-sm mb-2">{paper.venue} ({paper.year})</p>
-                <p className="text-sm text-black/70 mb-3 italic">{paper.abstract}</p>
-                <div className="flex flex-wrap gap-2">
-                  {paper.tags.map(tag => (
-                    <span key={tag} className="text-[10px] font-bold uppercase tracking-tighter px-2 py-0.5 border border-black/20">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title="Education">
+          {education.map((ed) => (
+            <Item key={ed.degree} title={ed.degree} meta={ed.period}>
+              <p className="t-small muted">{ed.institution}</p>
+            </Item>
+          ))}
+        </Section>
 
-        {/* Selected Projects */}
-        <section>
-          <h2 className="text-xl font-black uppercase tracking-widest mb-6 bg-black text-white inline-block px-2 py-1 border-2 border-black">
-            Selected Projects
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.filter(p => p.featured).map((project, i) => (
-              <div key={i} className="p-4 border-2 border-black border-dashed flex flex-col">
-                <div className="flex justify-between items-start mb-1 gap-2">
-                  <h3 className="text-lg font-black leading-tight">{project.title}</h3>
-                  <div className="flex gap-2 shrink-0 print:hidden">
-                    {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" title="GitHub">
-                        <Github size={16} />
-                      </a>
-                    )}
-                    {(project.demo || project.pypi) && (
-                      <a href={project.demo || project.pypi} target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" title="Live Link">
-                        <Globe size={16} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <p className="text-sm text-black/70 mb-3 line-clamp-2 md:line-clamp-3 lg:line-clamp-2 flex-grow">{project.description}</p>
-                <div className="flex flex-wrap gap-1 mt-auto">
-                  {project.technologies.slice(0, 4).map(tech => (
-                    <span key={tech} className="text-[10px] font-bold px-1.5 py-0.5 bg-black/5">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title="Skills">
+          {Object.entries(skills).map(([category, list]) => (
+            <div
+              key={category}
+              className="cv-item grid gap-1 py-4 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-6"
+            >
+              <h3 className="font-medium text-ink">{category}</h3>
+              <p className="t-body">{list.join(", ")}</p>
+            </div>
+          ))}
+        </Section>
 
-        {/* Footer */}
-        <footer className="mt-12 pt-8 border-t-2 border-black border-dashed text-center text-xs font-bold text-black/30 uppercase tracking-widest">
-          Generated from adityamer.dev • Last Updated Dec 2025
-        </footer>
-      </motion.div>
-
-      <style jsx global>{`
-        @media print {
-          body {
-            background-color: white !important;
-          }
-          .section-padding {
-            padding: 0 !important;
-          }
-          @page {
-            margin: 2cm;
-          }
-        }
-      `}</style>
+        <Section title="Certifications">
+          {certifications.map((c) => (
+            <Item
+              key={c.credentialId ?? c.title}
+              title={c.url ? <Ext href={c.url}>{c.title}</Ext> : c.title}
+              meta={c.date}
+            >
+              <p className="t-small muted">{c.issuer}</p>
+            </Item>
+          ))}
+        </Section>
+      </div>
     </main>
   );
 }

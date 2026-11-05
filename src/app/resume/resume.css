@@ -1,0 +1,75 @@
+/* Résumé page only: print layout for A4. */
+
+.cv-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-section > h2 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+
+  html,
+  body {
+    background: var(--g-card) !important;
+  }
+
+  .cv-page {
+    background: var(--g-card);
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .cv-sheet {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    font-size: 10pt;
+    line-height: 1.45;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .cv-sheet .cv-name {
+    font-size: 24pt;
+  }
+
+  .cv-sheet .t-title {
+    font-size: 12pt;
+  }
+
+  .cv-sheet .t-label,
+  .cv-sheet .t-small {
+    font-size: 9pt;
+  }
+
+  .cv-sheet .t-body {
+    font-size: 10pt;
+  }
+
+  .cv-sheet .cv-section {
+    margin-top: 16pt !important;
+  }
+
+  .cv-sheet .cv-item {
+    padding-top: 6pt !important;
+    padding-bottom: 6pt !important;
+  }
+
+  /* Links stay legible on paper: accent colour, thin underline. */
+  .cv-sheet a {
+    color: var(--accent) !important;
+    background-image: none !important;
+    text-decoration: underline;
+    text-decoration-thickness: 0.5pt;
+    text-underline-offset: 2pt;
+  }
+}
