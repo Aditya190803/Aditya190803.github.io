@@ -3,7 +3,7 @@
 Owner: **Aditya Mer**, freelance web + AI developer, Mumbai, India. Works with clients anywhere.
 Email: adityamer.work@gmail.com · GitHub: https://github.com/aditya190803 · LinkedIn: https://www.linkedin.com/in/adityamer/ · Résumé: /resume
 Goal of the site: win FREELANCE clients (organisations, firms, small businesses). Main action: start a project / contact.
-User preference: LIGHT MODE, simple, with tasteful background graphics. (Your skill's style decides the rest.)
+User preference: WHITE mode, professional, firecrawl.dev-style background graphics, simple scroll animation. See mocks/PLAN.md.
 
 ## Client work (screenshots in ../assets/, 1600x1000)
 1. **IASCC** — iascc.in — Website + custom CMS — cancer-care nonprofit, 2025. India's national affiliate of MASCC. Designed & built from scratch; the team publishes events, news, newsletters and research grants themselves via the CMS. Image: ../assets/iascc.webp
@@ -12,13 +12,17 @@ User preference: LIGHT MODE, simple, with tasteful background graphics. (Your sk
 
 ## Own product: Flier — sendflier.tech (open source: github.com/Aditya190803/EchoMail)
 Mail-merge app: upload a spreadsheet (CSV), write one message with {{variables}}, every recipient gets a personal email sent from your own Gmail via the official Gmail API + Google sign-in. Live sending progress, scheduled sends, open & click tracking. Built with Next.js, TypeScript, Gmail API. Image: ../assets/flier.webp
-(Owner says it is in use at Tata Memorial Hospital — unverified; include it only as a clearly removable line.)
+In use at Tata Memorial Hospital — CONFIRMED by the owner; show it as one quiet, specific line.
 
 ## Services
 - Websites for organisations and firms — clear, credible, with a CMS the team can edit; SEO, analytics, hosting, launch.
 - Online stores — catalogue, checkout, payments, shipping, orders & stock admin, mobile-first.
 - Web apps & internal tools — dashboards, portals, logins/roles, integrations (Google, payments, CRMs), automated tests.
 - AI & data work — chat over your documents, PDF/form data extraction, ML models & evaluation, dashboards. Honest about when AI isn't the answer.
+
+## More data
+Full lists of experience, projects, research, education, skills and certifications: src/lib/data.ts (read-only).
+Extra screenshots: ../assets/iascc-mobile.webp, ../assets/flier-mobile.webp (portrait phone captures). Logo: ../assets/logo.png (orange 'AM' on cream).
 
 ## Process
 1. A short call (free, no obligation) 2. A written proposal (scope, milestones, fixed quote) 3. Build on a private preview link, progress weekly 4. Launch & handover (team training, support after launch)
