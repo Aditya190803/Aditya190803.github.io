@@ -175,6 +175,7 @@ h1{font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.04;letter-spac
 .label{display:block;margin-bottom:16px}
 
 .xp{grid-column:span 12;padding:0;border-right:0}
+.xp-label{padding:24px 32px 0}
 .xp-row{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:24px 32px;border-top:1px solid var(--line)}
 .xp-row:first-child{border-top:0}
 .xp-row .when{grid-column:span 3}
@@ -329,6 +330,8 @@ footer .links a:hover{color:var(--ink)}
   .inc{grid-template-columns:1fr}
   .bio{padding:32px 16px}
   .bio p.big{font-size:19px}
+  .cell.xp{padding:0}
+  .xp-label{padding:24px 16px 0}
   .xp-row{display:block;padding:20px 16px}
   .xp-row .who{margin:4px 0 8px}
   .paper{padding:24px 16px}
@@ -562,7 +565,7 @@ footer .links a:hover{color:var(--ink)}
     </div>
 
     <div class="cell xp">
-      <div class="mono" style="padding:24px 32px 0">[ experience ]</div>
+      <div class="mono xp-label">[ experience ]</div>
       <div class="xp-row" data-r style="border-top:0">
         <span class="mono when">June 2025 – Sept 2025<br>Hybrid</span>
         <div class="who"><div class="t">Web Developer Intern</div><div class="s">IASCC</div></div>
@@ -590,7 +593,7 @@ footer .links a:hover{color:var(--ink)}
       </div>
     </div>
 
-    <div class="cell xp" style="padding:24px 32px 8px;border-bottom:0"><span class="mono">[ published research ]</span></div>
+    <div class="cell xp" style="border-bottom:0"><div class="mono xp-label">[ published research ]</div></div>
     <article class="cell paper" data-r>
       <span class="mono">IEEE TENSYMP 2024 · Published</span>
       <h4>Towards Mitigating Misinformation: A Structured Dataset of Fact-Checked Claims from News Media</h4>
@@ -609,7 +612,7 @@ footer .links a:hover{color:var(--ink)}
     </article>
 
     <div class="cell xp">
-      <div style="padding:24px 32px 12px" class="mono">[ open source and side projects ]</div>
+      <div class="mono xp-label" style="padding-bottom:12px">[ open source and side projects ]</div>
       <table class="proj">
         <thead><tr><th>project</th><th>what it does</th><th>built with</th><th>links</th></tr></thead>
         <tbody>
