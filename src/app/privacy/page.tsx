@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     <>
       <PageHead title="Privacy">How the contact form on this site handles your details.</PageHead>
       <section className="page-body legal">
-        <div className="legal-body rv">
+        <div className="legal-body">
           <p>
             This site has no analytics, no advertising and no tracking cookies, so there is nothing to consent to and no
             cookie banner.

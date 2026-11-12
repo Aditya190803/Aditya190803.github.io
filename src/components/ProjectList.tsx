@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { flushSync } from "react-dom";
 import type { Project } from "@/lib/data";
 import { OutIcon, PlusIcon } from "./icons";
 import { delay } from "./Site";
@@ -10,6 +11,19 @@ const ext = { target: "_blank", rel: "noopener" } as const;
 
 export function ProjectList({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState("all");
+  // Once a filter has been used, cards stay revealed (the scroll observer only runs once per page).
+  const [touched, setTouched] = useState(false);
+
+  function pick(c: string) {
+    const apply = () => {
+      setTouched(true);
+      setFilter(c);
+    };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Let the cards slide to their new places where the browser supports it.
+    if (!reduce && "startViewTransition" in document) document.startViewTransition(() => flushSync(apply));
+    else apply();
+  }
   const categories = Array.from(new Set(projects.map((p) => p.category)));
   const shown = filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
@@ -17,7 +31,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
     <>
       <div className="filters" role="group" aria-label="Filter by category">
         {["all", ...categories].map((c) => (
-          <button key={c} className="chip" type="button" aria-pressed={filter === c} onClick={() => setFilter(c)}>
+          <button key={c} className="chip" type="button" aria-pressed={filter === c} onClick={() => pick(c)}>
             {c === "all" ? "All" : c}
             <span>{c === "all" ? projects.length : projects.filter((p) => p.category === c).length}</span>
           </button>
@@ -25,8 +39,13 @@ export function ProjectList({ projects }: { projects: Project[] }) {
       </div>
       <div className="pgrid">
         {shown.map((p, i) => (
-          // Cards added by a filter change skip the scroll reveal and show straight away.
-          <article className={`pcard rv${filter === "all" ? "" : " in"}`} id={p.slug} style={delay(i % 2)} key={p.slug}>
+          // Cards shown after a filter change skip the scroll reveal and show straight away.
+          <article
+            className={`pcard rv${touched ? " in" : ""}`}
+            id={p.slug}
+            style={{ ...delay(i % 2), viewTransitionName: `p-${p.slug}` }}
+            key={p.slug}
+          >
             <div className="top mono">
               <span>{p.category}</span>
               {p.featured && <span>Featured</span>}

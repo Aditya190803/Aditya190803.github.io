@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { PageHead } from "@/components/PageHead";
-import { delay } from "@/components/Site";
 import {
   certifications,
   clientWork,
@@ -47,11 +46,11 @@ export default function ResumePage() {
         My experience, education, research and skills in one place. Print it or save it as a PDF.
       </PageHead>
       <section className="page-body">
-        <div className="cv-bar noprint rv">
+        <div className="cv-bar noprint">
           <span className="mono faint">Printable, A4</span>
           <PrintButton />
         </div>
-        <article className="cv rv" style={delay(1)}>
+        <article className="cv">
           <header className="cv-top">
             <div>
               <h1>{profile.name}</h1>

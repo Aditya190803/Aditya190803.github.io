@@ -11,21 +11,21 @@ function Icon({ children, className = "icon", ...rest }: IconProps) {
 }
 
 export const ArrowIcon = (p: IconProps) => (
-  <Icon {...p}>
+  <Icon className="icon i-arrow" {...p}>
     <path d="M5 12h14" />
     <path d="m13 6 6 6-6 6" />
   </Icon>
 );
 
 export const OutIcon = (p: IconProps) => (
-  <Icon {...p}>
+  <Icon className="icon i-out" {...p}>
     <path d="M7 17 17 7" />
     <path d="M8 7h9v9" />
   </Icon>
 );
 
 export const DownIcon = (p: IconProps) => (
-  <Icon {...p}>
+  <Icon className="icon i-down" {...p}>
     <path d="M12 5v14" />
     <path d="m6 13 6 6 6-6" />
   </Icon>

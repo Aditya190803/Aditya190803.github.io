@@ -11,8 +11,8 @@ export function PageHead({ title, children }: { title: string; children: ReactNo
         <ArrowIcon />
         Home
       </Link>
-      <h1 className="h1p rv" style={delay(1)}>
-        {title}
+      <h1 className="h1p rv mask" style={delay(1)}>
+        <span>{title}</span>
       </h1>
       <p className="page-sub rv" style={delay(2)}>
         {children}

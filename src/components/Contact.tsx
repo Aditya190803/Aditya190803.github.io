@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { profile } from "@/lib/data";
 import { ArrowIcon, CheckIcon, CopyIcon } from "./icons";
-import { Rule, delay } from "./Site";
+import { Rule } from "./Site";
 
 const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 
@@ -78,19 +78,22 @@ export function Contact() {
   return (
     <section className="sec sec-pad" id="contact" aria-labelledby="contact-h">
       <Rule />
-      <h2 className="contact-h rv" id="contact-h">
-        Let&apos;s work together
+      <h2 className="contact-h rv mask" id="contact-h">
+        <span>Let&apos;s work together</span>
       </h2>
       <div className="contact-grid">
-        <div className="contact-side rv">
+        <div className="contact-side">
           <p className="mono faint" style={{ margin: "0 0 12px" }}>
             Email
           </p>
           <div className="mail">
             <a href={`mailto:${profile.email}`}>{profile.email}</a>
             <button className="copy mono" type="button" onClick={copy} aria-live="polite">
-              {copied ? <CheckIcon /> : <CopyIcon />}
-              <span>{copied ? "Copied" : "Copy"}</span>
+              {/* Re-keyed so the swap between the two states fades instead of snapping. */}
+              <span className="swap" key={copied ? "done" : "idle"}>
+                {copied ? <CheckIcon /> : <CopyIcon />}
+                {copied ? "Copied" : "Copy"}
+              </span>
             </button>
           </div>
           <p>
@@ -100,7 +103,7 @@ export function Contact() {
           <p className="avail-plain mono">{profile.availability}</p>
         </div>
 
-        <form className="rv" style={delay(1)} onSubmit={submit}>
+        <form onSubmit={submit}>
           <div className="f">
             <label className="mono" htmlFor="f-name">
               Name
@@ -131,13 +134,15 @@ export function Contact() {
           </div>
           <div className="form-foot">
             <span className={`mono form-note ${status.kind}`} role="status">
-              {status.text}
-              {status.kind === "idle" && ACCESS_KEY && (
-                <>
-                  {". "}
-                  <Link href="/privacy">Privacy</Link>
-                </>
-              )}
+              <span className="swap" key={status.kind}>
+                {status.text}
+                {status.kind === "idle" && ACCESS_KEY && (
+                  <>
+                    {". "}
+                    <Link href="/privacy">Privacy</Link>
+                  </>
+                )}
+              </span>
             </span>
             <button className="btn btn-ink" type="submit" disabled={status.kind === "sending"}>
               Start a project <ArrowIcon />

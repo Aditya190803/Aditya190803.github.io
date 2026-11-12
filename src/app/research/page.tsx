@@ -71,7 +71,7 @@ export default function ResearchPage() {
             </div>
           </article>
         ))}
-        <div className="related rv">
+        <div className="related">
           <p className="mono">Related projects</p>
           <div className="links">
             {RELATED.map((r) => (
