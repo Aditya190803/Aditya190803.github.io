@@ -46,8 +46,8 @@ export function Section({
       <Rule />
       <div className="sec-head">
         <div>
-          <h2 className="h2 rv" id={`${id}-h`}>
-            {title}
+          <h2 className="h2 rv mask" id={`${id}-h`}>
+            <span>{title}</span>
           </h2>
           {sub && (
             <p className="sec-sub rv" style={delay(1)}>

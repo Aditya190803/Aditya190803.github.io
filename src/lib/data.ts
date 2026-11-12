@@ -9,8 +9,12 @@ export interface ClientWork {
   domain: string;
   summary: string;
   image?: string;
+  /** Pixel height of the (1600px wide) capture; taller than 1000 means it scrolls inside its frame. */
+  imageHeight?: number;
+  /** Short label over the screenshot, for when the picture needs explaining. */
+  imageNote?: string;
   year?: string;
-  /** Private work: shown as a text tile, no screenshot. */
+  /** Private work: left out of the résumé's public list. Without an image it shows as a text tile. */
   private?: boolean;
   tileLabel?: string;
 }
@@ -109,8 +113,8 @@ export const flier = {
   usedBy: "Tata Memorial Hospital",
   tagline: "Personal emails from a spreadsheet, sent from your own Gmail.",
   summary: "Flier is a mail merge product I designed and built from start to finish. Upload a spreadsheet, write one message, and every recipient gets an email addressed to them, sent through Google's official Gmail API. It is in use at Tata Memorial Hospital.",
-  image: "/work/flier.webp",
-  imageMobile: "/work/flier-mobile.webp",
+  image: "/work/flier-tall.webp",
+  imageMobile: "/work/flier-mobile-tall.webp",
 } as const;
 
 export const clientWork: ClientWork[] = [
@@ -122,7 +126,8 @@ export const clientWork: ClientWork[] = [
     url: "https://iascc.in",
     domain: "iascc.in",
     summary: "India's national affiliate of MASCC. The team publishes events, news and research grants themselves through the CMS I built.",
-    image: "/work/iascc.webp",
+    image: "/work/iascc-tall.webp",
+    imageHeight: 2600,
     year: "2025",
   },
   {
@@ -133,7 +138,8 @@ export const clientWork: ClientWork[] = [
     url: "https://www.youniqueindia.co.in",
     domain: "youniqueindia.co.in",
     summary: "A jewellery store that ships across India, with collections, customer sign-in and order tracking.",
-    image: "/work/younique.webp",
+    image: "/work/younique-tall.webp",
+    imageHeight: 1500,
   },
   {
     slug: "ska",
@@ -143,6 +149,9 @@ export const clientWork: ClientWork[] = [
     url: "https://theska.in",
     domain: "theska.in",
     summary: "Started in April 2026 and led to a full-time role in the firm's IT team.",
+    image: "/work/ska-tall.webp",
+    imageHeight: 2600,
+    imageNote: "Their site. My work is internal.",
     private: true,
     tileLabel: "SKA",
   },

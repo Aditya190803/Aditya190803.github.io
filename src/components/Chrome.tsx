@@ -41,6 +41,9 @@ export function Reveal() {
   const path = usePathname();
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>(".rv:not(.in), .rule:not(.in)"));
+    // Mark the card a deep link landed on. `:target` misses client-side navigations.
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+    if (hash) document.getElementById(hash)?.classList.add("landed");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
       els.forEach((e) => e.classList.add("in"));

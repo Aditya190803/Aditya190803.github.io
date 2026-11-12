@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Header, Reveal } from "@/components/Chrome";
+import { ScrollFx } from "@/components/ScrollFx";
 import { Footer } from "@/components/Site";
 import { profile } from "@/lib/data";
 
@@ -27,9 +28,9 @@ export const metadata: Metadata = {
     siteName: "Aditya Mer",
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/work/flier.webp", width: 1600, height: 1000, alt: "Flier, a mail-merge app by Aditya Mer" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, type: "image/png", alt: "Aditya Mer, full-stack and AI developer in Mumbai" }],
   },
-  twitter: { card: "summary_large_image", title: "Aditya Mer", description, images: ["/work/flier.webp"] },
+  twitter: { card: "summary_large_image", title: "Aditya Mer", description, images: ["/og.png"] },
 };
 
 export const viewport: Viewport = { themeColor: "#FAFAF9" };
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
       </head>
       <body>
+        <ScrollFx />
         <div className="frame-lines" aria-hidden="true" />
         <Header />
         <main id="top">

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import {
   clientWork,
   education,
@@ -18,12 +19,15 @@ import { Rule, Section, delay } from "./Site";
 
 const ext = { target: "_blank", rel: "noopener" } as const;
 
+/** How far a tall capture travels inside its 16:10 frame (`--pan` in CSS), as a share of its own height. */
+const pan = (height = 1000) => ({ "--pan": `${(((height - 1000) / height) * 100).toFixed(2)}%` }) as CSSProperties;
+
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="h1">
       <div>
-        <h1 className="name rv" id="h1" style={delay(1)}>
-          {profile.name}
+        <h1 className="name rv mask" id="h1" style={delay(1)}>
+          <span>{profile.name}</span>
         </h1>
         <p className="role rv" style={delay(2)}>
           {profile.intro}
@@ -53,10 +57,15 @@ export function Hero() {
               <i />
               <span>{flier.domain}</span>
             </div>
-            <Image src={flier.image} alt="Flier mail-merge app" width={1600} height={1000} priority />
+            {/* Tall capture: the page scrolls inside its window as the visitor scrolls (see "scr" in globals.css). */}
+            <div className="scr">
+              <Image src={flier.image} alt="Flier mail-merge app" width={1600} height={2600} priority />
+            </div>
           </div>
           <div className="phone rv" style={delay(5)}>
-            <Image src={flier.imageMobile} alt="Flier on a phone" width={560} height={1211} priority />
+            <div className="scr">
+              <Image src={flier.imageMobile} alt="Flier on a phone" width={585} height={2700} priority />
+            </div>
           </div>
         </a>
         <figcaption className="flag-cap rv" style={delay(4)}>
@@ -89,17 +98,18 @@ export function Work() {
       <div className="clients">
         {clientWork.map((w, i) => (
           <article className="card rv" style={delay(i)} key={w.slug}>
-            {w.private ? (
+            {w.image ? (
+              <a className="shot" href={w.url} {...ext} style={pan(w.imageHeight)}>
+                <Image src={w.image} alt={`${w.client} website home page`} width={1600} height={w.imageHeight ?? 1000} />
+                {w.imageNote && <span className="tag mono">{w.imageNote}</span>}
+              </a>
+            ) : (
               <a className="tile" href={w.url} {...ext} aria-label={`${w.client}, ${w.domain}`}>
                 <b>{w.tileLabel}</b>
                 <span className="mono lock">
                   <LockIcon style={{ width: 12, height: 12 }} />
                   Private work for the firm
                 </span>
-              </a>
-            ) : (
-              <a className="shot" href={w.url} {...ext}>
-                <Image src={w.image!} alt={`${w.client} website home page`} width={1600} height={1000} />
               </a>
             )}
             <div className="card-body">
@@ -156,7 +166,7 @@ export function Projects() {
           </article>
         ))}
       </div>
-      <div className="fp-more rv">
+      <div className="fp-more">
         <Link className="btn btn-line" href="/projects">
           See all {projects.length} projects <ArrowIcon />
         </Link>
@@ -185,7 +195,7 @@ export function Services() {
             </li>
           ))}
         </ul>
-        <aside className="how rv" style={delay(1)} id="process" aria-labelledby="how-h">
+        <aside className="how" id="process" aria-labelledby="how-h">
           <h3 id="how-h">How a project runs</h3>
           <p className="how-sub">You know the scope and the price before any work starts.</p>
           <ol>
@@ -207,10 +217,10 @@ export function About() {
   const degree = education[0];
   return (
     <Section id="about" title="About">
-      <p className="bio rv">
+      <p className="bio">
         {profile.bio} <span>{profile.bioMuted}</span>
       </p>
-      <div className="row rv">
+      <div className="row">
         <h3 className="mono">Experience</h3>
         <ol className="list">
           {roles.map((e) => (
@@ -227,7 +237,7 @@ export function About() {
           ))}
         </ol>
       </div>
-      <div className="row rv">
+      <div className="row">
         <h3 className="mono">Education</h3>
         <ol className="list">
           <li>
@@ -239,7 +249,7 @@ export function About() {
           </li>
         </ol>
       </div>
-      <Link className="resume-link rv" href="/resume">
+      <Link className="resume-link" href="/resume">
         Full résumé with skills and certifications <ArrowIcon />
       </Link>
     </Section>
@@ -249,7 +259,7 @@ export function About() {
 export function Research() {
   return (
     <Section id="research" title="Research" sub="Published work from my AI and data science studies.">
-      <div className="rlist rv">
+      <div className="rlist">
         {papers.map((p) => (
           <Link href={`/research#${p.slug}`} key={p.slug}>
             <span className="mono">
@@ -260,7 +270,7 @@ export function Research() {
           </Link>
         ))}
       </div>
-      <div className="links sec-foot rv">
+      <div className="links sec-foot">
         <Link href="/research">
           Abstracts, authors and links <ArrowIcon />
         </Link>
@@ -275,14 +285,14 @@ export function Faq() {
       <Rule />
       <div className="faq-grid">
         <div>
-          <h2 className="h2 rv" id="faq-h">
-            FAQ
+          <h2 className="h2 rv mask" id="faq-h">
+            <span>FAQ</span>
           </h2>
           <p className="sec-sub rv" style={delay(1)}>
             Something else on your mind? Ask it on the first call.
           </p>
         </div>
-        <div className="faq rv">
+        <div className="faq">
           {faqs.map((f) => (
             <details key={f.q}>
               <summary>
