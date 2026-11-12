@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { Fragment, useState, type CSSProperties, type FormEvent } from "react";
 import { profile } from "@/lib/data";
 import { ArrowIcon, CheckIcon, CopyIcon } from "./icons";
+import { Field } from "./ScrollFx";
 import { Rule } from "./Site";
 
 const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
@@ -15,6 +16,8 @@ const TYPES = [
   "AI and data work",
   "Not sure yet",
 ];
+
+const HEADING = "Let's work together";
 
 type Status = { kind: "idle" | "sending" | "sent" | "error"; text: string };
 
@@ -78,8 +81,17 @@ export function Contact() {
   return (
     <section className="sec sec-pad" id="contact" aria-labelledby="contact-h">
       <Rule />
-      <h2 className="contact-h rv mask" id="contact-h">
-        <span>Let&apos;s work together</span>
+      <Field />
+      {/* One wrapper per word so they can rise one after another as the section arrives. */}
+      <h2 className="contact-h words" id="contact-h">
+        {HEADING.split(" ").map((word, i) => (
+          <Fragment key={word}>
+            {i > 0 && " "}
+            <span className="w" style={{ "--i": i } as CSSProperties}>
+              <span>{word}</span>
+            </span>
+          </Fragment>
+        ))}
       </h2>
       <div className="contact-grid">
         <div className="contact-side">

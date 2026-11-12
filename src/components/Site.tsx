@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { profile } from "@/lib/data";
+import { Field } from "./ScrollFx";
 
 export function Brand() {
   return (
@@ -44,6 +45,7 @@ export function Section({
   return (
     <section className={className} id={id} aria-labelledby={`${id}-h`}>
       <Rule />
+      <Field />
       <div className="sec-head">
         <div>
           <h2 className="h2 rv mask" id={`${id}-h`}>
