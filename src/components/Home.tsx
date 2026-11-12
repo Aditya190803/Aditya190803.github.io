@@ -15,6 +15,7 @@ import {
   steps,
 } from "@/lib/data";
 import { ArrowIcon, DownIcon, GitHubIcon, LockIcon, OutIcon, PlusIcon } from "./icons";
+import { Field } from "./ScrollFx";
 import { Rule, Section, delay } from "./Site";
 
 const ext = { target: "_blank", rel: "noopener" } as const;
@@ -25,6 +26,7 @@ const pan = (height = 1000) => ({ "--pan": `${(((height - 1000) / height) * 100)
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="h1">
+      <Field />
       <div>
         <h1 className="name rv mask" id="h1" style={delay(1)}>
           <span>{profile.name}</span>
@@ -217,8 +219,9 @@ export function About() {
   const degree = education[0];
   return (
     <Section id="about" title="About">
+      {/* Two inline runs so each can ink in with the scroll (see "ink" in globals.css). */}
       <p className="bio">
-        {profile.bio} <span>{profile.bioMuted}</span>
+        <span className="ink-a">{profile.bio}</span> <span className="ink-b">{profile.bioMuted}</span>
       </p>
       <div className="row">
         <h3 className="mono">Experience</h3>
@@ -283,6 +286,7 @@ export function Faq() {
   return (
     <section className="sec sec-pad" id="faq" aria-labelledby="faq-h">
       <Rule />
+      <Field />
       <div className="faq-grid">
         <div>
           <h2 className="h2 rv mask" id="faq-h">

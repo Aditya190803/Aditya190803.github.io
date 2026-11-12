@@ -424,24 +424,36 @@ a{text-decoration:none}
 
 /* ===== motion pass ===== */
 
-/* --- scroll backdrop: a drafting grid behind the page. Lit cells hop one square at a time
-       as the page scrolls, and a brighter patch of the grid drifts across it. --- */
-@property --fx{syntax:"<percentage>";inherits:false;initial-value:84%}
-@property --fy{syntax:"<percentage>";inherits:false;initial-value:16%}
-.field{position:fixed;top:0;bottom:0;left:max(16px,calc(50% - var(--frame)/2));right:max(16px,calc(50% - var(--frame)/2));z-index:0;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Cg fill='%23F07050' fill-opacity='.26'%3E%3Crect x='65' y='33' width='31' height='31'/%3E%3Crect x='385' y='1' width='31' height='31'/%3E%3Crect x='513' y='193' width='31' height='31'/%3E%3Crect x='161' y='289' width='31' height='31'/%3E%3Crect x='289' y='129' width='31' height='31'/%3E%3Crect x='577' y='385' width='31' height='31'/%3E%3Crect x='1' y='417' width='31' height='31'/%3E%3C/g%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='640'%3E%3Cg fill='%23141414' fill-opacity='.06'%3E%3Crect x='225' y='97' width='31' height='31'/%3E%3Crect x='449' y='129' width='31' height='31'/%3E%3Crect x='353' y='385' width='31' height='31'/%3E%3Crect x='97' y='321' width='31' height='31'/%3E%3Crect x='33' y='545' width='31' height='31'/%3E%3Crect x='289' y='257' width='31' height='31'/%3E%3Crect x='417' y='481' width='31' height='31'/%3E%3Crect x='161' y='1' width='31' height='31'/%3E%3C/g%3E%3C/svg%3E"),linear-gradient(rgba(20,20,20,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,20,.11) 1px,transparent 1px);
+/* --- drafting grid: lives in the empty areas (hero, beside each section heading, sub-page
+       headers), never under body text. Its lit cells hop one square at a time with the scroll. --- */
+.field{position:absolute;top:0;right:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Cg fill='%23F07050' fill-opacity='.3'%3E%3Crect x='65' y='33' width='31' height='31'/%3E%3Crect x='385' y='1' width='31' height='31'/%3E%3Crect x='513' y='193' width='31' height='31'/%3E%3Crect x='161' y='289' width='31' height='31'/%3E%3Crect x='289' y='129' width='31' height='31'/%3E%3Crect x='577' y='385' width='31' height='31'/%3E%3Crect x='1' y='417' width='31' height='31'/%3E%3C/g%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='640'%3E%3Cg fill='%23141414' fill-opacity='.07'%3E%3Crect x='225' y='97' width='31' height='31'/%3E%3Crect x='449' y='129' width='31' height='31'/%3E%3Crect x='353' y='385' width='31' height='31'/%3E%3Crect x='97' y='321' width='31' height='31'/%3E%3Crect x='33' y='545' width='31' height='31'/%3E%3Crect x='289' y='257' width='31' height='31'/%3E%3Crect x='417' y='481' width='31' height='31'/%3E%3Crect x='161' y='1' width='31' height='31'/%3E%3C/g%3E%3C/svg%3E"),linear-gradient(rgba(20,20,20,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,20,.1) 1px,transparent 1px);
   background-size:640px 480px,480px 640px,32px 32px,32px 32px;
-  -webkit-mask-image:radial-gradient(ellipse 32% 46% at var(--fx) var(--fy),#000,rgba(0,0,0,.5) 50%,transparent),linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2));
-  mask-image:radial-gradient(ellipse 32% 46% at var(--fx) var(--fy),#000,rgba(0,0,0,.5) 50%,transparent),linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}
+  background-position:right 0 top 0,right 0 top 0,right 0 top 0,right 0 top 0}
+/* beside a section heading: strongest at the right frame line, gone before the heading text */
+.sec > .field{width:min(58%,640px);height:288px;
+  -webkit-mask-image:linear-gradient(to left,#000,rgba(0,0,0,.5) 45%,transparent),linear-gradient(#000 35%,transparent);
+  mask-image:linear-gradient(to left,#000,rgba(0,0,0,.5) 45%,transparent),linear-gradient(#000 35%,transparent);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+/* hero and sub-page headers: the whole block, fading towards the text and the bottom edge */
+.hero > .field,.page-head > .field{left:0;bottom:0;
+  -webkit-mask-image:linear-gradient(to left,#000 30%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.14)),linear-gradient(#000 55%,transparent);
+  mask-image:linear-gradient(to left,#000 30%,rgba(0,0,0,.3) 75%,rgba(0,0,0,.14)),linear-gradient(#000 55%,transparent);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+.page-head{position:relative}
+.foot > .field{display:none}
+@media (max-width:899px){
+.sec > .field{width:62%;height:128px}
+}
 .rail{display:none}
-@keyframes field-drift{0%{--fx:84%;--fy:16%}30%{--fx:96%;--fy:64%}65%{--fx:6%;--fy:58%}100%{--fx:26%;--fy:30%}}
-@keyframes field-tick{from{background-position:0 0,0 0,0 0,0 0}to{background-position:1920px 0,0 -1920px,0 0,0 0}}
+@keyframes field-tick{from{background-position:right 0 top 0,right 0 top 0,right 0 top 0,right 0 top 0}to{background-position:right -1920px top 0,right 0 top 1920px,right 0 top 0,right 0 top 0}}
 @keyframes rail-run{from{transform:translateY(-100%)}to{transform:none}}
 @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes mark-in{from{opacity:0}to{opacity:1}}
 @keyframes step-on{to{border-color:var(--accent-ink);color:var(--accent-ink)}}
 @keyframes step-line{from{background-size:100% 0,auto}to{background-size:100% 100%,auto}}
 @keyframes page-scroll{to{translate:0 calc(var(--pan) * -1)}}
+@keyframes shot-in{from{clip-path:inset(calc(100% - var(--pan)) 0 0 0);scale:1.16}to{clip-path:inset(0 0 0 0);scale:1}}
 @keyframes mask-rise{from{translate:0 125%}to{translate:0 0}}
 
 /* headings sit in a clipped line so they can rise into it (negative insets keep descenders) */
@@ -460,7 +472,7 @@ a{text-decoration:none}
 
 @supports (animation-timeline: view()){
 /* driven directly by the scroll position; nothing here moves on its own */
-.field{animation:field-drift linear both,field-tick steps(60) both;animation-timeline:scroll(root),scroll(root)}
+.field{animation:field-tick steps(60) both;animation-timeline:scroll(root)}
 
 /* marker travelling down the left frame line */
 .rail{display:block;position:fixed;top:var(--hdr);bottom:0;left:max(16px,calc(50% - var(--frame)/2));width:2px;margin-left:-.5px;overflow:hidden;z-index:2;pointer-events:none}
@@ -479,19 +491,71 @@ a{text-decoration:none}
 .how li::before,.how li:first-child::before{border-color:var(--line-2);color:var(--ink-2);animation:step-on linear both;animation-timeline:view();animation-range:cover 31% cover 33%}
 .how li:not(:last-child)::after{background:linear-gradient(var(--accent-ink),var(--accent-ink)) no-repeat top/100% 0,var(--line);animation:step-line linear both;animation-timeline:view();animation-range:cover 29% cover 35%}
 
+/* the About statement inks in as it is read: a solid fill sweeps along the lines of text */
+.bio{view-timeline-name:--bio}
+.bio span{color:transparent;-webkit-background-clip:text;background-clip:text;background-repeat:no-repeat;background-size:0% 100%,100% 100%;animation:ink-in linear both;animation-timeline:--bio}
+.bio .ink-a{background-image:linear-gradient(var(--ink),var(--ink)),linear-gradient(rgba(20,20,20,.2),rgba(20,20,20,.2));animation-range:cover 12% cover 36%}
+.bio .ink-b{background-image:linear-gradient(var(--ink-3),var(--ink-3)),linear-gradient(rgba(20,20,20,.2),rgba(20,20,20,.2));animation-range:cover 36% cover 46%}
+@media (forced-colors:active){.bio span{color:CanvasText;background:none;animation:none}}
+
 @media (prefers-reduced-motion:no-preference){
 /* the Flier page scrolls inside its window and phone while the hero scrolls away */
 .win .scr img,.phone .scr img{animation:page-scroll linear both;animation-timeline:scroll(root);animation-range:0px 460px}
 @media (max-width:899px){.win .scr img,.phone .scr img{animation-range:180px 760px}}
 
-/* client sites scroll inside their frames while the card crosses the screen */
+/* work cards: the frame holds still while the screenshot rises into it and settles from a
+   slight zoom; the caption follows. The three cards go one after another. */
 .shot{view-timeline-name:--shot}
-.shot img{animation:page-scroll linear both;animation-timeline:--shot;animation-range:contain 0% contain 100%}
+.shot img,.js .card.rv .shot img,.js .card.rv.in .shot img{transform-origin:50% 0;transition:transform .6s var(--ease);animation:shot-in linear both;animation-timeline:--shot;animation-range:entry calc(var(--d,0) * 16%) cover calc(24% + var(--d,0) * 7%)}
+.card-body{animation:row-in linear both;animation-timeline:view();animation-range:entry calc(var(--d,0) * 30%) cover calc(14% + var(--d,0) * 4%)}
 
 /* section headings rise out of their line as the section arrives */
 .sec .rv.mask > span,.js .sec .rv.mask > span{transition:none;animation:mask-rise cubic-bezier(.3,.6,.3,1) both;animation-timeline:view();animation-range:entry 30% cover 24%}
+
+/* the closing line rises one word at a time */
+.words{view-timeline-name:--words}
+.words .w > span{animation:mask-rise cubic-bezier(.3,.6,.3,1) both;animation-timeline:--words;animation-range:cover calc(3% + var(--i) * 5%) cover calc(21% + var(--i) * 5%)}
+
+/* project cards are dealt in by the scroll, left to right */
+.fp.rv,.js .fp.rv{transition:border-color .2s var(--ease);animation:deal linear both;animation-timeline:view();animation-range:entry calc(var(--d,0) * 18%) cover calc(20% + var(--d,0) * 5%)}
+
+/* list rows come into focus as they arrive */
+.svc2 li,.js .svc2 li.rv,.list > li,.rlist a{animation:row-in linear both;animation-timeline:view();animation-range:entry 10% cover 20%}
+
+/* the hero text eases away as the page moves on */
+.hero > div:not(.field){animation:hero-out linear both;animation-timeline:scroll(root);animation-range:140px 640px}
+}
+
+/* Reduced motion keeps the same scroll-linked moments but nothing slides or zooms:
+   things fade or are uncovered in place, at the pace of the reader's own scroll. */
+@media (prefers-reduced-motion:reduce){
+.words{view-timeline-name:--words}
+.words .w > span{animation:fade-in linear both;animation-timeline:--words;animation-range:cover calc(3% + var(--i) * 5%) cover calc(21% + var(--i) * 5%)}
+.sec .rv.mask > span,.js .sec .rv.mask > span{animation:fade-in linear both;animation-timeline:view();animation-range:entry 30% cover 24%}
+.fp.rv,.js .fp.rv{animation:fade-in linear both;animation-timeline:view();animation-range:entry calc(var(--d,0) * 18%) cover calc(20% + var(--d,0) * 5%)}
+.svc2 li,.js .svc2 li.rv,.list > li,.rlist a{animation:dim-in linear both;animation-timeline:view();animation-range:entry 10% cover 20%}
+.shot{view-timeline-name:--shot}
+.shot img,.js .card.rv .shot img,.js .card.rv.in .shot img{animation:shot-wipe linear both;animation-timeline:--shot;animation-range:entry calc(var(--d,0) * 16%) cover calc(24% + var(--d,0) * 7%)}
+.card-body{animation:dim-in linear both;animation-timeline:view();animation-range:entry calc(var(--d,0) * 30%) cover calc(14% + var(--d,0) * 4%)}
+.hero > div:not(.field){animation:hero-dim linear both;animation-timeline:scroll(root);animation-range:140px 640px}
 }
 }
+
+/* text selection carries the accent instead of the browser default */
+::selection{background:rgba(240,112,80,.26);color:var(--ink)}
+
+/* --- foreground scroll motion: keyframes and the static state --- */
+@keyframes ink-in{to{background-size:100% 100%,100% 100%}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes dim-in{from{opacity:.15}to{opacity:1}}
+@keyframes hero-dim{to{opacity:.1}}
+@keyframes shot-wipe{from{clip-path:inset(calc(100% - var(--pan)) 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes deal{from{opacity:0;translate:0 56px}to{opacity:1;translate:0 0}}
+@keyframes row-in{from{opacity:.15;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes hero-out{to{opacity:.1;translate:0 -40px}}
+.bio .ink-a{color:var(--ink)}
+.words .w{display:inline-block;clip-path:inset(-.12em -.12em -.26em -.1em)}
+.words .w > span{display:inline-block}
 
 /* --- work cards: the frame holds still, the screenshot wipes in behind it --- */
 .js .card.rv{opacity:1;transform:none}

@@ -1,18 +1,18 @@
 /**
  * Decorative scroll-linked layers, driven entirely by CSS scroll timelines
- * (see "scroll backdrop" in globals.css). Browsers without them get a still grid.
- *
- * - `.field`: a faint drafting grid fixed behind the page; a soft patch of it is
- *   lit, and the patch drifts across the grid as the page scrolls.
- * - `.rail`: a short marker that travels down the left frame line with scroll.
+ * (see "drafting grid" in globals.css). Browsers without them get a still grid.
  */
+
+/** Drafting grid for an empty area; its lit cells hop as the page scrolls. Place it inside a positioned block. */
+export function Field() {
+  return <div className="field" aria-hidden="true" />;
+}
+
+/** Short marker that travels down the left frame line with the scroll. */
 export function ScrollFx() {
   return (
-    <>
-      <div className="field" aria-hidden="true" />
-      <div className="rail" aria-hidden="true">
-        <i />
-      </div>
-    </>
+    <div className="rail" aria-hidden="true">
+      <i />
+    </div>
   );
 }
