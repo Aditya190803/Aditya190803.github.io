@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://adityamer.dev/sitemap.xml',
+    sitemap: 'https://www.adityamer.dev/sitemap.xml',
   };
 }
