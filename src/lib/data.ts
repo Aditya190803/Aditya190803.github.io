@@ -92,7 +92,7 @@ export const profile = {
   intro: "Full-stack and AI developer in Mumbai. I build websites, online stores and internal tools that teams run themselves.",
   bio: "I build software that teams use every day,",
   bioMuted: "with a background in AI research.",
-  email: "adityamer.work@gmail.com",
+  email: "aditya@adityamer.dev",
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
   resumePdf: "/Aditya_Mer_Resume.pdf",
