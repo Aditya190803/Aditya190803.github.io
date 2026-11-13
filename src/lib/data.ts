@@ -96,7 +96,7 @@ export const profile = {
   github: "https://github.com/aditya190803",
   linkedin: "https://www.linkedin.com/in/adityamer/",
   resumePdf: "/Aditya_Mer_Resume.pdf",
-  url: "https://adityamer.dev",
+  url: "https://www.adityamer.dev",
   availability: "Taking on new projects",
   current: {
     title: "Senior Associate, IT Team",
